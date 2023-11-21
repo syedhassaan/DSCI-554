@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 7 ex3</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<script src="../node_modules/d3/dist/d3.min.js"></script>
+
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX3: USING COLOR SCALES</h1>
+
+	<h2>0 - BASIC D3 COLOR SCALES</h2>
+	<hr>
+
+	<p>Complete the code in the page where marked with 🎒. The code will serve as a reference to implement the scales for the rest of the exercises.</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<div id="scales" style="background-color: white; font-size: 0.85em"></div>
+
+		<script>
+			var drawScale = (scale, description, data) => {
+				d3.select('#scales')
+					.append('div')
+					.html(description)  //🎒 explain: used to fetch and read the file of type HTML. It fetches the file as text first then parses the file as HTML.
+					.style('color', 'black');
+	
+				data.map(v => {
+					d3.select('#scales')
+						.append('div')
+						.text('scale(' + v + ')=' + scale(v))
+						.style('color', scale(v));
+				});
+			};
+	
+			////
+			var scale = d3.scaleLinear()
+				.domain([0, 1])
+				.range(['rgb(255, 245, 235)', 'rgb(127, 39, 4)']);
+	
+			drawScale(scale, 
+				`<h3>scaleLinear</h3>
+				Scale with a linear relationship between input and output.`, 
+				[0, 0.25, 0.5, 0.75, 1]);  //🎒 explain: varying the scale from 0 to 1 using scaleLinear
+	
+			////
+			scale = d3.scaleSequential(d3.interpolateOranges);
+			drawScale(scale, 
+				`<h3>scaleSequential</h3>
+				Sequential scale with domain and interpolator function.
+				Scheme from <a target="_blank" href="https://github.com/d3/d3-scale-chromatic">d3-scale-chromatic</a> 
+				for d3.interpolateOranges.`,
+				[0, 0.25, 0.5, 0.75, 1]);  //🎒 explain: varying the scale from 0 to 1 using scaleSequential(d3.interpolateOranges)
+	
+			////
+			scale = d3.scaleDiverging(d3.interpolateRdBu);
+			drawScale(scale, 
+				`<h3>scaleDiverging</h3>
+				Same as sequential for diverging scales. 
+				Scheme from <a target="_blank" href="https://github.com/d3/d3-scale-chromatic">d3-scale-chromatic</a> for d3.interpolateRdBu.`, 
+				[0, 0.25, 0.5, 0.75, 1]);  //🎒 explain: varying the scale from 0 to 1 using scaleDiverging(d3.interpolateRdBu)
+	
+			////
+			scale = d3.scaleQuantize()
+				.domain([0, 1])
+				.range(['blue', 'red']);
+			drawScale(scale, 
+				`<h3>scaleQuantize</h3>
+				Same as linear with a discrete range`,
+				[0, 0.49, 0.51, 1]);
+	
+			////
+			var data = [0.02, 0.04, 0.06, 0.08, 0.10];
+			scale = d3.scaleThreshold()
+				.domain(data)  //breaks
+				.range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
+	
+			drawScale(scale,
+				`<h3>scaleThreshold</h3>
+				Similar to quantize mapping arbitrary subsets of the domain to discrete values in the range`, 
+			[0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]);
+	
+			////
+			data = [0, 15, 16, 39, 40, 67, 68, 100];
+			scale = d3.scaleQuantile()
+				.domain(data)
+				.range(['blue', 'orange', 'green', 'purple']);
+	
+			drawScale(scale,
+				`<h3>scaleQuantile</h3>
+				Map sampled input domain to a discrete range. 
+				Domain values sorted and treated as a population sample. 
+				Q1=15.75, Q2=43.12, Q3=67.25`,
+				[0, 15, 16, 39, 40, 67, 68, 100]);
+	
+			////
+			data = ["Spain", "France", "Italy"];
+			scale = d3.scaleOrdinal()
+				.domain(data)
+				.range(['purple', 'green', 'blue']);
+	
+			drawScale(scale, 
+				`<h3>scaleOrdinal</h3>
+				Discrete domain and range`,
+				["Italy", "France", "Spain"]);  //🎒 explain: passing in Italy as purple, France as green and spain as blue
+		</script>
+
+	</div>	
+
+	<h2>1 - DIVERGING COLOR SCALE</h2>
+	<hr>
+	<p>Create a color scale that resolves the problem you have identified in ex2.1</p>
+
+	<ol>
+		<li>Find in <a href="http://colorbrewer2.org" target="_blank">ColorBrewer</a> an appropriate color scale</li>
+		<li>Find a corresponding d3 scheme in <a
+				href="https://github.com/d3/d3-scale-chromatic">d3-scale-chromatic</a></li>
+		<li>Use Dev Tools (d3 is loaded in the header) to verify in that the scheme you selected is available using auto-complete in the console</li>
+		<li>Use a <code>scale.Ordinal</code> the code in the page and the Answer to implement the color scale where marked with 🎒.</li>
+	</ol>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<div><b>Type of color scale:</b> scale.Ordinal</div>
+		<div><b>ColorBrewer color scale name: </b> d3.schemeBrBG[7]  </div>
+		<div><b>Suggest a way to avoid Mach bands in the scale rendering:</b> Use spacing between bands or use Phong shading  </div>
+
+		<!-- your d3 code here to create a legend for the color scale -->
+		<svg id="legend1" width="200px" height="80px"></svg>
+
+		<script>
+			var keys = ['-3', '-2', '-1', '0', '1', '2', '3'];
+			var scale =  d3.scaleOrdinal()
+				.domain(keys)
+				.range(d3.schemeBrBG[7]);  //🎒 complete
+
+			var svg = d3.select('#legend1');
+
+			svg.selectAll('keys')
+				.data(keys)
+				.enter()
+				.append('rect')
+				.attr('x', (d, i) => {
+					return 20 + i * 20;
+				})
+				.attr('y', 10)
+				.attr('width', 20)
+				.attr('height', 20)
+				.attr('fill', d => scale(d));
+		</script>
+	</div>
+
+	<h2>2 - SEQUENTIAL COLOR SCALE</h2>
+	<hr>
+	<p>Create a 1D heatmap using a <a target="_blank" href="https://github.com/d3/d3-scale-chromatic#sequential-single-hue">Sequential (Single Hue)</a> color scale. Complete the code where marked with 🎒.</p>
+	
+	<div class="answer">
+		<cap>Answer</cap>
+		<div><b>Type of color scale:</b> scaleSequential </div>
+		<div><b>d3-scale-chromatic color scale name:</b> d3.interpolateOranges </div>
+
+		<svg id="heatmap" style="background-color: black"></svg>
+
+		<script>
+		  	var parseTime = d3.timeParse('%-m/%-e/%y');
+			
+			d3.csv('time_series_covid19_recovered_global_Afghanistan.csv', d => {
+				return {
+					date: parseTime(d.date),
+					count: +d.count
+				};
+			}).then(data => {
+				var scale = d3.scaleSequential(d3.interpolateOranges);; //🎒 complete
+		
+
+				var width = 800;
+				var pad = 20;
+				var svg = d3.select('#heatmap')
+					.attr('width', width + 2 * pad)
+					.attr('height', 3 * pad)
+
+				var max = d3.max(data, d => d.count)
+				var size = width / data.length;
+
+				svg.selectAll('recovered')
+					.data(data)
+					.enter()
+					.append('rect')
+					.attr('x', (d, i) => {
+						return pad + i * size;
+					})
+					.attr('y', pad)
+					.attr('width', size)
+					.attr('height', pad)
+					.attr('fill', d => {
+						return scale(d.count / max);
+					});
+			});
+		</script>
+	</div>
+
+	<p>Create a color scale that is suitable for heatmap of COVID-19 infections in the answer.</p>
+
+	<h2>3 - QUALITATIVE (CATEGORICAL) COLOR SCALE</h2>
+	<hr>
+
+	<p>Using Color Brewer create a categorical color scale that is colorblind safe (4 keys) by completing the Answer where marked with 🎒.</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<svg id="legend3" width="200px" height="80px"></svg>
+
+		<script>
+			var keys = ['Africa-Eurasia', 'America', 'Antartica', 'Australia'];
+			var scale =  d3.scaleOrdinal()
+				.domain(keys)
+				.range(d3.schemePaired);  //🎒 complete
+				
+			var svg = d3.select('#legend3');
+
+			svg.selectAll('keys')
+				.data(keys)
+				.enter()
+				.append('rect')
+				.attr('x', (d, i) => {
+					return 20 + i * 20;
+				})
+				.attr('y', 10)
+				.attr('width', 20)
+				.attr('height', 20)
+				.attr('fill', d => scale(d));
+		</script>
+	</div>
+
+</body>
+
+</html>

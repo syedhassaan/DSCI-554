@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex2</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex2: bar charts with SVG</h1>
+
+	<h2>1 - Bars with SVG rect and inline style attribute</h2>
+	<hr>
+
+	<p>Using the starter code show the data provided as an horizontal bar chart</p>
+
+	<div class="sample">
+		<cap>Data</cap>
+		<pre><code class="js">
+data = [200, 150];
+		</code></pre>
+
+		<cap>Starter code</cap>
+		<pre><code class="HTML">
+&lt;!-- Starter of bar with text. <mark>Update this preview</mark> --&gt;
+&lt;svg width="300px" height="300px"&gt;
+  &lt;rect x="10" y="10" width="100" height="30" fill="orangered"&gt;&lt;/rect&gt;
+  &lt;text x="100" y="30" style="font-size: 12px; fill: black; text-anchor: end;"&gt;100px bar&lt;/text&gt;
+
+  
+&lt;/svg&gt;
+		</code></pre>
+	</div>
+
+	<p class="nb">NB: default units for SVG coordinates are in pixels so it is customary not to add px. Style attribute are according to CSS specifications and
+		therefore it is better to specify the units for positions and dimensions not to have surprises!</p>
+
+	<p class="nb">NB: </p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+		<svg width="300px" height="300px">
+			<rect x="10" y="10" width="200" height="30" fill="orangered"></rect>
+			<text x="200" y="30" style="font-size: 12px; fill: black; text-anchor: end;">200px bar</text>
+			
+			<rect x="10" y="50" width="150" height="30" fill="orangered"></rect>
+			<text x="150" y="70" style="font-size: 12px; fill: black; text-anchor: end;">150px bar</text>
+		</svg>
+	</div>
+
+	<h2>2 - Bars with SVG rect and inline style attribute with CSS inheritance</h2>
+	<hr>
+
+	<p>Modify the code of ex2.1 to use an outer group g that is styled with CSS properties common to all the bars.
+	</p>
+
+	<p class="nb">NB: Because text and shapes share style properties, e.g., fill, CSS inheritance on SVG elements is
+		often not practical to use in graphing. Note that in the starter code the stroke is set on the group
+		<code>g</code> even though it does not support those properties (the <code>g</code> has no appearance), however
+		CSS inheritance passes those properties down to its children. If you zoom on the text for the example you will
+		see that the text has an orangered fill and a black stroke. Note also that for the example the style properties
+		on g (an SVG element) can be moved to the svg element (an HTML element) with the same output because these style
+		properties are named the same on text and rect SVG elements.</p>
+
+	<div class="sample">
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->				
+&lt;svg width="300px" height="300px"&gt;
+  &lt;g style="fill: orangered;"&gt;
+    &lt;rect x="10" y="10" width="100" height="30"&gt;&lt;/rect&gt;
+    &lt;text x="100" y="30" style="font-size: 12px; text-anchor: end; fill: black;"&gt;100px bar&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+    </code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<svg width="300px" height="300px">
+			<g style="fill: orangered;">
+			  <rect x="10" y="10" width="200" height="30"></rect>
+			  <text x="200" y="30" style="font-size: 12px; text-anchor: end; fill: black;">200px bar</text>
+
+			  <rect x="10" y="50" width="150" height="30"></rect>
+			  <text x="150" y="70" style="font-size: 12px; text-anchor: end; fill: black;">150px bar</text>
+			</g>
+		  </svg>
+	</div>
+
+	<h2>3 - Bars with SVG rect and class attribute</h2>
+	<hr>
+
+	<p>Modify the code of ex2.2 to use the class attribute for all common CSS properties.
+	</p>
+
+	<div class="sample">
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->				
+&lt;style&gt;
+  rect.bar { /*style for rect with class bar*/
+	fill: orangered;
+	height: 30px;	
+  }
+  text.bar { /*style for text with class bar*/
+    fill: black;
+    font-size: 12px;
+    text-anchor: end;
+  }
+&lt;/style&gt;
+
+&lt;svg width="300px" height="300px"&gt;
+  &lt;rect class="bar" x="10" y="10" width="100"&gt;&lt;/rect&gt;
+  &lt;text class="bar" x="100" y="30"&gt;100px bar&lt;/text&gt;
+&lt;/svg&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+		<style>
+			rect.bar { /*style for rect with class bar*/
+			  fill: orangered;
+			  height: 30px;	
+			}
+			text.bar { /*style for text with class bar*/
+			  fill: black;
+			  font-size: 12px;
+			  text-anchor: end;
+			}
+		  </style>
+		  
+		  <svg width="300px" height="300px">
+			<rect class="bar" x="10" y="10" width="200"></rect>
+			<text class="bar" x="200" y="30">200px bar</text>
+
+			<rect class="bar" x="10" y="50" width="150"></rect>
+			<text class="bar" x="150" y="70">150px bar</text>
+		  </svg>
+	</div>
+
+</body>
+
+</html>

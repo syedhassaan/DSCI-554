@@ -1,0 +1,12 @@
+[
+  { "name": "Mazda RX4",          "mpg": 21.0,  "cyl": 6,  "disp": 160.0,  "hp": 110,  "drat": 3.90,  "wt": 2.620,  "qsec": 16.46,  "vs": 0,  "am": 1 },
+  { "name": "Mazda RX4 Wag",      "mpg": 21.0,  "cyl": 6,  "disp": 160.0,  "hp": 110,  "drat": 3.90,  "wt": 2.875,  "qsec": 17.02,  "vs": 0,  "am": 1 },
+  { "name": "Datsun 710",         "mpg": 22.8,  "cyl": 4,  "disp": 108.0,  "hp": 93,   "drat": 3.85,  "wt": 2.320,  "qsec": 18.61,  "vs": 1,  "am": 1 },
+  { "name": "Hornet 4 Drive",     "mpg": 21.4,  "cyl": 6,  "disp": 258.0,  "hp": 110,  "drat": 3.08,  "wt": 3.215,  "qsec": 19.44,  "vs": 1,  "am": 0 },
+  { "name": "Hornet Sportabout",  "mpg": 18.7,  "cyl": 8,  "disp": 360.0,  "hp": 175,  "drat": 3.15,  "wt": 3.440,  "qsec": 17.02,  "vs": 0,  "am": 0 },
+  { "name": "Valiant",            "mpg": 18.1,  "cyl": 6,  "disp": 225.0,  "hp": 105,  "drat": 2.76,  "wt": 3.460,  "qsec": 20.22,  "vs": 1,  "am": 0 },
+  { "name": "Duster 360",         "mpg": 14.3,  "cyl": 8,  "disp": 360.0,  "hp": 245,  "drat": 3.21,  "wt": 3.570,  "qsec": 15.84,  "vs": 0,  "am": 0 },
+  { "name": "Merc 240D",          "mpg": 24.4,  "cyl": 4,  "disp": 146.7,  "hp": 62,   "drat": 3.69,  "wt": 3.190,  "qsec": 20.00,  "vs": 1,  "am": 0 },
+  { "name": "Merc 230",           "mpg": 22.8,  "cyl": 4,  "disp": 140.8,  "hp": 95,   "drat": 3.92,  "wt": 3.150,  "qsec": 22.90,  "vs": 1,  "am": 0 },
+  { "name": "Merc 280",           "mpg": 19.2,  "cyl": 6,  "disp": 167.6,  "hp": 123,  "drat": 3.92,  "wt": 3.440,  "qsec": 18.30,  "vs": 1,  "am": 0 }
+]

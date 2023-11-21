@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+var program = require('commander');
+
+program
+  .description('simple node command line executable');
+
+program.command('convert <csv-file>')
+  .description('converts files from CSV to JSON')
+  .option('-v,--verbose', 'verbose flag')
+  .action((csvFile) => {
+    const fs = require('fs');
+    const parse = require('csv-parse');
+    const data = [];
+    fs.createReadStream(csvFile)
+      .pipe(parse())
+      .on('data', row => data.push(row))
+      .on('end', () => {
+        let json = [];
+        data.shift();
+        data.forEach(d => {
+          json.push({
+            index: +d[0],
+            eruptions_length_mins: +d[1],
+            eruptions_wait_mins: +d[2]
+          })
+        });
+        const path = require('path')
+        const jsonFile = path.basename(csvFile, 'csv') + 'json'
+        fs.writeFile(jsonFile, JSON.stringify(json), function (err) {
+          if (err) return console.log(err);
+          console.log('converted', csvFile, 'to', jsonFile);
+        });
+      });
+  });
+
+program
+  .parse(process.argv);

@@ -1,0 +1,71 @@
+table {
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+div.bar {
+    display: inline-block;
+    vertical-align: bottom;
+    position: relative;
+    width: 30px;
+    /* bar width */
+    background-color: black;
+    margin-right: 20px;
+}
+
+div.text {
+    position: absolute;
+    bottom: -20px;
+    right: 3px;
+    font-size: 12px;
+    color: black;
+    /*padding: 0 0 0 3px;*/
+    /* 3px padding right */
+}
+
+div.bar1 {
+    display: inline-block;
+    vertical-align: bottom;
+    position: relative;
+    width: 10px;
+    /* bar width */
+    background-color: black;
+    margin-right: 40px;
+}
+
+div.text1 {
+    position: absolute;
+    top: -170px;
+    right: -13px;
+    font-size: 200px;
+    color: black;
+    /*padding: 0 0 0 3px;*/
+    /* 3px padding right */
+}
+
+div.text2 {
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    font-size: 12px;
+    color: black;
+    /*padding: 0 0 0 3px;*/
+    /* 3px padding right */
+}
+
+circle.bubble {
+    fill: black;
+}
+
+text.bubble {
+    fill: #444;
+    font-size: 14px;
+    text-anchor: middle;
+    alignment-baseline: middle;
+    bottom: -10px
+}

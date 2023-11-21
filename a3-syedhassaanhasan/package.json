@@ -1,0 +1,19 @@
+{
+  "name": "dsci-554-a2-starter",
+  "version": "1.0.0",
+  "description": "lab2 and a2 starter code",
+  "main": "index.js",
+  "scripts": {
+    "serve": "browser-sync start ./ -s --files './' --directory --watch --port 2000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "browser-sync": "^2.26.12",
+    "d3": "^6.1.1",
+    "highlightjs": "^9.16.2",
+    "vega": "^5.14.0",
+    "vega-embed": "^6.10.0",
+    "vega-lite": "^4.14.1"
+  }
+}

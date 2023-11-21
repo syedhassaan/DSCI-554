@@ -1,0 +1,42 @@
+[
+  {
+    "country": "Afghanistan",
+    "percentage": "13.5"
+  },
+  {
+    "country": "Bangladesh",
+    "percentage": "15.0"
+  },
+  {
+    "country": "Canada",
+    "percentage": "91.0"
+  },
+  {
+    "country": "China",
+    "percentage": "54.3"
+  },
+  {
+    "country": "Finland",
+    "percentage": "87.4689"
+  },
+  {
+    "country": "India",
+    "percentage": "34.45"
+  },
+  {
+    "country": "Iran",
+    "percentage": "64.044"
+  },
+  {
+    "country": "Pakistan",
+    "percentage": "15.51"
+  },
+  {
+    "country": "UK",
+    "percentage": "94.62"
+  },
+  {
+    "country": "USA",
+    "percentage": "87.2661"
+  }
+ ]

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 2 ex4</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+  <h1>🏋🏽‍♂️ ex4: quiz questions</h1>
+
+  <h2>1 - What is output when run?</h2>
+  <hr>
+
+  <p>Implement the code and write down the correct answer</p>
+
+  <div class="sample">
+
+    <cap>Code</cap>
+    <pre><code class="js">
+var x = 1;
+console.log(x);
+
+if (true) {
+  var x = 2;
+  console.log(x);
+}
+
+console.log(x);
+  </code></pre>
+
+    Answers:
+    <ol style="list-style-type: upper-alpha;">
+      <li>1 2 2</li>
+      <li>1 2 1</li>
+      <li>1 1 2</li>
+      <li>1 1 1</li>
+    </ol>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <script>
+      //Add your code here!
+      var x = 1;
+      console.log(x);
+
+      if (true) {
+        var x = 2;
+        console.log(x);
+      }
+      console.log(x);
+    </script>
+    <!-- Write the answer here! -->
+    A
+  </div>
+
+  <h2>2 - What is output when run?</h2>
+  <hr>
+
+  <p>Implement the code and write down the correct answer</p>
+
+  <div class="sample">
+
+    <cap>Code</cap>
+
+    <pre><code class="js">
+function foo(a) {
+  if (a) {
+    var x = 1;
+  }
+  console.log(x);
+  console.log(y);
+  return;
+  var y = 1;
+}
+
+foo();
+foo(1);
+  </code></pre>
+
+    Answers:
+    <ol style="list-style-type: upper-alpha;">
+      <li>undefined undefined undefined undefined</li>
+      <li>ReferenceError: x is not defined</li>
+      <li>undefined undefined 1 undefined</li>
+      <li>1 1 1 1</li>
+    </ol>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <script>
+      //Add your code here!
+      function foo(a) {
+      if (a) {
+        var x = 1;
+      }
+      console.log(x);
+      console.log(y);
+      return;
+      var y = 1;
+    }
+
+    foo();
+    foo(1);
+    </script>
+    <!-- Write the answer here! -->
+    C
+  </div>
+
+  <h2>3 - What is output when run?</h2>
+
+  <p>Implement the code and write down the answer</p>
+
+  <div class="sample">
+
+    <cap>Code</cap>
+
+    <pre><code class="js">
+function exampleClosure(arg1, arg2) {
+  var localVar = 2;
+  function exampleReturned(innerArg) {
+    return ((arg1 + arg2) / (localVar + innerArg));
+  }
+  return exampleReturned;
+}
+
+var globalVar = exampleClosure(2, 4);
+
+console.log(globalVar);
+console.log(globalVar(4));
+  </code></pre>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <script>
+      //Add your code here!
+      function exampleClosure(arg1, arg2) {
+      var localVar = 2;
+      function exampleReturned(innerArg) {
+        return ((arg1 + arg2) / (localVar + innerArg));
+      }
+      return exampleReturned;
+    }
+
+    var globalVar = exampleClosure(2, 4);
+
+    console.log(globalVar);
+    console.log(globalVar(4));
+    </script>
+    <!-- Write the answer here! -->
+    <p>
+      ƒ exampleReturned(innerArg) {
+        return ((arg1 + arg2) / (localVar + innerArg));
+      }
+    </p>
+
+    1
+  </div>
+</body>
+
+</html>

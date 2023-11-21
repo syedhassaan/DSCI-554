@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 2 ex2</title>
+
+	<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+  <h1>🏋🏽‍♂️ ex2: simple coding with javascript</h1>
+
+	<p>Finish to implement the sample code, update the Answer with the source code and console print-out (see lines marked with 🚧).</p>	
+
+	<div class="sample">
+
+  <cap>Sample code</cap>
+  <pre><code class="js">
+//add an object literal with your first and last name to the array
+var persons = [
+  { 'first': 'Tommy', 'last': 'Trojan'},
+  //🚧 finish me!
+];
+
+//function declaration that returns the full name of person as a string
+function fullName1(p) {
+  //🚧 finish me!
+}
+
+//function expression that returns the full name of person as a string
+var fullName2 = function(p) {
+  //🚧 finish me!
+};  //; at the end!
+
+//rewrite fullName2 using arrow function notation
+var fullName2 = p => {
+  //🚧 finish me!
+};  //; at the end!
+
+//function assert returns true if func1(person) == func2(person)
+function assert(func1, func2, value) {
+  //🚧 finish me!
+
+  //return true/false depending if func1(value) == func2(value)
+  //hint: func1(value) == func2(value) does just that!
+
+  //update to work with only 2 arguments so it can be called like this: 
+  //assert(func1(person), func1(person))
+  //hint: check if person is defined 
+
+  //tip: you can use the ternary operator ? to write all this as a one-liner!
+}
+
+//test that assert works on the first object
+var person1 = persons[0];
+console.log(assert(fullName1, fullName2, person1));  //should return true!
+console.log(assert(fullName1(person1), fullName2(person1)));  //should return true!
+
+//complete the code to assert on all the items in the persons array
+persons.forEach(p => {
+  //🚧 finish me!
+});
+  </code></pre>
+
+	<div class="answer">
+    <cap>Answer</cap>
+
+    <script>
+      //add an object literal with your first and last name to the array
+var persons = [
+  { 'first': 'Tommy', 'last': 'Trojan'},
+  {'first': 'Hassaan', 'last': 'Hasan'}
+  //🚧 finish me!
+];
+
+//function declaration that returns the full name of person as a string
+function fullName1(p) {
+  //console.log("test:", p.first + " " + p.last)
+  return p.first + " " + p.last
+  //🚧 finish me!
+  
+}
+
+//fullName1(persons[0])
+
+//function expression that returns the full name of person as a string
+var fullName2 = function(p) {
+  //console.log("test:", p.first + " " + p.last)
+  return p.first + " " + p.last
+  //🚧 finish me!
+};  //; at the end!
+
+//fullName2(persons[0])
+
+//rewrite fullName2 using arrow function notation
+var fullName2 = p => {
+  //console.log("test:", p.first + " " + p.last)
+  return p.first + " " + p.last
+  //🚧 finish me!
+};  //; at the end!
+
+//fullName2(persons[0])
+
+//function assert returns true if func1(person) == func2(person)
+function assert(func1, func2, value) {
+  value = value || "";
+  //🚧 finish me!
+
+  //return true/false depending if func1(value) == func2(value)
+  //hint: func1(value) == func2(value) does just that!
+
+  return value? func1(value)==func2(value) : func1==func2 
+
+  //tip: you can use the ternary operator ? to write all this as a one-liner!
+}
+
+//test that assert works on the first object
+var person1 = persons[0];
+console.log(assert(fullName1, fullName2, person1));  //should return true!
+console.log(assert(fullName1(person1), fullName2(person1)));  //should return true!
+
+//complete the code to assert on all the items in the persons array
+persons.forEach(p => {
+  //🚧 finish me!
+  console.log(assert(fullName1, fullName2, p));
+});
+
+    </script>
+		
+
+    <h3>Your code</h3>
+    <pre><code class="js">
+//copy your code here to show it in the page
+  //add an object literal with your first and last name to the array
+var persons = [
+{ 'first': 'Tommy', 'last': 'Trojan'},
+{'first': 'Hassaan', 'last': 'Hasan'}
+];
+
+//function declaration that returns the full name of person as a string
+function fullName1(p) {
+//console.log("test:", p.first + " " + p.last)
+return p.first + " " + p.last
+
+}
+
+//fullName1(persons[0])
+
+//function expression that returns the full name of person as a string
+var fullName2 = function(p) {
+//console.log("test:", p.first + " " + p.last)
+return p.first + " " + p.last
+};  //; at the end!
+
+//fullName2(persons[0])
+
+//rewrite fullName2 using arrow function notation
+var fullName2 = p => {
+//console.log("test:", p.first + " " + p.last)
+return p.first + " " + p.last
+};  //; at the end!
+
+//fullName2(persons[0])
+
+//function assert returns true if func1(person) == func2(person)
+function assert(func1, func2, value) {
+value = value || "";
+
+//return true/false depending if func1(value) == func2(value)
+//hint: func1(value) == func2(value) does just that!
+
+return value? func1(value)==func2(value) : func1==func2 
+
+//tip: you can use the ternary operator ? to write all this as a one-liner!
+}
+
+//test that assert works on the first object
+var person1 = persons[0];
+console.log(assert(fullName1, fullName2, person1));  //should return true!
+console.log(assert(fullName1(person1), fullName2(person1)));  //should return true!
+
+//complete the code to assert on all the items in the persons array
+persons.forEach(p => {
+console.log(assert(fullName1, fullName2, p));
+});
+
+    </code></pre>
+
+    <h3>Console output</h3>
+    <pre><code class="js">
+//copy the console output here
+true
+true
+true
+true
+    </code></pre>
+	</div>
+
+</body>
+</html>

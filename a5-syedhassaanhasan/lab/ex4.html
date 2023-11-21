@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 5 ex4</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ ex4: D3 line chart with axes and margin convention</h1>
+
+  <h2>1 - Basic line chart</h2>
+  <hr>
+
+  <p>Implement the sample code and answer the questions in the code where marked with 🙋🏽‍♀️.</p>
+
+  <div class="sample">
+    <cap>Sample code</cap>
+    <pre><code class="HTML">
+&lt;style&gt;
+svg text {
+  font-family: Courier;
+  font-size: 10px;
+  text-anchor: unset;
+  alignment-baseline: unset;
+}
+&lt;/style&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+&lt;svg id="chart" width="960" height="500"&gt;&lt;/svg&gt;
+
+&lt;script&gt;
+var parseTime = d3.timeParse('%d-%b-%y');
+
+d3.tsv('data.tsv', function(d) {
+  d.date = parseTime(d.date);
+  d.close = +d.close;
+  return d;
+}).then(function(data) {
+  var svg = d3.select('#chart'),
+  margin = {
+    top: 40,
+    right: 20,
+    bottom: 30,
+    left: 50
+  },
+  width = +svg.attr('width') - margin.left - margin.right,
+  height = +svg.attr('height') - margin.top - margin.bottom,
+  g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  
+  var x = d3.scaleTime()
+    .rangeRound([0, width]);
+  
+  var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+  
+  var line = d3.line()  // 🙋🏽‍♀️ question 1: what type is line?
+    .x(function(d) {
+      return x(d.date);
+    })
+    .y(function(d) {
+      return y(d.close);
+    });
+  
+  x.domain(d3.extent(data, function(d) {
+    return d.date;
+  }));
+  y.domain(d3.extent(data, function(d) {
+    return d.close;
+  }));
+  
+  g.append('g')
+    .attr('transform', 'translate(0,' + height + ')')
+    .call(d3.axisBottom(x));
+  
+  g.append('g')
+    .call(d3.axisLeft(y))
+    .append('text')
+    .attr('fill', '#000')
+    .attr('transform', 'rotate(-90)')
+    .attr('y', 6)
+    .attr('dy', '0.71em')
+    .attr('text-anchor', 'end')
+    .text('Price ($)');
+  
+  g.append('path')
+    .datum(data)  // 🙋🏽‍♀️ question 2: replace with data(data) and explain the difference below
+    .attr('fill', 'none')
+    .attr('stroke', 'steelblue')
+    .attr('stroke-linejoin', 'round')
+    .attr('stroke-linecap', 'round')
+    .attr('stroke-width', 1.5)
+    .attr('d', line);  // 🙋🏽‍♀️ question 3: explain what 'd' is
+  });
+&lt;/script&gt;
+		</code></pre>
+  </div>
+
+	<div class="answer">
+		<cap>Answer</cap>		
+
+        <!-- Add your answers below! -->
+        <ul>
+          <li>Question 1: line is a function</li>
+          <li>Question 2: with data the line disappears; we need to use datum to create a path from the entire timeseries and not join each data point; the line generator creates the d attribute</li>
+          <li>Question 3: d is the path attribute that encodes the path to be created using the path commands M move, L line to</li>
+        </ul>
+
+        <!-- Add your code here! -->
+        <style>
+          svg text {
+            font-family: Courier;
+            font-size: 10px;
+            text-anchor: unset;
+            alignment-baseline: unset;
+          }
+          </style>
+          
+          <script src="../node_modules/d3/dist/d3.min.js"></script>
+          <svg id="chart" width="960" height="500"></svg>
+          
+          <script>
+          var parseTime = d3.timeParse('%d-%b-%y');
+          
+          d3.tsv('data.tsv', function(d) {
+            d.date = parseTime(d.date);
+            console.log("date: ", d.date)
+            d.close = +d.close;
+            return d;
+          }).then(function(data) {
+            var svg = d3.select('#chart'),
+            margin = {
+              top: 40,
+              right: 20,
+              bottom: 30,
+              left: 50
+            },
+            width = +svg.attr('width') - margin.left - margin.right,
+            height = +svg.attr('height') - margin.top - margin.bottom,
+            g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            
+            var x = d3.scaleTime()
+              .rangeRound([0, width]);
+            
+            var y = d3.scaleLinear()
+              .rangeRound([height, 0]);
+            
+            var line = d3.line()  // 🙋🏽‍♀️ question 1: what type is line?
+              .x(function(d) {
+                return x(d.date);
+              })
+              .y(function(d) {
+                return y(d.close);
+              });
+            
+            x.domain(d3.extent(data, function(d) {
+              return d.date;
+            }));
+            y.domain(d3.extent(data, function(d) {
+              return d.close;
+            }));
+            
+            g.append('g')
+              .attr('transform', 'translate(0,' + height + ')')
+              .call(d3.axisBottom(x));
+            
+            g.append('g')
+              .call(d3.axisLeft(y))
+              .append('text')
+              .attr('fill', '#000')
+              .attr('transform', 'rotate(-90)')
+              .attr('y', 6)
+              .attr('dy', '0.71em')
+              .attr('text-anchor', 'end')
+              .text('Price ($)');
+            
+            g.append('path')
+              .datum(data)  // 🙋🏽‍♀️ question 2: replace with data(data) and explain the difference below
+              .attr('fill', 'none')
+              .attr('stroke', 'steelblue')
+              .attr('stroke-linejoin', 'round')
+              .attr('stroke-linecap', 'round')
+              .attr('stroke-width', 1.5)
+              .attr('d', line);  // 🙋🏽‍♀️ question 3: explain what 'd' is
+            });
+          </script>
+    </div>
+    
+    <h2>2 - Line chart</h2>
+    <hr>
+
+    <p>Adapt the code of ex4.1 to implement a line chart of the data provided in
+      <code>time_series_covid19_recovered_global_Afghanistan.csv</code> (source <a
+        href="https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv">Johns
+        Hopkins University COVID-19 data</a>).
+    </p>
+
+    You will need to use a different format to parse the data. For this use this <code>parseTime2</code> function:
+    <pre><code class="js">
+var parseTime2 = d3.timeParse('%m/%d/%y');
+    </code></pre>
+
+    <div class="alert info">💡 See <a target="_blank" href="https://github.com/d3/d3-time-format">d3-time-format</a> documentation</div>
+
+    </ul>
+    </p>
+
+    <div class="answer">
+		<cap>Answer</cap>		
+    <p>
+      Explain what happen if we try to redefine <code>parseTime</code> instead of using <code>parseTime2</code>?
+      <p>
+        <!-- Add your answer below! -->
+        If we use the same variable the first plot will not show, parseTime gets overwritten because the data loading in d3 in asynchronus. 
+        Hence, the parseTime already assigns the new value from second script element, before executing the first script element. 
+        Since, the specifier pattern does not match with the data format of the data, therefore the parsing will fail and the line chart will not be seen.
+      </p>
+    </p>
+        <!-- Add your code here! -->
+        <style>
+          svg text {
+            font-family: Courier;
+            font-size: 10px;
+            text-anchor: unset;
+            alignment-baseline: unset;
+          }
+          </style>
+          
+          <script src="../node_modules/d3/dist/d3.min.js"></script>
+          <svg id="chart_" width="960" height="500"></svg>
+          
+          <script>
+          var parseTime2 = d3.timeParse('%m/%d/%Y');
+          
+          
+          d3.csv('time_series_covid19_recovered_global_Afghanistan.csv', function(d) {
+            console.log("d.date: ", d.date)
+            d.date = parseTime2(d.date);
+            console.log("d.date: ", d.date)
+            d.close = +d.cases;
+            console.log("d.close: ", d.close)
+            return d;
+          }).then(function(data) {
+            var svg = d3.select('#chart_'),
+            margin = {
+              top: 40,
+              right: 20,
+              bottom: 30,
+              left: 50
+            },
+            width = +svg.attr('width') - margin.left - margin.right,
+            height = +svg.attr('height') - margin.top - margin.bottom,
+            g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            
+            var x = d3.scaleTime()
+              .rangeRound([0, width]);
+            
+            var y = d3.scaleLinear()
+              .rangeRound([height, 0]);
+            
+            var line = d3.line()  // 🙋🏽‍♀️ question 1: what type is line?
+              .x(function(d) {
+                return x(d.date);
+              })
+              .y(function(d) {
+                return y(d.close);
+              });
+            
+            x.domain(d3.extent(data, function(d) {
+              return d.date;
+            }));
+            y.domain(d3.extent(data, function(d) {
+              return d.close;
+            }));
+            
+            g.append('g')
+              .attr('transform', 'translate(0,' + height + ')')
+              .call(d3.axisBottom(x));
+            
+            g.append('g')
+              .call(d3.axisLeft(y))
+              .append('text')
+              .attr('fill', '#000')
+              .attr('transform', 'rotate(-90)')
+              .attr('y', 6)
+              .attr('dy', '0.71em')
+              .attr('text-anchor', 'end')
+              .text('Cases');
+            
+            g.append('path')
+              .datum(data)  // 🙋🏽‍♀️ question 2: replace with data(data) and explain the difference below
+              .attr('fill', 'none')
+              .attr('stroke', 'steelblue')
+              .attr('stroke-linejoin', 'round')
+              .attr('stroke-linecap', 'round')
+              .attr('stroke-width', 1.5)
+              .attr('d', line);  // 🙋🏽‍♀️ question 3: explain what 'd' is
+            });
+          </script>
+        </script>
+    </div>
+</body>
+</html>

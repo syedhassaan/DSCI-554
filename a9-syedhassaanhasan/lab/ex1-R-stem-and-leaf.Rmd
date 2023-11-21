@@ -1,0 +1,67 @@
+---
+title: "R Notebook"
+output: rmarkdown::github_document
+---
+
+# 🏋 ex1 R steam-and-leaf plot
+
+Base R `stem {graphics}` is used to realize steam-and-leaf plots.
+
+Read the docs with `?stem`
+
+```{r}
+?stem
+```
+
+## Example 1: plot a vector
+
+```{r}
+data = c(1, 3, 5, 10, 17, 17)
+stem(data)
+```
+
+## Example 2: plot areas of the World's major landmasses
+
+```{r}
+?islands  #A named vector of length 48.
+names(islands)
+```
+
+We can use [log: Logarithms and Exponentials](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/log) to resize the data.
+```{r}
+islands
+islands[1]  #index starts at 1!
+log10(islands[1])
+```
+
+```{r}
+stem(islands)
+stem(log10(islands))
+```
+
+Using `scale` to control the depth of the plot (see the documentation):
+
+```{r}
+stem(islands, 1)
+stem(islands, 2)
+stem(islands, 0.5)
+stem(islands, 0.25)
+```
+
+---
+
+# Exercises
+
+## 😜 Exercise 1
+
+Use `stem` to create a stem-and-leaf plot of the `chol` variable for the data in `heart-decease.cleveland.csv`
+
+```{r}
+df <- read.csv('data/heart-decease-cleveland.csv')
+head(df)
+stem(df$chol)
+
+``` 
+## 😜 Exercise 2
+
+Render and submit your work.

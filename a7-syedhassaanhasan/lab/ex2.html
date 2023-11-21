@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 7 ex2</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX2: ASSESSING COLOR PROBLEMS</h1>
+
+	<h2>1 - Vision deficiencies</h2>
+  <hr>
+
+  <p>In Dev Tools open <kbd>⠇ menu > More tools > Rendering</kbd> and use the <kbd>Emulate vision deficiencies</kbd> drop-down to identify the problems with the following graphic:</p>
+
+  <img height="400px" src="spain-elections.png">
+
+  <div class="answer">
+    <cap>Answer</cap>
+    🎒 list color-related problems you see with the graphic above:
+    <ul>
+      <li>Deuteranopia -- People would be unable to differntiate the color scale as for example both the extremes (dark red and dark green) look the same color (dark brown)</li>
+      <li>Deuteranopia -- The extremes are slighlty better but still unable to differntiate all the colors as diffent values in the scale still have the same color</li>
+      <li>Tritanopia -- The color flips i.e red becomes green, which would give a completely different meaning to the data. (i.e large values becomes small and small values become large)</li>
+      <li>Text size should be larger, as people, particularly with blurred vision will be unable to read</li>
+      <li>Size of the map should be a little larger, to soo the color differences in the top middle part more clearly</li>
+    </ul>
+  </div>
+
+  <h2>2 - Color accessibility</h2>
+  <hr>
+
+  <p>Use Dev Tools as in <a href="https://www.youtube.com/watch?v=sEDnmNtEaqQ">Accessible Color Standards - Designing in the Browser</a> to correct the color contrast where marked with 🎒.</p>
+  </div>
+
+  <p class="alert info">💡 <b>WebAIM color accessibility levels:</b>
+    Level A: basic requirement for some users with disabilities to be able to access and use web content -- color contrast of 3:1<br>
+    Level AA: overall accessibility and removal of significant barriers to accessing content -- color contrast of 4.5:1<br>
+    Level AAA: provides improvements and enhancements to web accessibility for some users with disabilities -- color contrast of 7:1<br>
+  </p>
+
+  <style>
+    .box {
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+
+<div class="answer">
+  <cap>Answer</cap>
+    <div class="box" style="background-color: black;">
+      <p style="color: #7676e7">🎒 adjust text color so the color contrast with the background complies with AA level</p>
+ 
+    </div>
+
+    <div class="box" style="background-color: black;">
+      <p style="color: #ff0000">🎒 adjust text color so the color contrast with the background complies with AAA level</p>
+  
+    </div>
+  </div>
+
+</body>
+</html>

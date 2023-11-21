@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSCI 554 Assignment 8</title>
+</head>
+
+<body>
+    <div>Syed Hasan <a href="mailto:syedhass@usc.edu">syedhass@usc.edu</a></div>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <link rel="stylesheet" href="/lab/style.css">
+	<link rel="stylesheet" href="/lab/node_modules/highlightjs/styles/github.css">
+	<script src="/lab/node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+    <script src="node_modules/d3/dist/d3.min.js"></script>
+    <script src="node_modules/topojson/dist/topojson.min.js"></script>
+    <script src="script.js"></script>
+
+    <div>
+        <br>
+        <h3>Question 1</h3>
+        <p>For this map I am using Population data for the year 2018, more specifically: </p>
+        <ul>
+            <li>Number of People Living in the Capital City, in millions </li>
+        </ul>
+        <p> 
+            The source of this data is United Nations Population Division, New York, World Urbanization Prospects: The 2018 Revision.
+        </p>
+
+        <p>
+            The 10 countries I am using are:
+            <ol>
+                <li>Afghanistan</li>
+                <li>Bangladesh</li>
+                <li>India</li>
+                <li>Iran</li>
+                <li>United States of America</li>
+                <li>Canada</li>
+                <li>Pakistan</li>
+                <li>Finland</li>
+                <li>United Kingdom</li>
+                <li>China</li>
+            </ol>
+        </p>
+        <h4 style="margin-left:250px">Number of People Living in the Capital City, in millions</h4>
+
+        <svg style="border:1px solid black" id="chart" width="1000" height="610"></svg>
+
+            
+
+        </div>
+
+        <div>
+            <p>
+                <br>
+                <h3>Question 2</h3>
+                <!-- describe your data and cite the sources here -->
+                <p>For this map I am using Population data for the year 2018, more specifically: </p>
+                <ul>
+                    <li>Population increase in urban years, as compared to 5 years ago (% increase) </li>
+                </ul>
+                <p> 
+                    The source of this data is United Nations Population Division, New York, World Urbanization Prospects: The 2018 Revision.
+                </p>
+
+                <p>
+                    The 10 countries I am using are:
+                    <ol>
+                        <li>Afghanistan</li>
+                        <li>Bangladesh</li>
+                        <li>India</li>
+                        <li>Iran</li>
+                        <li>United States of America</li>
+                        <li>Canada</li>
+                        <li>Pakistan</li>
+                        <li>Finland</li>
+                        <li>United Kingdom</li>
+                        <li>China</li>
+                    </ol>
+                </p>
+                <h4 style="margin-left:325px">Urban Population increase(%)</h4>
+            <svg style="border:1px solid black" id="chart_2" width="1000" height="610"></svg>
+        </div>
+
+        <br>
+        <h3>Question 3</h3>
+
+        <p>The data is obtained from: https://data.lacounty.gov/dataset/EV-Charging-Stations-Map/sawh-si85</p>
+        <p>It shows the number of EV charging stations present in each region</p>
+    
+        <h4 style="margin-left:325px">Number of EV Stations in each LA region</h4>
+    <svg style="border:1px solid black" id="svg3" width="1000" height="610"></svg>
+
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        
+        <br>
+        <h3>Question 4</h3>
+        
+        <h4 style="margin-left:275px">Number of people allowed inside at one time (COVID-19 Policy)</h4>
+        
+        <section class="mapbox_container">
+            <div id='map2'></div>
+            <div class='map-overlay' id='legend'></div>
+        </section>
+
+        <script>
+
+// 🎒 add your code here
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3llZGhhc3MiLCJhIjoiY2t2MDF0eHZyN2lpdzJvbW44a244ZHgzZSJ9.AgOQsQdIpT2YpnGDYI7bDA';
+const map2 = new mapboxgl.Map({
+container: 'map2', // container ID
+style: 'mapbox://styles/mapbox/dark-v10', // style URL
+center: [-118.2851, 34.0224], // starting position [lng, lat]
+zoom: 15 // starting zoom
+});
+
+map2.on('load', function () {
+
+const layers = [
+    '# of People',
+    '0-10',
+    '10-20',
+    '20-50',
+    '50-100',
+    '100-200',
+    '200-500',
+    '500-1000',
+    '1000+'
+    ];
+    const colors = [
+    'white',
+    '#FFEDA0',
+    '#FED976',
+    '#FEB24C',
+    '#FD8D3C',
+    '#FC4E2A',
+    '#E31A1C',
+    '#BD0026',
+    '#800026'
+    ];
+
+    const legend = document.getElementById('legend');
+
+
+layers.forEach((layer, i) => {
+const color = colors[i];
+const item = document.createElement('div');
+const key = document.createElement('span');
+key.className = 'legend-key';
+key.style.backgroundColor = color;
+
+const value = document.createElement('span');
+value.innerHTML = `${layer}`;
+item.appendChild(key);
+item.appendChild(value);
+legend.appendChild(item);
+});
+
+map2.addSource('footprints_source', {
+    type: 'geojson',
+    data: '/lab/data/footprints_3.geojson'
+});
+
+map2.addLayer({
+    'id': 'footprints',
+    'type': 'fill',
+    'source': 'footprints_source',
+    'layout': {},
+    'paint': {
+        'fill-color': {
+            type: 'identity',
+            property: 'CLR',
+        },
+        'fill-opacity': 0.8
+    }
+});
+});
+        </script>
+
+       
+</body>
+</html>

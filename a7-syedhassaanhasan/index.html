@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSCI 554 Assignment 7</title>
+
+    <link rel="stylesheet" href="/lab/style.css">
+	<link rel="stylesheet" href="/node_modules/highlightjs/styles/github.css">
+	<script src="/node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<script src="/node_modules/d3/dist/d3.min.js"></script>
+    <script src="/scripts.js"></script>
+</head>
+
+<body>
+    <div>Syed Hasan <a href="mailto:syedhass@usc.edu">syedhass@usc.edu</a></div>
+
+    <h2>Bubble chart using circle packing</h2>
+    <p>For this chart I am using Population data for the year 2018, more specifically: </p>
+        <ol>
+            <li>Percentage of Population Living in Rural Areas </li>
+            <li>Number of People Living in the Capital City, in 1000's </li>
+            <li>Total population of the country, in millions</li>
+        </ol>
+        <p> 
+            The source of this data is United Nations Population Division, New York, World Urbanization Prospects: The 2018 Revision.
+        </p>
+
+        <p>
+            The 10 countries I am using are:
+            <ol>
+                <li>Afghanistan</li>
+                <li>Bangladesh</li>
+                <li>India</li>
+                <li>Iran</li>
+                <li>United States of America</li>
+                <li>Canada</li>
+                <li>Pakistan</li>
+                <li>Finland</li>
+                <li>United Kingdom</li>
+                <li>China</li>
+            </ol>
+        </p>
+        <h4 style="text-align: center;">Capital City Population (in 1000s), Urban Population (%) & Total Population (in millions)</h4>
+    <div style=" display: flex; justify-content: center; align-items: center;">
+        <svg id="chart1" style="height: 800; width: 800"></svg> <!-- responsive thanks to viewBox -->
+    </div>
+
+
+    <h2>Pie chart using pie layout</h2>
+    <p>For this chart I am using Population data for the year 2018, more specifically total population of countries in South Asia </p>
+        <p> 
+            The source of this data is United Nations Population Division, New York, World Urbanization Prospects: The 2018 Revision.
+        </p>
+    <p>
+        The 5 countries I am using are:
+        <ol>
+            <li>Afghanistan</li>
+            <li>Bangladesh</li>
+            <li>India</li>
+            <li>Iran</li>
+            <li>Pakistan</li>
+        </ol>
+    </p>
+    <h4 style="text-align: center;">Percentage of Population in South Asia Region</h4>
+    <br>
+    <div style=" display: flex; justify-content: center; align-items: center;">
+        <svg id="pie-chart" width="960" height="500"></svg>
+    </div>
+
+
+    <!-- your d3 code here to create a legend for the color scale -->
+    
+    <h2>Line chart</h2>
+    <p>For this chart I am using Communication data, more specifically Internet Usage data. 
+        The source of this data is International Telecommunication Union (ITU) based in Geneva.
+        I wanted to compare the percentage of people who use the internet from countries in my region (south Asia)
+        against more developed countries
+      </p>
+    
+      <p>
+        These are the 10 countries I have picked:
+        <ol>
+            <li>Afghanistan</li>
+            <li>Bangladesh</li>
+            <li>India</li>
+            <li>Iran</li>
+            <li>United States of America</li>
+            <li>Canada</li>
+            <li>Pakistan</li>
+            <li>Finland</li>
+            <li>United Kingdom</li>
+            <li>China</li>
+        </ol>
+    </p>
+
+
+<h4 style="text-align: center;">Percentage of Individuals Using the Internet</h4>
+    <div style=" display: flex; justify-content: center; align-items: center;">
+        <div id="my_dataviz"></div>
+        <svg id="legend1" height=300 width=450></svg>
+    </div>
+
+</body>
+
+</html>

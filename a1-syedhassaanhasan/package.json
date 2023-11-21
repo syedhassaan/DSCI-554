@@ -1,0 +1,26 @@
+{
+  "name": "dsci-554-a1-starter",
+  "version": "1.0.0",
+  "description": "lab1 and a1 starter code",
+  "main": "index.js",
+  "scripts": {
+    "serve": "browser-sync start ./ -s --files './' --directory --watch --port 2000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "browser-sync": "^2.26.12",
+    "commander": "^8.1.0",
+    "csv-parse": "^4.16.2",
+    "highlightjs": "^9.16.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DSCI-554/a1-syedhassaanhasan.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DSCI-554/a1-syedhassaanhasan/issues"
+  },
+  "homepage": "https://github.com/DSCI-554/a1-syedhassaanhasan#readme"
+}

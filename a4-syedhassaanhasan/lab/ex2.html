@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 4 ex2</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ ex2: bar chart with D3 data join</h1>
+
+  <h2>1 - Bar chart with div</h2>
+  <hr>
+
+  <p>Using the data of ex1.3 and the sample code create 2 bar charts: one for frequency and one for relative frequency.
+    Label the bars. Add a title.</p>
+
+  <div class="sample">
+    <cap>Sample code</cap>
+    <pre><code class="HTML">
+&lt;style&gt;
+div.bar {
+  display: inline-block;
+  vertical-align: bottom;
+  position: relative;
+  width: 20px;  /* bar width */
+  background-color: cornflowerblue;
+  margin-right: 2px;
+}
+
+div.text {
+  position: absolute;
+  bottom: 0;
+  font-size: 14px;
+  color: white;
+  padding: 0 0 0 3px;  /* 3px padding right */
+}
+&lt;/style&gt;
+
+&lt;!-- set background color to see the div, e.g., yellow or lime --&gt;
+&lt;div style="background-color: yellow" id="ex_2_1"&gt;&lt;/div&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+var dataset = [{ name: '1', value: '20px' },
+               { name: '2', value: '40px' },
+               { name: '3', value: '60px' }];
+
+var bar = d3.select('#ex_2_1')
+  .selectAll('div')
+  .data(dataset)
+  .enter()
+  .append('div');
+
+bar.style('height', d => { return d.value; })
+  .attr('class', 'bar');
+
+bar.append('div')  //append other div to add bar labels!
+  .text(function (d) { return d.name; })
+  .attr('class', 'text');
+&lt;/script&gt;
+		</code></pre>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <!-- Add your code here! -->
+    <h3>Frequence and Relative Frequency Bar Charts</h3>
+    <style>
+      div.bar {
+        display: inline-block;
+        vertical-align: bottom;
+        position: relative;
+        width: 20px;  /* bar width */
+        background-color: cornflowerblue;
+        margin-right: 2px;
+      }
+      
+      div.text {
+        position: absolute;
+        bottom: 0;
+        font-size: 14px;
+        color: white;
+        padding: 0 0 0 3px;  /* 3px padding right */
+      }
+      </style>
+      
+      <!-- set background color to see the div, e.g., yellow or lime -->
+      <div style="background-color: yellow; padding-bottom: 10px;" id="ex_2_1"></div>
+
+      <div style="background-color: yellow" id="hasan"></div>
+      
+      <script src="../node_modules/d3/dist/d3.min.js"></script>
+      <script>
+      var dataset = [{label: 'd1', desc: 'Internal derangement (DDWR) / Internal derangement (eDDNR)', freq: '169px', relFreq: '37.47px'},
+				{label: 'd3', desc: 'Masticatory or Cervical Myalgia/ Myofascial Pain', freq: '282px', relFreq: '62.53px'},
+				{label: 'd4', desc: 'Arthromyalgia Combo / Capsulitis', freq: '198px', relFreq: '43.90px'},
+				{label: 'd5', desc: 'TMJ Osteoarthritis / Rheumatoid Arthritis', freq: '83px', relFreq: '18.40px'},
+				{label: 'd7', desc: 'Chronic Trigeminal Neuropathy / Neuritis (not BMS)', freq: '63px', relFreq: '13.97px'}];
+      
+      var bar = d3.select('#ex_2_1')
+        .selectAll('div')
+        .data(dataset)
+        .enter()
+        .append('div');
+      
+      bar.style('height', d => { return d.freq; })
+        .attr('class', 'bar');
+      
+      bar.append('div')  //append other div to add bar labels!
+        .text(function (d) { return d.label; })
+        .attr('class', 'text'); 
+
+      var bar2 = d3.select('#hasan')
+        .selectAll('div')
+        .data(dataset)
+        .enter()
+        .append('div');
+      
+      bar2.style('height', d => { return d.relFreq; })
+        .attr('class', 'bar');
+      
+      bar2.append('div')  //append other div to add bar labels!
+        .text(function (d) { return d.label; })
+        .attr('class', 'text'); 
+      </script>
+
+  </div>
+
+  <h2>2 - Bar chart with svg</h2>
+  <hr>
+
+  <p>Using the data of ex1.3 and the sample code create 2 bar charts: one for frequency and one for relative frequency.
+    Label the bars. Add a title.</p>
+
+  <div class="sample">
+    <cap>Sample code</cap>
+    <pre><code class="HTML">
+&lt;style&gt;
+rect.bar {
+  fill: yellow;
+}
+text.bar {
+  fill: white;
+  font-size: 14px;
+}
+&lt;/style&gt;
+
+&lt;!-- set background color for debugging --&gt;
+&lt;svg width="100px" height="100px" style="background-color: lime" id="ex_2_2"&gt;&lt;/svg&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+var dataset = [
+  { name: '1', value: 20 },
+  { name: '2', value: 40 },
+  { name: '3', value: 60 }
+];
+
+var width = 20;
+var height = 100;
+var padding = 2;
+
+var enter = d3.select('#ex_2_2')
+  .selectAll('rect')
+  .data(dataset)
+  .enter();  //work with enter selection
+
+enter.append('rect')
+  .attr('x', (d, i) => { return i * (width + padding); })
+  .attr('y', (d) => { return height - d.value; })
+  .attr('width', (d) => { return width; })
+  .attr('height', (d) => { return d.value; })
+  .attr('class', 'bar');
+
+enter.append('text')
+  .attr('x', (d, i) => { return i * (width + padding) + 6; })  //6px to center
+  .attr('y', (d) => { return height - padding; })
+  .attr('class', 'bar')
+  .text(function (d) { return d.name; });
+
+enter.append("text")
+  .attr('x', 50)             
+  .attr('y', 10)
+  .attr('text-anchor', 'middle')
+  .style('font-size', '12px')
+  .style('color', '#fff')
+  .text('Counts');
+&lt;/script&gt;
+		</code></pre>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <!-- Add your code here! -->
+    
+    <style>
+      rect.bar {
+        fill: yellow;
+      }
+      text.bar {
+        fill: white;
+        font-size: 14px;
+      }
+      </style>
+      
+      <!-- set background color for debugging -->
+      <h3>Frequence and Relative Frequency Bar Charts</h3>
+    
+
+      <svg width="150" height="300" style="background-color: lime" id="ex_2_2"></svg>
+
+      <svg width="150" height="300" style="background-color: lime" id="ex_3_3"></svg>
+      
+      <script src="../node_modules/d3/dist/d3.min.js"></script>
+      <script>
+      var dataset = [
+      {label: 'd1', desc: 'Internal derangement (DDWR) / Internal derangement (eDDNR)', freq: 169, relFreq: 37.47},
+				{label: 'd3', desc: 'Masticatory or Cervical Myalgia/ Myofascial Pain', freq: 282, relFreq: 62.53},
+				{label: 'd4', desc: 'Arthromyalgia Combo / Capsulitis', freq: 198, relFreq: 43.90},
+				{label: 'd5', desc: 'TMJ Osteoarthritis / Rheumatoid Arthritis', freq: 83, relFreq: 18.40},
+				{label: 'd7', desc: 'Chronic Trigeminal Neuropathy / Neuritis (not BMS)', freq: 63, relFreq: 13.97}
+      ];
+      
+      var width = 20;
+      var height = 300;
+      var padding = 2;
+      
+      var enter = d3.select('#ex_2_2')
+        .selectAll('rect')
+        .data(dataset)
+        .enter();  //work with enter selection
+      
+      enter.append('rect')
+        .attr('x', (d, i) => { return i * (width + padding); })
+        .attr('y', (d) => { return height - d.freq; })
+        .attr('width', (d) => { return width; })
+        .attr('height', (d) => { return d.freq; })
+        .attr('class', 'bar');
+      
+      enter.append('text')
+        .attr('x', (d, i) => { return i * (width + padding) + 6; })  //6px to center
+        .attr('y', (d) => { return height - padding; })
+        .attr('class', 'bar')
+        .text(function (d) { return d.label; });
+      
+      enter.append("text")
+        .attr('x', 50)             
+        .attr('y', 10)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .style('color', '#fff')
+        .text('Counts');
+
+        var enter = d3.select('#ex_3_3')
+        .selectAll('rect')
+        .data(dataset)
+        .enter();  //work with enter selection
+      
+      enter.append('rect')
+        .attr('x', (d, i) => { return i * (width + padding); })
+        .attr('y', (d) => { return height - d.relFreq; })
+        .attr('width', (d) => { return width; })
+        .attr('height', (d) => { return d.relFreq; })
+        .attr('class', 'bar');
+      
+      enter.append('text')
+        .attr('x', (d, i) => { return i * (width + padding) + 6; })  //6px to center
+        .attr('y', (d) => { return height - padding; })
+        .attr('class', 'bar')
+        .text(function (d) { return d.label; });
+      
+      enter.append("text")
+        .attr('x', 50)             
+        .attr('y', 10)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .style('color', '#fff')
+        .text('Counts');
+      </script>
+
+
+  </div>
+</body>
+
+</html>

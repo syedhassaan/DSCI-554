@@ -1,0 +1,303 @@
+---
+title: "R Notebook"
+output: rmarkdown::github_document
+---
+
+# 🏋 ex0 R Basics
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+# 🚀 Basics commands
+
+Getting help:
+
+```{r}
+help('list')  #help for list
+?list  #prints code documentation for lists
+```
+
+Printing to the console:
+
+```{r}
+paste("Hello ", "R", "!")
+```
+
+# R as a calculator
+
+```{r}
+2 * 15 + 10
+x <- 2 * 15 + 10
+```
+
+# Functions
+
+NB: in notebooks most R code consists in function calls on objects loaded from libraries.
+
+The following declares a function f taking x as argument and invokes f with x = 2:
+
+```{r}
+f <- function(x) {
+    return (x * x)
+}
+f(2)
+```
+
+# Basic types data structures
+
+```{r}
+s1 <- 'Hello'  #a string
+s2 <- " R!"  #another string 
+s3 <- ' R
+is fun'  #a multiline string
+a <- 1  #int
+b <- 2.0  #float
+c <- TRUE  #boolean true
+d <- FALSE  #boolean false
+
+paste(s1, s2, s3)
+paste('a =', a)
+paste('b is equal to', b, 'c and d are booleans equal to', c, 'and', d)
+
+myvec <- c(1, 2.0, "3", '3', TRUE, FALSE)  #a vector
+
+paste('myvector is', myvec)
+
+myvec[1]  #indices start at 1!
+```
+
+# Packages
+
+Packages provide functionality, i.e., the ggplot2 package provides datasets and statistical graphing with a layered grammar
+
+```{r}
+data(package = "ggplot2")  #list datasets in ggplot2 package
+```
+
+```{r}
+library("ggplot2")  #load package
+
+
+t <- ggplot(mpg, aes(cty, hwy)) + geom_point()
+```
+
+# Loading CSV
+
+```{r}
+df <- read.csv("data/heart-decease-cleveland.csv") #filename from Files > Upload
+head(df)  #print top rows in df
+```
+
+# R dataframes
+
+R dataframes are similar to a vector, ordered inhomogeneous with same number of rows.
+
+```{r}
+?data.frame
+```
+
+## Factors
+
+Factors are used in dataframes for ‘category’ and ‘enumerated type’.
+
+```{r}
+?factor
+factors <- as.factor(c("C", "A", "C", "A", "B", "A", "B", "A", "B", "B"))
+factors
+```
+
+## Dataframe example 1
+
+Dataframe from a vector of strings
+
+```{r}
+L <- LETTERS[1:5]
+L
+
+fac <- sample(L, 10, replace = TRUE)  #factors
+fac
+
+d <- data.frame(x = 1, y = 1:10, fac = fac)
+d
+```
+
+## Dataframe example 2
+
+Dataframe from a vector of numbers
+
+```{r}
+
+l <- c(1, 2, 3, 4, 5)  #create vector
+l
+
+df <- data.frame(l)  #create dataframe
+df
+```
+
+## Dataframe example 3
+
+Create a dataframe with typed and named columns.
+
+```{r}
+#create a dataframe
+df <- data.frame(
+    'A' = c(1,2,3,4,5,6),
+    'B' = as.Date('20130102', format='%Y%m%d'),
+    'C' = c("one", "two", "three", "four", "five", "six"),
+    'D' = c('foo'),
+    'E' = as.factor(c('male', 'female', 'female', 'female', 'male', 'female')))
+
+sapply(df, class)  #print columns types or see in Environment
+```
+
+Display dataframe information
+
+```{r}
+head(df)  #display first 6 rows
+tail(df)  #last 6 rows
+colnames(df)  #list columns names
+rownames(df)  #list row names
+```
+
+Accessing dataframe elements
+
+```{r}
+df$C  #access column 'C', this is the preferred way! Same as df['C']
+df[4]  #access column 4 (indices start at 1)
+df[4, 3]  #access row 4, in column 3
+
+#you can also access by index but that's rarely used
+df[, 1:3]  #slice [rows, columns]
+```
+
+# Basic stats
+
+## Summary statistics
+
+```{r}
+df <- read.csv("data/heart-decease-cleveland.csv")
+summary(df)
+```
+
+## Frequency table
+
+Here we use the `dplyr` package for data wrangling. 
+
+Here we use [R cut: Convert Numeric to Factor](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cut)
+
+See also dplyr functionality:
+- mutate: [Create, modify, and delete columns](https://dplyr.tidyverse.org/reference/mutate.html)
+- group_by: [Group by one or more variables](https://dplyr.tidyverse.org/reference/group_by.html)
+- summarise: [Summarise each group to fewer rows](https://dplyr.tidyverse.org/reference/summarize.html)
+- filter: [Subset rows using column values](https://dplyr.tidyverse.org/reference/filter.html)
+
+```{r}
+# install.packages("dplyr")  #run once to install
+library("dplyr")  #load dplyr
+
+value <- runif(n = 100, min = 0, max = 100)
+
+df <- data.frame(value)
+
+labels <- c('(0, 20]', '(20, 40]', '(40, 60]', '(60, 80]', '(80, 100]')
+breaks <- c(0, 21, 41, 61, 81, 101)
+
+df <- df %>%
+  mutate(value_range = cut(value, breaks = breaks, labels = labels)) %>%
+  group_by(value_range) %>%
+  summarise(n = n(), .groups = 'drop') %>%
+  filter(!is.na(value_range)) %>%
+  mutate(rel_freq = n / nrow(.)) %>%
+  mutate(cum_freq = cumsum(rel_freq))
+df
+```
+
+---
+
+# Exercises
+
+## 😜 Exercise 1 
+
+- Create a dataframe for the values `0, 1, 1, 2, 2, 3, 4, 15`
+- Compute descriptive statistics
+- Count the number of cases with `count(df)` where `df` is your dataframe
+
+```{r}
+library("dplyr")  #load dplyr for count
+l <- c(0, 1, 1, 2, 2, 3, 4, 15)
+df <- data.frame(l) 
+summary(df)
+count(df)
+```
+
+## 😜 Exercise 2 
+
+Using `heart-decease-switzerland.csv`:
+- Compute descriptive statistics of all the variables
+- count the number of cases
+
+```{r}
+df <- read.csv("data/heart-decease-switzerland.csv")
+summary(df)
+```
+## 🤔 Exercise 3
+
+WIth the data in `heart-decease-switzerland.csv`:
+- Create a frequency table of the `chol` variable for the frequency ranges:
+
+```
+(120, 160]
+(160, 200]
+(200, 240]
+(240, 280]
+(280, 320]
+(320, 360]
+(360, 400]
+(400, 440]
+```
+
+```{r}
+library("dplyr")  #load dplyr
+
+df <- read.csv("data/heart-decease-cleveland.csv")
+labels <- c('(120, 160]',
+'(160, 200]',
+'(200, 240]',
+'(240, 280]',
+'(280, 320]',
+'(320, 360]',
+'(360, 400]',
+'(400, 440]')
+
+breaks <- c(120, 161, 201, 241, 281, 321, 361, 401, 441)
+
+df <- df %>%
+  mutate(value_range = cut(chol, breaks = breaks, labels = labels)) %>%
+  group_by(value_range) %>%
+  summarise(n = n(), .groups = 'drop') %>%
+  filter(!is.na(value_range)) %>%
+  mutate(rel_freq = n / nrow(.)) %>%
+  mutate(cum_freq = cumsum(rel_freq))
+df
+
+```
+ 
+## 😜 Exercise 4
+
+Render and submit your work. 
+
+- Click `Knit` in toolbar
+- Commit `ex1-R-basics.md` and `ex1-R-basics_files/*` (you can use the Git tab in RStudio)
+- Push
+- Go to GitHub and check that `ex1-R-basics.md` is rendered

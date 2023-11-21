@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 2 ex1</title>
+
+	<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    <h1>🐞 ex1: debugging Javascript</h1>
+
+    <h2>0 - How to</h2>
+    <hr>
+  
+    <div class="alert">
+      <div><b>TL;DR. Escalate as needed</b></div>
+      <div>1. <code>console.log()</code> &amp; hot-reload → 2. Chrome debugger → 3. VS Code &amp; Chrome debugger</div>
+    </div>
+
+    <ol>
+      <li>Add <code>console.log()</code> in your code and inspect the output in the Chrome Dev Tools Console:
+        <pre><code class="js">
+var a = "Hello world"
+console.log(a)
+        </code></pre>
+      </li>
+      <li>Chrome debugger: set breakpoints in the code in Chrome Dev Tools and reload the page
+        <ol>
+          <li>Chrome Dev Tools → Sources tab → open the file to debug</li>
+          <li>Set breakpoints</li>
+          <li>Reload the page</li>
+          <li>Mouse over variables and or use the Console prompt to inspect</li>
+        </ol>
+        <div class="alert warning">⚠️ <code>console.log()</code> is not available at the Console prompt, simply type the variable name.</div>
+        <div><div class="alert info">💡 See also <a
+          href="https://developers.google.com/web/tools/chrome-devtools/javascript/">debugging with Chrome</a></div>
+        </div>
+      </li>
+      <li>VS Code &amp; Chrome debugger configured through <code>launch.json</code>:
+        <ol>
+          <li>Install <em>Debugger for Chrome</em> extension</li>
+          <li>Set breakpoints</li>
+          <li>Click Run button on the side bar</li>
+          <li>Select launcher to run using the dropdown</li>
+          <li>Click <span style="color:green">▷</li>
+        </ol>
+      </li>
+
+      <div><div class="alert info">🚦 <code>launch.json</code> is ready to go for debugging the lab exercises!</div></div>
+      <div class="alert info">💡 Learn more about debugging with VS Code <a
+          href="https://code.visualstudio.com/docs/editor/debugging">here</a></div>
+    </div>
+  </ol>
+
+  <h2>1 - Debugging javascript code</h2>
+  <hr>
+
+  <p>
+    <ul>
+      <li>Implement the sample code in the Answer</li>
+      <li>Add console.log() statements to print all the variables (functions and arrays are variables too!) and append the output as it appears in the console in the Answer.</li>
+      <li>Try all three methods for debugging and add a screenshot for each showing how you inspect a variable</li>
+    </ul></p>
+
+  <div class="alert info">💡 Javascript object are defined as comma separated list of key-value pairs: <code>{🔑: 🇺🇸, 🗝: 🇪🇸}</code></div><br>
+
+  <div class="alert info">💡 Javascript arrays are defined as a comma separated list of values: <code>[🍎, 🍌, 🍉, 🍊, 🍍, 🥭]</code></div><br>
+
+  <div class="alert info">💡 Javascript functions are defined the old way as:<br><code>function(food) { console.log('I like ' + food); }</code></div><br>
+
+  <div class="alert info">💡 Javascript functions are defined with 🏹 notation as:<br><code> (food) => { console.log('I like ' + food); }</code></div>
+
+	<div class="sample">
+		<cap>Sample code</cap>
+
+    <pre><code class="js">
+var v;  //variable declaration, v = undefined
+v = 'a';  //variable initialization
+var v = 'a';  //declaration with initialization
+
+// Dynamic typing of primitive types
+var foo = true;       //Boolean
+var foo = null;       //Null
+var foo = undefined;  //Undefined
+var foo = 2.3;        //Number
+var foo = 'bar'       //String, specified using '' or ""
+
+var arr = ['tree', 1765, [0, 1, 2]];  //array
+var a0 = arr[0];  //access first element in array (indices starts at 0)
+console.log(JSON.stringify(arr));  //prints nested array
+
+var obj = { first: 'Joseph', last: 'Priestley' };  //object literal
+
+//console.log(obj.first);  //access property first of obj (preferred!)
+//console.log(obj['first']);  //access property first of obj (only use if the property includes spaces!)
+
+var name = obj.first + ' ' + obj.last;  //+ concatenates Strings
+var x = 3;
+console.log('x', '=', x);  //, concatenates Strings adding a space
+
+for (i = 0; i &lt; arr.length; i++) {  //for loop to iterate over an array
+  console.log(arr[i]);
+}
+
+arr.forEach(function (d) {  //forEach is cleaner to use to iterate over an array!
+  console.log(d);
+});
+
+arr.forEach(d => {  //same with arrow function notation
+  console.log(d);
+});
+
+if (true) {  //conditional statement
+  console.log('right is right');
+} else {
+  console.log('wrong is wrong');
+}
+
+//same with ternary operator
+console.log(true ? 'right is right' : 'wrong is wrong'); 
+
+function add1(a, b) {   //function declaration
+  return a + b; 
+}  //no ; at the end!
+
+var add2 = function (a, b) {  //function expression
+  return a + b;
+};  //; at the end!
+
+var sum1 = add1(1, 2);  //function call
+
+console.log('==============================================');
+//print *all* the variables not printed here with one console.log() per variable!
+//tip: you can use multi-cursor, see https://code.visualstudio.com/docs/editor/codebasics
+    </code></pre>
+	</div>
+
+  <script>
+    var v;  //variable declaration, v = undefined
+v = 'a';  //variable initialization
+var v = 'a';  //declaration with initialization
+console.log(v)
+
+// Dynamic typing of primitive types
+var foo = true;       //Boolean
+var foo = null;       //Null
+var foo = undefined;  //Undefined
+var foo = 2.3;        //Number
+var foo = 'bar'       //String, specified using '' or ""
+console.log(foo)
+
+var arr = ['tree', 1765, [0, 1, 2]];  //array
+var a0 = arr[0];  //access first element in array (indices starts at 0)
+console.log(JSON.stringify(arr));  //prints nested array
+console.log(a0)
+
+var obj = { first: 'Joseph', last: 'Priestley' };  //object literal
+console.log(obj)
+
+//console.log(obj.first);  //access property first of obj (preferred!)
+//console.log(obj['first']);  //access property first of obj (only use if the property includes spaces!)
+
+var name = obj.first + ' ' + obj.last;  //+ concatenates Strings
+console.log(name)
+var x = 3;
+console.log('x', '=', x);  //, concatenates Strings adding a space
+
+for (i = 0; i < arr.length; i++) {  //for loop to iterate over an array
+console.log(arr[i]);
+}
+
+arr.forEach(function (d) {  //forEach is cleaner to use to iterate over an array!
+console.log(d);
+});
+
+arr.forEach(d => {  //same with arrow function notation
+console.log(d);
+});
+
+if (true) {  //conditional statement
+console.log('right is right');
+} else {
+console.log('wrong is wrong');
+}
+
+//same with ternary operator
+console.log(true ? 'right is right' : 'wrong is wrong'); 
+
+function add1(a, b) {   //function declaration
+return a + b; 
+}  //no ; at the end!
+console.log(add1)
+
+var add2 = function (a, b) {  //function expression
+return a + b;
+};  //; at the end!
+console.log(add2)
+
+var sum1 = add1(1, 2);  //function call
+console.log(sum1)
+
+console.log('==============================================');
+//print *all* the variables not printed here with one console.log() per variable!
+//tip: you can use multi-cursor, see https://code.visualstudio.com/docs/editor/codebasics
+</script>
+
+	<div class="answer">
+    <cap>Answer</cap>
+    <script>
+      //Add your code here!
+    </script>
+
+    <h3>Console.log() output of all the variables</h3>
+<pre><code class="plaintext">
+  //copy and paste of what appears in the console:
+  a
+bar
+["tree",1765,[0,1,2]]
+tree
+{ first: 'Joseph', last: 'Priestley' }
+Joseph Priestley
+x = 3
+tree
+1765
+[ 0, 1, 2 ]
+tree
+1765
+[ 0, 1, 2 ]
+tree
+1765
+[ 0, 1, 2 ]
+right is right
+right is right
+[Function: add1]
+[Function: add2]
+3
+
+</code></pre>   
+
+    <h3>Console.log() screenshot</h3>
+    <!-- Add screenshot here! -->
+    <img src="./ex1_pic1.png"/>
+
+    <h3>Chrome debugger screenshot</h3>
+    <!-- Add screenshot here! -->
+    <img src="./ex1_pic2.png"/>
+
+    <h3>VS Code & Chrome debugger screenshot</h3>
+    <!-- Add screenshot here! -->
+    <img src="./ex1_pic3.png"/>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 5 ex5</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex5: Vega-Lite chart with data from the vega-datasets package</h1>
+
+	<p>Implement the <a target="_blank" href="https://vega.github.io/vega-lite/examples/line.html">Vega-Lite Line
+			Chart</a> example. Use the "stocks.csv" file installed through the vega-datasets package (see package.json) and that is available
+		at:
+	<pre style="font-size: 0.85em;"><code class="sh">
+		../node_modules/vega-datasets/data/stocks.csv
+	</code></pre>
+	</p>
+	<div class="sample">
+		<cap>Sample code</cap>
+		<pre><code class="HTML">
+&lt;script src="../node_modules/vega/build/vega.min.js"&gt;&lt;/script&gt;
+&lt;script src="../node_modules/vega-lite/build/vega-lite.min.js"&gt;&lt;/script&gt;
+&lt;script src="../node_modules/vega-embed/build/vega-embed.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="vis"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  var vlSpec = {};  //plot specifications
+  vegaEmbed('#vis', vlSpec);
+&lt;/script&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>		
+		<!-- Add your code here! -->
+		<script src="../node_modules/vega/build/vega.min.js"></script>
+		<script src="../node_modules/vega-lite/build/vega-lite.min.js"></script>
+		<script src="../node_modules/vega-embed/build/vega-embed.min.js"></script>
+
+		<div id="vis"></div>
+
+		<script>
+		var vlSpec = {
+			"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+			"description": "Google's stock price over time.",
+			"data": {"url": "../node_modules/vega-datasets/data/stocks.csv"},
+			"transform": [{"filter": "datum.symbol==='GOOG'"}],
+			"mark": "line",
+			"encoding": {
+				"x": {"field": "date", "type": "temporal"},
+				"y": {"field": "price", "type": "quantitative"}
+			}
+		};  //plot specifications
+		vegaEmbed('#vis', vlSpec);
+		</script>
+	</div>
+</body>
+</html>

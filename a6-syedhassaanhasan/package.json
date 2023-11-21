@@ -1,0 +1,17 @@
+{
+  "name": "dsci-554-a6-starter",
+  "version": "1.0.0",
+  "description": "a6 starter",
+  "scripts": {
+    "serve": "browser-sync start ./ -s --files './' --directory --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "bootstrap": "^3.4.1",
+    "bootstrap-select": "^1.13.18",
+    "browser-sync": "^2.27.5",
+    "d3": "^7.1.1",
+    "highlightjs": "^9.16.2"
+  }
+}

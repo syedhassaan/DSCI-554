@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 4 ex3</title>
+
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ ex3: Bubble chart and scatterplot with D3 data join</h1>
+
+  <h2>1 - Bubble chart</h2>
+  <hr>
+
+  <p>We will use data from the Motor Trend Car Road Tests dataset (R mtcars dataset).</p>
+
+  <p>Adapt the sample code to the data to create bubble chart of the data provided.</p>
+
+  <div class="sample">
+    <cap>Data</cap>
+    <pre style="font-size: 0.85em;"><code class="plaintext">
+name                mpg     cyl   disp    hp    drat    wt      qsec    vs    am
+Mazda RX4           21.0    6     160.0   110   3.90    2.620   16.46   0     1	
+Mazda RX4 Wag       21.0    6     160.0   110   3.90    2.875   17.02   0     1	
+Datsun 710          22.8    4     108.0   93    3.85    2.320   18.61   1     1	
+Hornet 4 Drive	    21.4    6     258.0   110   3.08    3.215   19.44   1     0	
+Hornet Sportabout   18.7    8     360.0   175   3.15    3.440   17.02   0     0	
+Valiant             18.1    6     225 0   105   2.76    3.460   20.22   1     0	
+Duster 360          14.3    8     360.0   245   3.21    3.570   15.84   0     0	
+Merc 240D           24.4    4     146.7   62    3.69    3.190   20.00   1     0	
+Merc 230            22.8    4     140.8   95    3.92    3.150   22.90   1     0	
+Merc 280            19.2    6     167.6   123   3.92    3.440   18.30   1     0
+		</code></pre>
+
+    <cap>Sample code</cap>
+    <pre><code class="HTML">
+&lt;style&gt;
+circle.bubble {
+  fill: lightgrey;
+}
+text.bubble {
+  fill: #444;
+  font-size: 14px;
+  text-anchor: middle;
+  alignment-baseline: middle;
+}
+&lt;/style&gt;
+
+&lt;svg style="background-color: #f8f8f8" id="ex_3_1"&gt;&lt;/svg&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+var dataset = [{name: 'A', value: 20},
+               {name: 'B', value: 40}];
+
+var width = 200, height = 100;
+var dx = 45;  //distance between centers
+
+var svg = d3.select('#ex_3_1')
+  .attr('width', width)
+  .attr('height', height)
+
+svg.selectAll('circle')
+  .data(dataset)
+  .enter()
+  .append('circle')
+  .attr('cx', (d, i) => { return dx + i * dx; })
+  .attr('cy', (d) => { return height / 2; })
+  .attr('r', (d) => { return 0.5 * d.value; })  //with bubbles map to diameter or area
+  .attr('class', 'bubble')
+
+svg.selectAll('text')
+  .data(dataset)
+  .enter()
+  .append('text')
+  .attr('x', (d, i) => { return dx + i * dx; })
+  .attr('y', (d) => { return height / 2; })
+  .attr('class', 'bubble')
+  .text((d) => { return d.name; })
+
+&lt;/script&gt;
+		</code></pre>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <!-- Add your code here! -->
+    <style>
+      circle.bubble {
+        fill: lightgrey;
+      }
+      text.bubble {
+        fill: #444;
+        font-size: 14px;
+        text-anchor: middle;
+        alignment-baseline: middle;
+      }
+      </style>
+      
+      <svg style="background-color: #f8f8f8" id="ex_3_1"></svg>
+      
+      <script src="../node_modules/d3/dist/d3.min.js"></script>
+      <script>
+      
+      var dataset = [
+                                                        
+      {name: 'Mazda RX4'         ,mpg: 21.0    ,cyl: 6    , disp: 160.0   ,hp: 110  , drat: 3.90  ,  wt: 2.620  , qsec: 16.46 ,  vs: 0  ,   am: 1},	
+      {name: 'Mazda RX4 Wag'     ,mpg: 21.0    ,cyl: 6    , disp: 160.0   ,hp: 110  , drat: 3.90  ,  wt: 2.875  , qsec: 17.02 ,  vs: 0  ,   am: 1},	
+      {name: 'Datsun 710'        ,mpg: 22.8    ,cyl: 4    , disp: 108.0   ,hp: 93   , drat: 3.85  ,  wt: 2.320  , qsec: 18.61 ,  vs: 1  ,   am: 1},	
+      {name: 'Hornet 4 Drive'	   ,mpg:  21.4   ,cyl:  6   , disp:  258.0  ,hp:  110 , drat:  3.08 ,  wt:  3.215 , qsec:  19.44,  vs:  1 ,   am:  0},	
+      {name: 'Hornet Sportabout' ,mpg: 18.7    ,cyl: 8    , disp: 360.0   ,hp: 175  , drat: 3.15  ,  wt: 3.440  , qsec: 17.02 ,  vs: 0  ,   am: 0},	
+      {name: 'Valiant'           ,mpg: 18.1    ,cyl: 6    , disp: 225.0   ,hp: 105  , drat: 2.76  ,  wt: 3.460  , qsec: 20.22 ,  vs: 1  ,   am: 0},	
+      {name: 'Duster 360'        ,mpg: 14.3    ,cyl: 8    , disp: 360.0   ,hp: 245  , drat: 3.21  ,  wt: 3.570  , qsec: 15.84 ,  vs: 0  ,   am: 0},	
+      {name: 'Merc 240D'         ,mpg: 24.4    ,cyl: 4    , disp: 146.7   ,hp: 62   , drat: 3.69  ,  wt: 3.190  , qsec: 20.00 ,  vs: 1  ,   am: 0},	
+      {name: 'Merc 230'          ,mpg: 22.8    ,cyl: 4    , disp: 140.8   ,hp: 95   , drat: 3.92  ,  wt: 3.150  , qsec: 22.90 ,  vs: 1  ,   am: 0},	
+      {name: 'Merc 280'          ,mpg: 19.2    ,cyl: 6    , disp: 167.6   ,hp: 123  , drat: 3.92  ,  wt: 3.440  , qsec: 18.30 ,  vs: 1  ,   am: 0}
+      ];
+      
+      var width = 5000, height = 100;
+      var dx = 45;  //distance between centers
+      
+      var svg = d3.select('#ex_3_1')
+        .attr('width', width)
+        .attr('height', height)
+      
+      svg.selectAll('circle')
+        .data(dataset)
+        .enter()
+        .append('circle')
+        .attr('cx', (d, i) => { return dx + i * dx; })
+        .attr('cy', (d) => { return height / 2; })
+        .attr('r', (d) => { return 0.5 * d.mpg; })  //with bubbles map to diameter or area
+        .attr('class', 'bubble')
+      
+      svg.selectAll('text')
+        .data(dataset)
+        .enter()
+        .append('text')
+        .attr('x', (d, i) => { return dx + i * dx; })
+        .attr('y', (d) => { return height / 2 + 25; })
+        .attr('class', 'bubble')
+        .text((d) => { return d.name; })
+      
+      </script>
+
+  </div>
+
+  <h2>2 - Scatterplot</h2>
+  <hr>
+
+  <p>Using the mtcars dataset from ex3.1, adapt the sample code to create a scatterplot.</p>
+
+  <div class="sample">
+    <cap>Sample code</cap>
+    <pre><code class="HTML">
+&lt;style&gt;
+circle.dot {
+  fill: red;
+}
+line.axis {
+  stroke: black;
+  stroke-width: 1;
+}
+&lt;/style&gt;
+
+&lt;!-- set background color for debugging --&gt;
+&lt;svg style="background-color: #f8f8f8" id="ex_3_2"&gt;&lt;/svg&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+var dataset = [[10, 10],
+               [20, 50]];
+
+var height = 100, width = 200, pad = 2;  //pad origin!
+var svg = d3.select('#ex_3_2')
+  .attr('width', width)
+  .attr('height', height);
+
+svg.selectAll('circle')
+  .data(dataset)
+  .enter()
+  .append('circle')
+  .attr('cx', d => { return d[0] + pad; })
+  .attr('cy', d => { return height - d[1] - pad; })  //flip y axis!
+  .attr('r', 2)
+  .attr('class', 'dot');
+
+//place axes at bottom left corner based on pad 
+svg.append('line')
+  .attr('x1', pad)
+  .attr('y1', height - pad)
+  .attr('x2', pad)
+  .attr('y2', pad)
+  .attr('class', 'axis');
+
+svg.append('line')
+  .attr('x1', pad)
+  .attr('y1', height - pad)
+  .attr('x2', width - pad)
+  .attr('y2', height - pad)
+  .attr('class', 'axis');
+&lt;/script&gt;
+		</code></pre>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <!-- Add your code here! -->
+    <style>
+      circle.dot {
+        fill: red;
+      }
+      line.axis {
+        stroke: black;
+        stroke-width: 1;
+      }
+      </style>
+      
+      <!-- set background color for debugging -->
+      <svg style="background-color: #f8f8f8" id="ex_3_2"></svg>
+      
+      <script src="../node_modules/d3/dist/d3.min.js"></script>
+      <script>
+      // var dataset = [[10, 10],
+      //                [20, 50]];
+
+      var dataset = [
+                                                        
+      ['Mazda RX4'         ,21.0    , 6    , 160.0   ,110  , 3.90  , 2.620  , 16.46 ,  0  ,   1],	
+      ['Mazda RX4 Wag'     ,21.0    , 6    , 160.0   ,110  , 3.90  , 2.875  , 17.02 ,  0  ,   1],	
+      ['Datsun 710'        ,22.8    , 4    , 108.0   ,93   , 3.85  , 2.320  , 18.61 ,  1  ,   1],	
+      ['Hornet 4 Drive'	   ,21.4    , 6    , 258.0   ,110  , 3.08  , 3.215  , 19.44,   1  ,   0],	
+      ['Hornet Sportabout' ,18.7    , 8    , 360.0   ,175  , 3.15  , 3.440  , 17.02 ,  0  ,   0],	
+      ['Valiant'           ,18.1    , 6    , 225.0   ,105  , 2.76  , 3.460  , 20.22 ,  1  ,   0],	
+      ['Duster 360'        ,14.3    , 8    , 360.0   ,245  , 3.21  , 3.570  , 15.84 ,  0  ,   0],	
+      ['Merc 240D'         ,24.4    , 4    , 146.7   ,62   , 3.69  , 3.190  , 20.00 ,  1  ,   0],	
+      ['Merc 230'          ,22.8    , 4    , 140.8   ,95   , 3.92  , 3.150  , 22.90 ,  1  ,   0],	
+      ['Merc 280'          ,19.2    , 6    , 167.6   ,123  , 3.92  , 3.440  , 18.30 ,  1  ,   0]
+    ];
+      
+      var height = 300, width = 500, pad = 2;  //pad origin!
+      var svg = d3.select('#ex_3_2')
+        .attr('width', width)
+        .attr('height', height);
+      
+      svg.selectAll('circle')
+        .data(dataset)
+        .enter()
+        .append('circle')
+        .attr('cx', d => { return d[3] + pad; })
+        .attr('cy', d => { return height - d[4] - pad; })  //flip y axis!
+        .attr('r', 2)
+        .attr('class', 'dot');
+      
+      //place axes at bottom left corner based on pad 
+      svg.append('line')
+        .attr('x1', pad)
+        .attr('y1', height - pad)
+        .attr('x2', pad)
+        .attr('y2', pad)
+        .attr('class', 'axis');
+      
+      svg.append('line')
+        .attr('x1', pad)
+        .attr('y1', height - pad)
+        .attr('x2', width - pad)
+        .attr('y2', height - pad)
+        .attr('class', 'axis');
+      </script>
+
+  </div>
+
+</body>
+
+</html>
+
+<script src="../node_modules/d3/dist/d3.min.js"></script>

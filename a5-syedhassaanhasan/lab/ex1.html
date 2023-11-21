@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 5 ex1</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ ex1: D3 timeline with axis and margin convention</h1>
+
+  <p>Using the sample code create timelines for USC schedule of classes for the fall semesters of 2018, 2019 and 2021.
+    Lines marked with 🚧 indicate where to update the code.</p>
+  <hr>
+
+  <div class="sample">
+    <cap>Schedule of classes for 2018, 2019 and 2020</cap>
+    <pre style="font-size: 0.85em;"><code class="plaintext">
+Fall Semester 2018: 71 instructional days
+Open Registration       Mon-Fri	August 13-17
+Move-In	                Wed	August 15
+Classes Begin	        Mon	August 20
+Labor Day               Mon	September 3
+Thanksgiving Holiday    Wed-Sun	November 21-25
+Classes End             Fri	November 30
+Study Days              Sat-Tue	December 1-4
+Exams	                Wed-Wed	December 5-12
+Winter Recess	        Thu-Sun	December 13 – January 6
+
+Fall Semester 2019: 69 instructional days
+Open Registration       Mon-Fri	August 19-23
+Move-In                 Wed	August 21
+Classes Begin           Mon	August 26
+Labor Day               Mon	September 2
+Fall Recess             Thu-Fri October 17-18
+Thanksgiving Holiday    Wed-Sun	November 27 – December 1
+Classes End             Fri	December 6
+Study Days              Sat-Tue	December 7-10
+Exams                   Wed-Wed	December 11-18
+Winter Recess           Thu-Sun	December 19 – January 12
+
+Fall Semester 2020
+Open Registration       April 23-Aug. 21
+Classes Begin           Aug. 24
+Labor Day               September 7
+Classes End             Nov. 24
+Thanksgiving Holiday    Nov. 25-Nov. 29
+Study Days              Nov. 30-Dec. 1
+Exams                   Dec. 2-9
+Winter Recess           Dec. 10-Jan. 10, 2021
+		</code></pre>
+
+    <cap>Sample code</cap>
+    <pre><code class="HTML">
+&lt;style&gt;
+path {
+  stroke: black;
+}
+
+.tick line {
+  stroke: black;
+}
+
+.tick {
+  stroke: black;
+}
+
+.tick text {
+  stroke: none;
+  fill: blue;
+  font-size: 8px;
+}
+
+text.label {
+  font-size: 8px;
+  text-anchor: middle;
+  alignment-baseline: middle;
+}
+
+chart_2018, chart_2019, chart_2020 {
+  background-color: #f8f8f8;
+}
+&lt;/style&gt;
+
+&lt;h4 id="title_2018"&gt;&lt;/h4&gt;
+&lt;svg id="chart_2018"&gt;&lt;/svg&gt;
+
+&lt;h4 id="title_2019"&gt;&lt;/h4&gt;
+&lt;svg id="chart_2019"&gt;&lt;/svg&gt;
+
+&lt;h4 id="title_2020"&gt;&lt;/h4&gt;
+&lt;svg id="chart_2020"&gt;&lt;/svg&gt;
+
+&lt;script src='../node_modules/d3/dist/d3.min.js'&gt;&lt;/script&gt;
+&lt;script src='../node_modules/dayjs/dayjs.min.js'&gt;&lt;/script&gt;  
+
+&lt;script&gt;
+// Fall 2018 data
+var data2018 = [{ label: 'Open Registration', start: new Date(2018, 7, 13), end: new Date(2018, 7, 17) },  //months start at 0!
+  { label: 'Move-In', start: new Date(2018, 7, 15), end: null },
+  { label: 'Classes Begin', start: new Date(2018, 7, 20), end: null },
+  { label: 'Labor Day', start: new Date(2018, 8, 3), end: null },
+  { label: 'Thanksgiving Holiday', start: new Date(2018, 10, 21), end: new Date(2018, 10, 25) },
+  { label: 'Classes End', start: new Date(2018, 10, 30), end: null },
+  { label: 'Study Days', start: new Date(2018, 11, 1), end: new Date(2018, 11, 4) },
+  { label: 'Exams', start: new Date(2018, 11, 5), end: new Date(2018, 11, 12) },
+  { label: 'Winter Recess', start: new Date(2018, 11, 13), end: new Date(2019, 0, 6) }];
+
+// Fall 2019 data
+var data2019 = [{ label: 'Open Registration', start: new Date(2019, 7, 19), end: new Date(2019, 7, 23) },
+  { label: 'Move-In', start: new Date(2019, 7, 21), end: null },
+  { label: 'Classes Begin', start: new Date(2019, 7, 26), end: null },
+  { label: 'Labor Day', start: new Date(2019, 8, 2), end: null },
+  { label: 'Fall Recess', start: new Date(2019, 9, 17), end: new Date(2019, 9, 18) },
+  { label: 'Thanksgiving Holiday', start: new Date(2019, 10, 27), end: new Date(2019, 11, 1) },
+  { label: 'Classes End', start: new Date(2019, 11, 6), end: null },
+  { label: 'Study Days', start: new Date(2019, 11, 7), end: new Date(2019, 11, 10) },
+  { label: 'Exams', start: new Date(2019, 11, 11), end: new Date(2019, 11, 18) },
+  { label: 'Winter Recess', start: new Date(2019, 11, 19), end: new Date(2020, 0, 12) }];
+
+// Fall 2020 data
+var data2020 = [{ label: 'Open Registration', start: new Date(2020, 3, 23), end: new Date(2020, 7, 21) },
+  { label: 'Classes Begin', start: new Date(2020, 7, 24), end: null },
+  { label: 'Labor Day', start: new Date(2020, 8, 7), end: null },
+  { label: 'Classes End', start: new Date(2020, 10, 24), end: null },
+  { label: 'Thanksgiving Holiday', start: new Date(2020, 10, 25), end: new Date(2020, 10, 29) },
+  { label: 'Study Days', start: new Date(2020, 10, 30), end: new Date(2020, 11, 1) },
+  { label: 'Exams', start: new Date(2020, 11, 2), end: new Date(2020, 11, 9) },
+  { label: 'Winter Recess', start: new Date(2020, 11, 10), end: new Date(2021, 0, 10) }];
+
+/////////////////////////////////////////
+//create title for 2018 timeline
+
+//compute total semester days between first and last event
+var min = dayjs(d3.min(data2018, d => d.start));  //using dayjs to simplify calculations!
+var max = dayjs(d3.max(data2018, d => d.start));  //see d3.min(flights, d => d.price) example at https://observablehq.com/@d3/d3-extent
+var semesterDays = max.diff(min, 'day');  //using dayjs!
+
+//compute class days between classes begin and classes end
+min = dayjs(data2018.find(d => d.label == 'Classes Begin').start);  //using array.find
+max = dayjs(data2018.find(d => d.label == 'Classes End').start);
+var classesDays = max.diff(min, 'day');
+
+d3.select('#title_2018').text(`Fall semester 2018: ${semesterDays} days, ${classesDays} class days`);
+
+/////////////////////////////////////////
+//create title for 2019 timeline
+
+//🚧 finish-me!
+
+/////////////////////////////////////////
+//create title for 2020 timeline
+
+//🚧 finish-me!
+
+//////////////////////////////////////////////////////////////////////
+//set-up margins convention (use the same for all!)
+var margin = { top: 50, right: 30, bottom: 10, left: 30 };
+var width = 1200 - margin.left - margin.right,
+height = 120 - margin.top - margin.bottom;
+
+//////////////////////////////////////////////////////////////////////
+//plot data2018
+var fromDay = new Date('2018-8-1'), toDay = new Date('2019-2-1');  //fall semester period
+
+var svg = d3.select('#chart_2018')
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+svg.append('rect')  //just to show the new drawing area!
+  .attr('x', 0)
+  .attr('y', 0)
+  .attr('width', width)
+  .attr('height', height)
+  .attr('fill', 'white')
+
+var x = d3.scaleTime()
+  .domain([fromDay, toDay])
+  .range([0, width]);
+
+var xAxis = d3.axisBottom()
+  .scale(x)  ;
+
+svg.append('g')
+  .attr('transform', 'translate(0,20)')
+  .call(xAxis);
+
+svg.selectAll('mark')
+  .data(data2018)
+  .enter()
+  .append('rect')
+  .attr('x', d => { 
+    return x(d.start); 
+  })
+  .attr('y', 5)
+  .attr('width', d => {
+    return d.end ? x(d.end) - x(d.start) : 5;
+  })
+  .attr('height', 15)
+  .attr('fill', (d, i) => { return i % 2 ? '#999' : '#444'});  //alternate colors so we can distinguish individual events!
+
+svg.selectAll('label')  //we already have text elements added by the axis!
+  .data(data2018)
+  .enter()
+  .append('text')
+  .attr("x", d => {
+    var start = x(d.start);
+    var end = d.end ? x(d.end) : d.end;
+    return end ? start + (end - start) / 2 : start;
+  })
+  .attr("y", (d, i) => { return -10 * (i % 3); })  //alternate labels so they don't overlap!
+  .classed('label', true)  //same as .attr('class', 'label')
+  .text((d) => { return d.label });
+
+//////////////////////////////////////////////////////////////////////
+//plot data2019
+
+//🚧 finish-me!
+
+//////////////////////////////////////////////////////////////////////
+//plot data2020
+
+//🚧 finish-me!
+&lt;/script&gt;    
+		</code></pre>
+  </div>
+
+	<div class="answer">
+		<cap>Answer</cap>		
+		<!-- Add your code here! -->       
+    <style>
+      path {
+        stroke: black;
+      }
+      
+      .tick line {
+        stroke: black;
+      }
+      
+      .tick {
+        stroke: black;
+      }
+      
+      .tick text {
+        stroke: none;
+        fill: blue;
+        font-size: 8px;
+      }
+      
+      text.label {
+        font-size: 8px;
+        text-anchor: middle;
+        alignment-baseline: middle;
+      }
+      
+      chart_2018, chart_2019, chart_2020 {
+        background-color: #f8f8f8;
+      }
+      </style>
+      
+      <h4 id="title_2018"></h4>
+      <svg id="chart_2018"></svg>
+      
+      <h4 id="title_2019"></h4>
+      <svg id="chart_2019"></svg>
+      
+      <h4 id="title_2020"></h4>
+      <svg id="chart_2020"></svg>
+      
+      <script src='../node_modules/d3/dist/d3.min.js'></script>
+      <script src='../node_modules/dayjs/dayjs.min.js'></script>  
+      
+      <script>
+      // Fall 2018 data
+      var data2018 = [{ label: 'Open Registration', start: new Date(2018, 7, 13), end: new Date(2018, 7, 17) },  //months start at 0!
+        { label: 'Move-In', start: new Date(2018, 7, 15), end: null },
+        { label: 'Classes Begin', start: new Date(2018, 7, 20), end: null },
+        { label: 'Labor Day', start: new Date(2018, 8, 3), end: null },
+        { label: 'Thanksgiving Holiday', start: new Date(2018, 10, 21), end: new Date(2018, 10, 25) },
+        { label: 'Classes End', start: new Date(2018, 10, 30), end: null },
+        { label: 'Study Days', start: new Date(2018, 11, 1), end: new Date(2018, 11, 4) },
+        { label: 'Exams', start: new Date(2018, 11, 5), end: new Date(2018, 11, 12) },
+        { label: 'Winter Recess', start: new Date(2018, 11, 13), end: new Date(2019, 0, 6) }];
+      
+      // Fall 2019 data
+      var data2019 = [{ label: 'Open Registration', start: new Date(2019, 7, 19), end: new Date(2019, 7, 23) },
+        { label: 'Move-In', start: new Date(2019, 7, 21), end: null },
+        { label: 'Classes Begin', start: new Date(2019, 7, 26), end: null },
+        { label: 'Labor Day', start: new Date(2019, 8, 2), end: null },
+        { label: 'Fall Recess', start: new Date(2019, 9, 17), end: new Date(2019, 9, 18) },
+        { label: 'Thanksgiving Holiday', start: new Date(2019, 10, 27), end: new Date(2019, 11, 1) },
+        { label: 'Classes End', start: new Date(2019, 11, 6), end: null },
+        { label: 'Study Days', start: new Date(2019, 11, 7), end: new Date(2019, 11, 10) },
+        { label: 'Exams', start: new Date(2019, 11, 11), end: new Date(2019, 11, 18) },
+        { label: 'Winter Recess', start: new Date(2019, 11, 19), end: new Date(2020, 0, 12) }];
+      
+      // Fall 2020 data
+      var data2020 = [{ label: 'Open Registration', start: new Date(2020, 3, 23), end: new Date(2020, 7, 21) },
+        { label: 'Classes Begin', start: new Date(2020, 7, 24), end: null },
+        { label: 'Labor Day', start: new Date(2020, 8, 7), end: null },
+        { label: 'Classes End', start: new Date(2020, 10, 24), end: null },
+        { label: 'Thanksgiving Holiday', start: new Date(2020, 10, 25), end: new Date(2020, 10, 29) },
+        { label: 'Study Days', start: new Date(2020, 10, 30), end: new Date(2020, 11, 1) },
+        { label: 'Exams', start: new Date(2020, 11, 2), end: new Date(2020, 11, 9) },
+        { label: 'Winter Recess', start: new Date(2020, 11, 10), end: new Date(2021, 0, 10) }];
+      
+      /////////////////////////////////////////
+      //create title for 2018 timeline
+      
+      //compute total semester days between first and last event
+      var min = dayjs(d3.min(data2018, d => d.start));  //using dayjs to simplify calculations!
+      var max = dayjs(d3.max(data2018, d => d.start));  //see d3.min(flights, d => d.price) example at https://observablehq.com/@d3/d3-extent
+      var semesterDays = max.diff(min, 'day');  //using dayjs!
+      
+      //compute class days between classes begin and classes end
+      min = dayjs(data2018.find(d => d.label == 'Classes Begin').start);  //using array.find
+      max = dayjs(data2018.find(d => d.label == 'Classes End').start);
+      var classesDays = max.diff(min, 'day');
+      
+      d3.select('#title_2018').text(`Fall semester 2018: ${semesterDays} days, ${classesDays} class days`);
+      
+      /////////////////////////////////////////
+      //create title for 2019 timeline
+      
+      //🚧 finish-me!
+      //compute total semester days between first and last event
+      var min = dayjs(d3.min(data2019, d => d.start));  //using dayjs to simplify calculations!
+      var max = dayjs(d3.max(data2019, d => d.start));  //see d3.min(flights, d => d.price) example at https://observablehq.com/@d3/d3-extent
+      var semesterDays = max.diff(min, 'day');  //using dayjs!
+      
+      //compute class days between classes begin and classes end
+      min = dayjs(data2019.find(d => d.label == 'Classes Begin').start);  //using array.find
+      max = dayjs(data2019.find(d => d.label == 'Classes End').start);
+      var classesDays = max.diff(min, 'day');
+      
+      d3.select('#title_2019').text(`Fall semester 2019: ${semesterDays} days, ${classesDays} class days`);
+
+      
+      /////////////////////////////////////////
+      //create title for 2020 timeline
+      
+      //🚧 finish-me!
+      //compute total semester days between first and last event
+      var min = dayjs(d3.min(data2020, d => d.start));  //using dayjs to simplify calculations!
+      var max = dayjs(d3.max(data2020, d => d.start));  //see d3.min(flights, d => d.price) example at https://observablehq.com/@d3/d3-extent
+      var semesterDays = max.diff(min, 'day');  //using dayjs!
+      
+      //compute class days between classes begin and classes end
+      min = dayjs(data2020.find(d => d.label == 'Classes Begin').start);  //using array.find
+      max = dayjs(data2020.find(d => d.label == 'Classes End').start);
+      var classesDays = max.diff(min, 'day');
+      
+      d3.select('#title_2020').text(`Fall semester 2020: ${semesterDays} days, ${classesDays} class days`);
+      
+      //////////////////////////////////////////////////////////////////////
+      //set-up margins convention (use the same for all!)
+      var margin = { top: 50, right: 30, bottom: 10, left: 30 };
+      var width = 1200 - margin.left - margin.right,
+      height = 120 - margin.top - margin.bottom;
+      
+      //////////////////////////////////////////////////////////////////////
+      //plot data2018
+      var fromDay = new Date('2018-8-1'), toDay = new Date('2019-2-1');  //fall semester period
+      
+      var svg = d3.select('#chart_2018')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      
+      svg.append('rect')  //just to show the new drawing area!
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', 'white')
+      
+      var x = d3.scaleTime()
+        .domain([fromDay, toDay])
+        .range([0, width]);
+      
+      var xAxis = d3.axisBottom()
+        .scale(x)  ;
+      
+      svg.append('g')
+        .attr('transform', 'translate(0,20)')
+        .call(xAxis);
+      
+      svg.selectAll('mark')
+        .data(data2018)
+        .enter()
+        .append('rect')
+        .attr('x', d => { 
+          return x(d.start); 
+        })
+        .attr('y', 5)
+        .attr('width', d => {
+          return d.end ? x(d.end) - x(d.start) : 5;
+        })
+        .attr('height', 15)
+        .attr('fill', (d, i) => { return i % 2 ? '#999' : '#444'});  //alternate colors so we can distinguish individual events!
+      
+      svg.selectAll('label')  //we already have text elements added by the axis!
+        .data(data2018)
+        .enter()
+        .append('text')
+        .attr("x", d => {
+          var start = x(d.start);
+          var end = d.end ? x(d.end) : d.end;
+          return end ? start + (end - start) / 2 : start;
+        })
+        .attr("y", (d, i) => { return -10 * (i % 3); })  //alternate labels so they don't overlap!
+        .classed('label', true)  //same as .attr('class', 'label')
+        .text((d) => { return d.label });
+      
+      //////////////////////////////////////////////////////////////////////
+      //plot data2019
+      
+      //🚧 finish-me!
+      var fromDay = new Date('2019-8-1'), toDay = new Date('2020-2-1');  //fall semester period
+      
+      var svg = d3.select('#chart_2019')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      
+      svg.append('rect')  //just to show the new drawing area!
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', 'white')
+      
+      var x = d3.scaleTime()
+        .domain([fromDay, toDay])
+        .range([0, width]);
+      
+      var xAxis = d3.axisBottom()
+        .scale(x)  ;
+      
+      svg.append('g')
+        .attr('transform', 'translate(0,20)')
+        .call(xAxis);
+      
+      svg.selectAll('mark')
+        .data(data2019)
+        .enter()
+        .append('rect')
+        .attr('x', d => { 
+          return x(d.start); 
+        })
+        .attr('y', 5)
+        .attr('width', d => {
+          return d.end ? x(d.end) - x(d.start) : 5;
+        })
+        .attr('height', 15)
+        .attr('fill', (d, i) => { return i % 2 ? '#999' : '#444'});  //alternate colors so we can distinguish individual events!
+      
+      svg.selectAll('label')  //we already have text elements added by the axis!
+        .data(data2019)
+        .enter()
+        .append('text')
+        .attr("x", d => {
+          var start = x(d.start);
+          var end = d.end ? x(d.end) : d.end;
+          return end ? start + (end - start) / 2 : start;
+        })
+        .attr("y", (d, i) => { return -10 * (i % 3); })  //alternate labels so they don't overlap!
+        .classed('label', true)  //same as .attr('class', 'label')
+        .text((d) => { return d.label });
+      
+      //////////////////////////////////////////////////////////////////////
+      //plot data2020
+      
+      //🚧 finish-me!
+      var fromDay = new Date('2020-8-1'), toDay = new Date('2021-2-1');  //fall semester period
+      
+      var svg = d3.select('#chart_2020')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      
+      svg.append('rect')  //just to show the new drawing area!
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', 'white')
+      
+      var x = d3.scaleTime()
+        .domain([fromDay, toDay])
+        .range([0, width]);
+      
+      var xAxis = d3.axisBottom()
+        .scale(x)  ;
+      
+      svg.append('g')
+        .attr('transform', 'translate(0,20)')
+        .call(xAxis);
+      
+      svg.selectAll('mark')
+        .data(data2020)
+        .enter()
+        .append('rect')
+        .attr('x', d => { 
+          return x(d.start); 
+        })
+        .attr('y', 5)
+        .attr('width', d => {
+          return d.end ? x(d.end) - x(d.start) : 5;
+        })
+        .attr('height', 15)
+        .attr('fill', (d, i) => { return i % 2 ? '#999' : '#444'});  //alternate colors so we can distinguish individual events!
+      
+      svg.selectAll('label')  //we already have text elements added by the axis!
+        .data(data2020)
+        .enter()
+        .append('text')
+        .attr("x", d => {
+          var start = x(d.start);
+          var end = d.end ? x(d.end) : d.end;
+          return end ? start + (end - start) / 2 : start;
+        })
+        .attr("y", (d, i) => { return -10 * (i % 3); })  //alternate labels so they don't overlap!
+        .classed('label', true)  //same as .attr('class', 'label')
+        .text((d) => { return d.label });
+      </script>      
+		</script>
+	</div>
+</body>
+</html>
+</body>
+
+</html>

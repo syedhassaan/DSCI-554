@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab X ex6</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<style>
+		.neon {
+			color: #333;
+			text-shadow:
+				0 0 5px #0f0,
+				0 0 10px #0f0,
+				0 0 20px #0f0,
+				0 0 40px #0f0,
+				0 0 80px #0f0,
+				0 0 90px #0f0,
+				0 0 100px #0f0,
+				0 0 150px #0f0;
+		}
+	</style>
+</head>
+
+<body>
+	<h1 class="neon">🏋🏽‍♂️ ex6: Vue.js</h1>
+
+	<div class="alert info">🚀 Install the <mark>Vetur extension</mark> in VS Code to edit .vue files.</div>
+
+	<a name="vue-cli"></a>
+	<h2>1 - Use CLI to create a Vue app with router and vuex</h2>
+	<hr>
+
+	<p>Install <a href="https://cli.vuejs.org">Vue CLI</a> (tooling for Vue.js development).
+		You need administrator privileges unless npm was installed through a Node.js version manager (e.g. n or nvm):
+	<pre><code class="sh" data-trim data-noescape>$ sudo npm install -g @vue/cli
+</pre></code>
+	</p>
+	Create a new app with the CLI:
+	<pre><code class="sh" data-trim data-noescape>$ vue create my-app
+Vue CLI v4.5.13
+? Please pick a preset: 
+	vue3-route-vuex ([Vue 3] babel, router, vuex, eslint) 
+<mark>❯ vue2 app with router and store ([Vue 2] babel, router, vuex, eslint) </mark>
+	Default ([Vue 2] babel, eslint) 
+	Default (Vue 3) ([Vue 3] babel, eslint) 
+	Manually select features
+</pre></code>
+
+	You should see these instructions that you can follow to check the app works and has two pages:
+	<pre><code class="sh">🎉  Successfully created project my-app.
+👉  Get started with the following commands:
+
+$ cd my-app
+$ npm run serve
+</code></pre>
+
+	<h2>2 - Add bootstrap to my-app</h2>
+	<hr>
+
+	<p>You can either use <a target="_blank" href="https://bootstrap-vue.org/">BootstrapVue</a> with bootstrap 4.5 or use
+		bootstrap 5. Here we use BootstrapVue with Bootstrap 4.5.</p>
+
+	To add <a target="_blank" href="https://bootstrap-vue.org/">BootstrapVue</a>, run:
+	<pre><code class="sh">$ npm install bootstrap-vue bootstrap -s
+</code></pre>
+
+	You will need to register BootstrapVue and import Bootstrap and BootstrapVue css files in your app entry point
+	<code>src/main.js</code>:
+
+	<pre><code class="js">import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+</code></pre>
+
+	Add buttons in the <code>Home.vue</code> template:
+	<pre><code class="html">&lt;template&gt;
+  &lt;div class="home"&gt;
+    &lt;img alt="Vue logo" src="../assets/logo.png" /&gt;
+    &lt;HelloWorld msg="Welcome to Your Vue.js App" /&gt;
+
+		&lt;!-- added BootstrapVue buttons --&gt;
+    &lt;div&gt;
+      &lt;b-button class="m-2"&gt;Button&lt;/b-button&gt;
+      &lt;b-button class="m-2" variant="danger"&gt;Button&lt;/b-button&gt;
+      &lt;b-button class="m-2" variant="success"&gt;Button&lt;/b-button&gt;
+      &lt;b-button class="m-2" variant="outline-primary"&gt;Button&lt;/b-button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+	</code></pre>
+
+	<h2>2 - Add axios to my-app</h2>
+	<hr>
+	<p>In <code>Home.vue</code> <code>script</code> import <a target="_blank"
+			href="https://www.npmjs.com/package/axios">axios</a>:</p>
+	<pre><code class="sh" data-trim data-noescape>$ npm install axios
+</code></pre>
+
+	<p>Add <code>planets.json</code> to the <code>public</code> folder (i.e.,
+		<code>cp ../vue-app/public/planets.json public</code>) then edit <code>Home.vue</code> <code>script</code> to import
+		axios and load <code>planets.json</code>:</p>
+
+	<pre><code class="js" data-trim data-noescape>// @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue';
+
+import axios from "axios";
+
+export default {
+	name: 'Home',
+	components: {
+		HelloWorld,
+	},
+	data: function () {
+		return {
+			chartData: null,
+		}
+	},  
+	mounted: function () {
+		axios.get('planets.json').then(result => {
+			console.log(result.data);
+			this.chartData = result.data;
+		});
+	}
+};
+</code></pre>
+
+	<h2>3 - Build and deploy your app</h2>
+	<hr>
+
+	<p>For the projects we will provide CD (continuous deployment) on a server. Before you build for deployment you will
+		need a suitable <code>vue.config.js</code> pointing to the folder where it will be deployed. An example
+		<code>vue.config.js</code> is provided in the <code>vue-app</code> example and we will provide further
+		instructions when the groups are formed. To get started install <code>serve</code> globally. You need
+		administrator privileges unless npm was installed through a Node.js version manager (e.g. n or nvm):
+	<pre><code class="sh" data-trim data-noescape>npm install -g serve
+</code></pre>
+	</p>
+
+	To build the app and test locally, run:
+	<pre><code class="sh" data-trim data-noescape>npm run build  #build for deployment
+serve -s dist  #serve dist
+</code></pre>
+
+	<h2>4 - Working vue-app example</h2>
+	<hr>
+
+	<p>The starter app in <code>vue-app</code> was created using the Vue CLI and includes:
+	<ul>
+		<li><a target="_blank" href="https://bootstrap-vue.org/">BootstrapVue</a>. Bootstrap version for Vue. An alternative
+			is <a target="_blank" href="https://vuematerial.io">Vue Material</a>.</li>
+		<li><a target="_blank" href="https://router.vuejs.org/">Vue Router</a> used to map URLs to pages</li>
+		<li><a target="_blank" href="https://router.vuejs.org/">Vuex</a> to store data that is used throughout the
+			app</li>
+		<li><a target="_blank" href="https://github.com/axios/axios">axios</a> promise based HTTP client</li>
+	</ul>
+	</p>
+
+	You can debug from within VS Code (see <a href="https://vuejs.org/v2/cookbook/debugging-in-vscode.html">Debugging in
+		VS Code</a>) but usually using DevTools is sufficient.
+
+	<p>The app features the following charts:
+		<ol>
+			<li>HTML chart page showing COVID-19 data</li>
+			<li>HTML chart page showing planets data</li>
+			<li>D3 chart page showing COVID-19 data</li>
+			<li>D3 chart page showing planets data</li>
+			<li>Small multiples page uses a reusable D3 chart component showing COVID-19 data</li>
+		</ol>
+
+	<p>Note:
+		<ul>
+			<li><code>HTMLChart.vue</code> and <code>PlanetsChart.vue</code> use the 	<code>v-for</code> directive to render an HTML bar chart.</li>
+			<li><code>BarChart.vue</code> implements a reusable D3 bar chart. Arguments such as the title and the data are passed using <code>props</code>, e.g., <code>&lt;BarChart title="My title" :data="dataset"/&gt;</code></li>
+		</ul>
+	</p>
+</body>
+
+</html>

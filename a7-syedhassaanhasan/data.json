@@ -1,0 +1,98 @@
+{
+    "name": "flare",
+    "children": [
+     {
+      "name": "Asia",
+      "children": [
+       {
+        "name": "Afghanistan",
+        "children": [
+         {"name": "Urban Population %", "value": 25.5},
+         {"name": "Capital Population (1000's)", "value": 25.5},
+         {"name": "Total Population (millions)", "value": 38.04}
+        ]
+       },
+       {
+        "name": "Bangladesh",
+        "children": [
+            {"name": "Urban Population %", "value": 36.6},
+            {"name": "Capital Population (1000's)", "value": 19578},
+            {"name": "Total Population (millions)", "value": 163}
+        ]
+       },
+       {
+        "name": "India",
+        "children": [
+            {"name": "Urban Population %", "value": 34},
+            {"name": "Capital Population (1000's)", "value": 34},
+            {"name": "Total Population (millions)", "value": 1366}        ]
+       },
+       {
+        "name": "Iran",
+        "children": [
+            {"name": "Urban Population %", "value": 74.9},
+            {"name": "Capital Population (1000's)", "value": 8896},
+            {"name": "Total Population (millions)", "value": 82.91}        ]
+       },
+       {
+        "name": "Pakistan",
+        "children": [
+            {"name": "Urban Population %", "value": 36.7},
+            {"name": "Capital Population (1000's)", "value": 1061},
+            {"name": "Total Population (millions)", "value": 216.6}
+        ]
+       },
+       {
+        "name": "China",
+        "children": [
+            {"name": "Urban Population %", "value": 81.4},
+            {"name": "Capital Population (1000's)", "value": 1363},
+            {"name": "Total Population (millions)", "value": 37.59}
+        ]
+       }
+      ]
+     },
+     {
+      "name": "Europe",
+      "children": [
+       {
+        "name": "Finland",
+        "children": [
+            {"name": "Urban Population %", "value": 85.4},
+            {"name": "Capital Population (1000's)", "value": 1279},
+            {"name": "Total Population (millions)", "value": 5.518}
+        ]
+       },
+       {
+        "name": "UK",
+        "children": [
+            {"name": "Urban Population %", "value": 83.4},
+            {"name": "Capital Population (1000's)", "value": 9046},
+            {"name": "Total Population (millions)", "value": 66.65}
+        ]
+       }
+      ]
+     },
+     {
+        "name": "North America",
+        "children": [
+         {
+          "name": "Canada",
+          "children": [
+              {"name": "Urban Population %", "value": 81.4},
+              {"name": "Capital Population (1000's)", "value": 1363},
+              {"name": "Total Population (millions)", "value": 37.59}
+          ]
+         },
+         {
+          "name": "USA",
+          "children": [
+              {"name": "Urban Population %", "value": 82.3},
+              {"name": "Capital Population (1000's)", "value": 5207},
+              {"name": "Total Population (millions)", "value": 328.2}
+          ]
+         }
+        ]
+       }
+    ]
+}

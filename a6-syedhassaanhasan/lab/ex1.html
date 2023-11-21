@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 6 ex1</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<script src="../node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX1: ARRAY OPERATIONS</h1>
+
+	<h2>1 - Basic array operations on arrays of numbers</h2>
+	<hr>
+
+	<p>Use DevTools to print the value of the variables where marked with 🎒 in the page source.</p>
+
+	<script>
+		array0 = [4, 1, 16, 9];  //🎒 array0 = [4, 1, 16, 9]
+
+		// assign
+		array1 = array0;  //🎒 array1 = [4, 1, 16, 9]
+
+		array2 = JSON.parse(JSON.stringify(array0)); //🎒 array2 = [4, 1, 16, 9]
+
+		//slice(start, end): slices array from start index to end index excluded
+		//slice(0)
+		array3 = array0.slice(0);  //🎒 array3 = [4, 1, 16, 9]
+
+		array4 = array0.slice();  //🎒 array4 = [4, 1, 16, 9]
+
+		array5 = array0.slice(0, 2);  //🎒 array5 = [4, 1]
+
+		array6 = array0.slice(-2);  //🎒 array6 = [16, 9]
+
+		array7 = array0.slice(-2, -1);  //🎒 array7 = [16]
+
+		min = d3.min(array0);  //🎒 min = 1
+
+		max = d3.max(array0);  //🎒 max = 16
+
+		extent = d3.extent(array0);  //🎒 extent = [1, 16]
+
+		//array.sort([compareFunction]) 
+		//SORTS IN PLACE!
+		//RETURNS THE SORTED ARRAY!
+		//default sort order (compareFunction == undefined) according to Unicode order not numeric order!
+		
+		array7 = JSON.parse(JSON.stringify(array0));  //🎒 array7 = [4, 1, 16, 9]
+
+		array8 = array7.sort();  //🎒 array7 = [1, 16, 4, 9]; array8 = [1, 16, 4, 9]
+
+		array9 = [1, 16, 4, 9] //🎒 array9 = [1, 16, 4, 9]
+
+		array9.sort(d3.ascending);  //🎒 array9 = [1, 4, 9, 16]
+
+		array10 = [1, 16, 4, 9]  //INITIALIZATION
+		array10.sort(d3.descending);  //🎒 array10 = [16, 9, 4, 1]
+
+		found = array0.find(d => d == 1) //🎒 1
+
+		//array.splice(start, deleteCount [,items...])
+		//SPLICE WORKS IN PLACE!
+		//returns array of deleted
+
+		array10 = [4, 1, 16, 9]  //INITIALIZATION
+		array11 = array10.splice(1, 0, 5);  //🎒 array10 = [4, 5, 1, 16, 9]; array11 = []
+
+		array12 = [4, 1, 16, 9]  //INITIALIZATION
+		array13 = array12.splice(1, 2);  //🎒 array12 = [4, 9]; array13 = [1, 16]
+
+		//array.map(function callback(currentValue[, index[, array]]) {...})
+		//maps function to each value in array
+		//returns array of mapped
+
+		array14 = array0.map(d => d * 3);  //🎒 array15 = [12, 3, 48, 27]
+	</script>
+
+	<h2>2 - Basic array operations on arrays of objects</h2>
+	<hr>
+
+	<p>Use DevTools to print the value of the variables where marked with 🎒 in the page source.</p>
+
+	<script>
+		data0 = [{ key: 'first', val: 1 }, { key: 'second', val: 2 }];  //🎒 data0 = [{ key: 'first', val: 1 }, { key: 'second', val: 2 }]
+
+		res = d3.min(data0)  //🎒 res = {key: 'first', val: 1}
+		min2 = d3.min(data0, (d) => d.val);  //🎒 min2 = 1
+
+		max2 = d3.max(data0, (d) => d.key);  //🎒 max2 = 'second'
+
+		data1 = [{"key":"first","val":1},{"key":"second","val":2}]; //INITIALIZATION
+		data1.sort(d3.descending); //🎒 data1 = [{ key: 'first', val: 1 }, { key: 'second', val: 2 }]
+
+		data2 = [{"key":"first","val":1},{"key":"second","val":2}]; //INITIALIZATION
+		data2.sort((a, b) => d3.descending(a.val, b.val)); //🎒 data2 = [{ key: 'second', val: 2 }, { key: 'first', val: 1 }]
+
+		data3 = [{"key":"first","val":1},{"key":"second","val":2}];  //INITIALIZATION
+		data3.splice(2, 0, { key: 'third', val: '3', date: Date.now() });  //🎒 data3 = []
+
+		data4 = [{"key":"first","val":1},{"key":"second","val":2}]; //INITIALIZATION
+		data4.splice(1, 1);  //🎒 data4 = [{ key: 'second', val: 2 }]
+
+		data5 = [{"key":"first","val":1},{"key":"second","val":2}]; //INITIALIZATION
+		data5.splice(0, 1);  //🎒 data5 = [{ key: 'first', val: 1 }]
+
+		first = data0.find(d => d.key == 'first');  //🎒 first = {key: 'first', val: 1}
+
+		data6 = data0.map((d) => { return { key: d.key, val: 3 * d.val, date: Date.now() }; });  //🎒 data6 = [{ key: 'first', val: 3, date: 1634005629005 }, { key: 'second', val: 6, date: 1634005629005 }]
+	</script>
+
+	<h2>2 - Practice array operations</h2>
+	<hr>
+
+	<p>Use DevTools to answer the question in the Answer where marked with 🎒.</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<script>
+		data = [{key: "United States", value: 0.4},
+						{key: "France", value: 0.2},
+						{key: "China", value: 0.1},
+						{key: "Brazil", value: 0.3},
+						{key: "Spain", value: 0.3},
+						{key: "Turkey", value: 0.6},
+						{key: "Algeria", value: 0.9},
+						{key: "Mexico", value: 0.4},
+						{key: "Italy", value: 0.1},
+						{key: "Japan", value: 0.8}];
+	</script>
+
+		<p>Compute the following using the sample data:</p>
+		<ol>
+			<li>
+				<p>Min key (alphabetic) using <code>d3.min</code></p>
+				<b>Result: </b>
+
+				<pre><code class="js">// 🎒 result here				
+Algeria
+				</code></pre>
+
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+min = d3.min(data, (d) => d.key); 
+</code></pre>
+			</li>
+
+			<li>
+				<p>Max value using <code>d3.max</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here				
+United States
+</code></pre>
+
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+max = d3.max(data, (d) => d.key); 
+</code></pre>
+			</li>
+
+			<li>
+				<p>[min, max] of value using <code>d3.extent</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here				
+['Algeria', 'United States']
+</code></pre>
+
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+d3.extent(data, (d) => d.key)				
+</code></pre>
+			</li>
+
+			<li>
+				<p>Array sorted in ascending (alphabetic) order by key using <code>array.sort</code> with <code>d3.ascending</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here		
+[
+{key: 'Algeria', value: 0.9},
+{key: 'Brazil', value: 0.3},
+{key: 'China', value: 0.1},
+{key: 'France', value: 0.2},
+{key: 'Italy', value: 0.1},
+{key: 'Japan', value: 0.8},
+{key: 'Mexico', value: 0.4},
+{key: 'Spain', value: 0.3},
+{key: 'Turkey', value: 0.6},
+{key: 'United States', value: 0.4}
+]		
+</code></pre>
+
+<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+data.sort((a, b) => d3.ascending(a.key, b.key));
+</code></pre>
+			</li>
+
+			<li>
+				<p>Array sorted in descending order by value using <code>array.sort</code> with <code>d3.descending</code>)</p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here		
+[
+{key: 'United States', value: 0.4},
+{key: 'Turkey', value: 0.6},
+{key: 'Spain', value: 0.3},
+{key: 'Mexico', value: 0.4},
+{key: 'Japan', value: 0.8},
+{key: 'Italy', value: 0.1},
+{key: 'France', value: 0.2},
+{key: 'China', value: 0.1},
+{key: 'Brazil', value: 0.3},
+{key: 'Algeria', value: 0.9}
+]	
+</code></pre>
+
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+data.sort((a, b) => d3.descending(a.key, b.key));
+</code></pre>
+			</li>
+
+			<li>
+				<p>Array of top 5 objects sorted by value using <code>array.slice</code> and <code>array.sort</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here		
+[		
+{key: 'Algeria', value: 0.9},
+{key: 'Japan', value: 0.8},
+{key: 'Turkey', value: 0.6},
+{key: 'United States', value: 0.4},
+{key: 'Mexico', value: 0.4}
+]
+				</code></pre>
+										
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+sorted_data = data.sort((a, b) => d3.descending(a.value, b.value));
+sorted_data.splice(0,5)			
+</code></pre>
+			</li>
+
+			<li>
+				<p>Add an index property corresponding to the array index using <code>array.map</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here	
+[
+{key: 'United States', value: 0.4, index: 0},
+{key: 'France', value: 0.2, index: 1},
+{key: 'China', value: 0.1, index: 2},
+{key: 'Brazil', value: 0.3, index: 3},
+{key: 'Spain', value: 0.3, index: 4},
+{key: 'Turkey', value: 0.6, index: 5},
+{key: 'Algeria', value: 0.9, index: 6},
+{key: 'Mexico', value: 0.4, index: 7},
+{key: 'Italy', value: 0.1, index: 8},
+{key: 'Japan', value: 0.8, index: 9}
+]			
+</code></pre>
+
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+i = -1		
+data6 = data.map((d) => {
+	return { key: d.key, value: d.value, index: i+=1};
+	
+});			
+</code></pre>
+			</li>
+
+			<li>
+				<p>Array deep copy using <code>array.slice</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here	
+[
+{key: 'United States', value: 0.4},
+{key: 'France', value: 0.2},
+{key: 'China', value: 0.1},
+{key: 'Brazil', value: 0.3},
+{key: 'Spain', value: 0.3},
+{key: 'Turkey', value: 0.6},
+{key: 'Algeria', value: 0.9},
+{key: 'Mexico', value: 0.4},
+{key: 'Italy', value: 0.1},
+{key: 'Japan', value: 0.8}		
+]				
+</code></pre>
+
+				<b>Code: </b>
+
+
+				<pre><code class="js">// 🎒 code here
+cloned_data_ = data.slice()
+
+</code></pre>
+			</li>
+
+			<li>
+				<p>Array deep copy using <code>JSON.parse(JSON.stringify())</code></p>
+
+				<b>Result: </b>
+				<pre><code class="js">// 🎒 result here	
+[
+{key: 'United States', value: 0.4},
+{key: 'France', value: 0.2},
+{key: 'China', value: 0.1},
+{key: 'Brazil', value: 0.3},
+{key: 'Spain', value: 0.3},
+{key: 'Turkey', value: 0.6},
+{key: 'Algeria', value: 0.9},
+{key: 'Mexico', value: 0.4},
+{key: 'Italy', value: 0.1},
+{key: 'Japan', value: 0.8}		
+]	
+</code></pre>
+
+				<b>Code: </b>
+				<pre><code class="js">// 🎒 code here
+cloned_data = JSON.parse(JSON.stringify(data))
+</code></pre>
+			</li>
+		</ol>
+		</p>
+	</div>
+</body>
+
+</html>

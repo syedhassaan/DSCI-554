@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 6 ex5</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<script src="../node_modules/d3/dist/d3.min.js"></script>
+
+	<script data-require="jquery@2.2.4" data-semver="2.2.4" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link data-require="bootstrap@3.3.7" data-semver="3.3.7" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script data-require="bootstrap@3.3.7" data-semver="3.3.7" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" />	
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX5: BAR CHART WITH SORTING AND TRANSITIONS</h1>
+
+	<p>The code in the page implements a bar chart with smooth transitions between data sorted in various ways.</p>
+
+	<p>Finish to implement the code in the page where marked with 🎒.</p>
+
+	<div class="answer">
+		<style type="text/css">
+			.bar {
+				fill: #e25a0077;
+			}
+
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+
+			.axis text {
+				font-family: Courier;
+				font-size: 12px;
+			}
+
+			text {
+				font-family: Courier;
+				font-size: 0.85em;
+			}
+
+			text.label {
+				text-anchor: middle;
+				alignment-baseline: central;
+			}
+
+			.sort {
+				border-radius: 3px;
+				background-color: #eee;
+				padding: 5px;
+				margin: 5px;
+				color: #444;
+				display: inline-block;
+				cursor: default;
+			}
+
+			div.commands {
+				font-family: Courier;
+				font-size: 0.85em;
+				font-weight: bold;
+				text-align: center;
+				cursor: default;
+				user-select: none;
+			}
+
+			svg {
+				display: block;
+				margin: auto;
+				background-color: #fafafa;
+			}
+		</style>
+		
+		
+		<div class="commands">
+			<span class="sort" id="distance">distance to sun</span>
+			<span class="sort" id="temperature">temperature</span>
+			<span class="sort" id="gravity">gravity</span>
+		</div>
+
+		<div id="chart"></div>
+
+		<script type="text/javascript">
+			var margin = { top: 20, left: 75, bottom: 50, right: 50 },
+				width = 850 - margin.left - margin.right,
+				height = 350 - margin.top - margin.bottom;
+
+			var svg = d3.select('#chart')
+				.append('svg')
+				.attr('width', width + margin.left + margin.right)
+				.attr('height', height + margin.top + margin.bottom)
+				.append('g')
+				.attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+			var x = d3.scaleBand();
+			var y = d3.scaleLinear();
+
+			var delay = function (d, i) {
+				return i * 50;
+			};
+
+			var dataset;
+			var xAxis;
+
+			d3.tsv('planets.tsv', d => {
+				return {
+					name: d.name,
+					gravity: +d.gravity,
+					temperature: +d.temperature,
+					distance: +d.distance,
+				};
+			}).then(data => {
+				dataset = data;
+				dataset.sort(function (a, b) { return d3.ascending(a.distance, b.distance); });  //sort dataset in ascending order by distance
+				draw();  //draw the bar chart
+				toggle('#distance');  //toggle distance button
+			});
+
+			//sort bars
+			d3.select('#distance')
+				.on('click', () => {
+					dataset.sort(function (a, b) { return d3.ascending(a.distance, b.distance); });  //sort dataset in ascending order by distance
+					x.domain(dataset.map(d => d.name));
+					transition();  //transition the bars
+					toggle('#distance');
+				});
+
+			//🎒 implement click events to sort by temperature and gravity here
+			d3.select('#temperature')
+				.on('click', () => {
+					dataset.sort(function (a, b) { return d3.ascending(a.temperature, b.temperature); });  //sort dataset in ascending order by distance
+					x.domain(dataset.map(d => d.name));
+					transition();  //transition the bars
+					toggle('#temperature');
+				});
+				/////
+			d3.select('#gravity')
+			.on('click', () => {
+				dataset.sort(function (a, b) { return d3.ascending(a.gravity, b.gravity); });  //sort dataset in ascending order by distance
+				x.domain(dataset.map(d => d.name));
+				transition();  //transition the bars
+				toggle('#gravity');
+			});
+
+
+
+			function transition() {
+				var transition = svg.transition()  //set-up the transition
+					.duration(750)
+
+				transition  //transition the bars
+					.selectAll('rect')
+					.delay(delay)
+					.attr('x', d => x(d.name))
+				
+				transition  //transition the axis
+					.select('#x-axis')
+					.call(xAxis);
+
+				//🎒 try to chain bars and axis transitions above -- is it working? explain
+				//no in that case only the bars will move around and not the x-axis labels
+			}
+
+			function toggle(id) {
+				d3.selectAll('.sort')
+					.style('background-color', '#ddd');
+				d3.select(id)
+					.style('background-color', '#e25a0077');
+			}
+
+			function draw() {
+				x.domain(dataset.map(d => d.name))
+					.range([0, width])
+					.paddingInner(0.2);
+
+				y.domain([0, d3.max(dataset, d => d.gravity)])
+					.range([height, 0]);
+
+				svg.selectAll('rect')
+					.data(dataset, d => d.name)
+					.enter()
+					.append('rect')
+					.attr('class', 'bar')
+					.attr('x', d => x(d.name))
+					.attr('y', d => y(d.gravity))
+					.attr('width', x.bandwidth())
+					.attr('height', d => height - y(d.gravity));
+
+				xAxis = d3.axisBottom()
+					.scale(x);
+
+				svg.append('g')
+					.attr('id', 'x-axis')
+					.attr('class', 'axis')
+					.attr('transform', 'translate(0,' + height + ')')
+					.call(xAxis)
+					.selectAll("text")
+						.attr("y", 0)
+						.attr("x", 9)
+						.attr("dy", ".35em")
+						.attr("transform", "rotate(90)")
+						.style("text-anchor", "start");
+
+				var yAxis = d3.axisLeft()
+					.scale(y)
+					.ticks(5, 'd');
+
+				svg.append('g')
+					.attr('class', 'axis')
+					.call(yAxis);
+
+				// svg.append('text')
+				// 	.attr('x', - height / 2)
+				// 	.attr('y', - margin.left * 0.6)
+				// 	.attr('transform', 'rotate(-90)')
+				// 	.attr('class', 'label')
+				// 	.append('tspan').text('Gravity ms')
+				// 	.append('tspan').text('-2')
+				// 	.style('baseline-shift', 'super')
+				// 	.style('font-size', '0.7em');
+			}
+		</script>
+	</div>
+</body>

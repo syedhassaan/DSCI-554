@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSCI 554 Lab 7 ex7</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+    <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+    <script src="../node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX7: CHORD DIAGRAM</h1>
+	
+	<h2>0 - Ribbon generator</h2>
+	<hr>
+
+	<p>Read <a target="_blank" href="https://github.com/d3/d3-chord/blob/v2.0.0/README.md#ribbon">d3.ribbon</a> then
+		complete the Answer where indicated by 🎒.</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<svg id="arc-test" width="350" height="350"></svg>
+
+		<script>
+			var chord = {  //a chord in a chord diagram
+				source: {startAngle: 0.7524114, endAngle: 1.1212972, radius: 140},
+				target: {startAngle: 1.8617078, endAngle: 1.9842927, radius: 140}
+			};
+
+			var ribbon = d3.ribbon();  //🎒 explain: create a ribbon shape generator.
+			//var ribbon = d3.ribbonArrow();  //🎒 explain: create an arrow ribbon generator.
+
+			console.log(ribbon(chord));  //🎒 explain: generate a ribbon shape.
+
+			var svg = d3.select('#arc-test'),
+				width = +svg.attr('width'),
+				height = +svg.attr('height'),
+				radius = Math.min(width, height) / 2,
+				g = svg.append('g')
+					.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');  //🎒 explain: appending group element to svg
+
+			g.append('path')  //🎒 explain: appending path to svg
+				.attr('d', ribbon(chord))  //🎒 explain:generate a ribbon shape.
+				.attr('fill', "red")
+				.attr('stroke', "black");
+		</script>
+	</div>
+
+	<h2>1 - Chord diagram example</h2>
+	<hr>
+
+	<p>Read <a target="_blank" href="https://github.com/d3/d3-chord">d3-chord API</a> then complete the Answer where indicated by 🎒.</p>
+
+	<p class="alert info">💡 Adapted from <a target="_blank" href="https://bl.ocks.org/mbostock/4062006">Mike Bostock’s Block 4062006</a></p>
+
+	<p class="alert info">💡 See also <a target="_blank" href="https://kuhn.usc.edu/breast_cancer/">Breast Cancer Progression Models</a></p>
+
+
+    <div class="answer">
+		<cap>Answer</cap>
+		<style>
+			text {
+				font: 10px sans-serif;
+			}
+	
+			.ribbons {
+				fill-opacity: 0.67;
+			}
+		</style>
+		<svg id="chord-diagram" style="display: block; margin: auto;" width="500" height="500"></svg>
+		<script>
+			var matrix = [
+				[11975, 5871, 8916, 2868],
+				[1951, 10048, 2060, 6171],
+				[8010, 16145, 8090, 8045],
+				[1013, 990, 940, 6907]
+			];
+	
+			var svg = d3.select("#chord-diagram"),
+				width = +svg.attr("width"),
+				height = +svg.attr("height"),
+				outerRadius = Math.min(width, height) * 0.5 - 40,
+				innerRadius = outerRadius - 30;
+	
+			var formatValue = d3.formatPrefix(",.0", 1e3);
+	
+			var chord = d3.chord()  //🎒 explain: create a new chord layout.
+				.padAngle(0.05)  //🎒 explain:set the padding between adjacent groups.
+				.sortSubgroups(d3.descending);  //🎒 explain: define the source and target order within groups.
+	
+	
+			var arc = d3.arc()  //🎒 explain:  create a new arc generator.
+			.innerRadius(innerRadius)  //🎒 explain: setting inner radius of arc
+			.outerRadius(outerRadius);  //🎒 explain: setting outer radius of arc
+			//🎒 adapt to draw a directed chord diagram (where the chords end with an arrow)
+			var ribbon = d3.ribbon()
+				.radius(innerRadius);
+
+			var color4 = d3.scaleOrdinal()
+				.domain(d3.range(4))
+				.range(["#000000", "#FFDD89", "#957244", "#F26223"]);  //🎒 explain: setting the colors
+	
+			var g = svg.append("g")
+				.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+				.datum(chord(matrix));  //🎒 explain: compute the layout for the given matrix.
+	
+			var group = g.append("g")
+				.attr("class", "groups")
+				.selectAll("g")
+				.data(chords => chords.groups)  //🎒 explain: group an iterable into a nested array.
+				.enter()
+				.append("g");
+	
+			group.append("path")  //🎒 explain: appending path
+				.style("fill", d => color4(d.index))  //🎒 explain: filling wrt to color
+				.style("stroke", d => d3.rgb(color4(d.index)).darker())  //🎒 explain: adding the stroke
+				.attr("d", arc);  //🎒 explain: 
+	
+			var groupTick = group.selectAll(".group-tick")
+				.data(d => groupTicks(d, 1e3))
+				.enter()
+				.append("g")
+				.attr("class", "group-tick")
+				.attr("transform", function (d) {
+					return "rotate(" + (d.angle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)";
+				});
+	
+			groupTick.append("line")
+				.attr("x2", 6);
+	
+			groupTick
+				.filter(d => d.value % 5e3 === 0)
+				.append("text")
+				.attr("x", 8)
+				.attr("dy", ".35em")
+				.attr("transform", d => d.angle > Math.PI ? "rotate(180) translate(-16)" : null)
+				.style("text-anchor", d => d.angle > Math.PI ? "end" : null)
+				.text(d => formatValue(d.value));
+	
+			g.append("g")
+				.attr("class", "ribbons")
+				.selectAll("path")
+				.data(function (chords) {
+					return chords;
+				})
+				.enter()
+				.append("path")
+				.attr("d", ribbon)
+				.style("fill", d => color4(d.target.index))
+				.style("stroke", d => d3.rgb(color4(d.target.index)).darker());
+	
+			// Returns an array of tick angles and values for a given group and step.
+			function groupTicks(d, step) {
+				var k = (d.endAngle - d.startAngle) / d.value;
+				return d3.range(0, d.value, step).map(value => {
+					return {
+						value: value,
+						angle: value * k + d.startAngle
+					};
+				});
+			}
+		</script>
+    </div>
+</body>

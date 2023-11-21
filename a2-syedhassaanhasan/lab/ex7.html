@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 2 ex7</title>
+
+	<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+  <h1>🏋🏽‍♂️ ex7: bubble chart in plain javascript</h1>
+
+  <p>Using the sample code implement the bubble chart of ex6 (see lines marked with 🚧)</p>
+  <div class="sample">
+
+    <cap>Sample Code</cap>
+    <pre><code class="html">
+&lt;h3&gt;Set chart title here&lt;/h3&gt;
+&lt;svg id="chart" style="background-color:lemonchiffon" width="900px" height="500px"&gt;
+&lt;/svg&gt;
+
+&lt;script&gt;
+function drawRect(svg, x, y, width, height, fill) {
+  var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x);
+  rect.setAttribute('y', y);
+  rect.setAttribute('width', width);
+  rect.setAttribute('height', height);
+  rect.setAttribute('fill', fill);
+  svg.appendChild(rect);  //append to svg
+};
+
+function drawCircle(svg, cx, cy, r, fill) {
+  var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', cx);
+  circle.setAttribute('cy', cy);
+  circle.setAttribute('r', r);
+  circle.setAttribute('fill', fill);
+  svg.appendChild(circle);  //append to svg
+};
+
+function drawText(svg, string, x, y, fill, stroke) {
+  var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('x', x);
+  text.setAttribute('y', y);
+  text.setAttribute('fill', fill);
+  text.setAttribute('stroke', stroke);
+  text.setAttribute('stroke-width', 1);
+  text.setAttribute('font-size', '14px');
+  text.innerHTML = string;
+  svg.appendChild(text);  //append to svg
+};
+
+function drawTextCentered(svg, string, x, y, fill, stroke) {
+  var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('style', 'text-anchor: middle; alignment-baseline: middle;');
+  text.setAttribute('x', x);
+  text.setAttribute('y', y);
+  text.setAttribute('fill', fill);
+  text.setAttribute('stroke', stroke);
+  text.setAttribute('stroke-width', 1);
+  text.setAttribute('font-size', '14px');
+  text.innerHTML = string;
+  svg.appendChild(text);  //append to svg
+};
+
+function drawLine(svg, x1, y1, x2, y2, stroke) {
+  var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', x1);
+  line.setAttribute('y1', y1);
+  line.setAttribute('x2', x2);
+  line.setAttribute('y2', y2);
+  line.setAttribute('stroke', stroke);
+  line.setAttribute('stroke-width', 2);
+  svg.appendChild(line);  //append to svg
+};
+
+//draw the chart!
+var svg = document.getElementById('chart');
+
+var keys =[
+  { label: 'North America', key: '#2f56c2' },  //colors from Inkscape
+  { label: 'Europe', key: '#d83419' },
+  { label: 'Middle East', key: '#ff911e' },
+];
+
+//draw the legend
+var i = 0;
+keys.forEach(d => {
+  drawRect(svg, 572, 71 + 30 * i, 15, 15, d.key);
+  drawText(svg, d.label, 595, 83 + 30 * i);
+  i++;
+})
+
+//draw axes first: in SVG drawing order is coding order!
+
+//draw x axis
+//🚧 finish-me!
+
+//draw y axis
+drawLine(svg, 129, 67, 129, 388, 'black');  //stroke has not default for line!
+
+//draw USA bubble
+//🚧 finish-me!
+
+//draw IRQ bubble
+drawCircle(svg, 132.5, 91, 10, keys[2].key);
+drawTextCentered(svg, 'IRQ', 132.5, 91, 'white', 'black');  //fill and stroke default to black
+
+//draw RUS bubble
+drawCircle(svg, 154, 292, 21.5, keys[0].key);
+drawTextCentered(svg, 'RUS', 154, 292, 'white', 'white');
+
+//draw EGY bubble
+drawCircle(svg, 323, 214, 15.5, keys[2].key);
+drawTextCentered(svg, 'EGY', 323, 214, 'white', 'white');
+
+//draw IRN bubble
+drawCircle(svg, 314.8, 280.7, 14.5, keys[2].key);
+drawTextCentered(svg, 'IRN', 314.8, 280.7, 'white', 'white');
+
+//draw GBR bubble
+drawCircle(svg, 626.5, 262, 13.2, keys[1].key);
+drawTextCentered(svg, 'GBR', 626.5, 262, 'white', 'black');
+
+//draw DEU bubble
+drawCircle(svg, 618, 302, 15.25, keys[1].key);
+drawTextCentered(svg, 'DEU', 618, 302, 'white', 'white');
+
+//draw CAN bubble
+drawCircle(svg, 652, 283, 10, keys[0].key);
+drawTextCentered(svg, 'CAN', 652, 283, 'white', 'black');
+&lt;/script&gt;
+    </code></pre>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+    <!-- Add your code here! -->
+    <h3>Correlation between life expectancy, fertility rate and population of some world countries (2010)</h3>
+    <svg id="chart" style="background-color:lemonchiffon" width="900px" height="500px"></svg>
+    
+    <script>
+      function drawRect(svg, x, y, width, height, fill) {
+  var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x);
+  rect.setAttribute('y', y);
+  rect.setAttribute('width', width);
+  rect.setAttribute('height', height);
+  rect.setAttribute('fill', fill);
+  svg.appendChild(rect);  //append to svg
+};
+
+function drawCircle(svg, cx, cy, r, fill) {
+  var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', cx);
+  circle.setAttribute('cy', cy);
+  circle.setAttribute('r', r);
+  circle.setAttribute('fill', fill);
+  svg.appendChild(circle);  //append to svg
+};
+
+function drawText(svg, string, x, y, fill, stroke) {
+  var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('x', x);
+  text.setAttribute('y', y);
+  text.setAttribute('fill', fill);
+  text.setAttribute('stroke', stroke);
+  text.setAttribute('stroke-width', 1);
+  text.setAttribute('font-size', '14px');
+  text.innerHTML = string;
+  svg.appendChild(text);  //append to svg
+};
+
+function drawTextCentered(svg, string, x, y, fill, stroke) {
+  var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('style', 'text-anchor: middle; alignment-baseline: middle;');
+  text.setAttribute('x', x);
+  text.setAttribute('y', y);
+  text.setAttribute('fill', fill);
+  text.setAttribute('stroke', stroke);
+  text.setAttribute('stroke-width', 1);
+  text.setAttribute('font-size', '14px');
+  text.innerHTML = string;
+  svg.appendChild(text);  //append to svg
+};
+
+function drawLine(svg, x1, y1, x2, y2, stroke) {
+  var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', x1);
+  line.setAttribute('y1', y1);
+  line.setAttribute('x2', x2);
+  line.setAttribute('y2', y2);
+  line.setAttribute('stroke', stroke);
+  line.setAttribute('stroke-width', 2);
+  svg.appendChild(line);  //append to svg
+};
+
+//draw the chart!
+var svg = document.getElementById('chart');
+
+var keys =[
+  { label: 'North America', key: '#2f56c2' },  //colors from Inkscape
+  { label: 'Europe', key: '#d83419' },
+  { label: 'Middle East', key: '#ff911e' },
+];
+
+//draw the legend
+var i = 0;
+keys.forEach(d => {
+  drawRect(svg, 572, 71 + 30 * i, 15, 15, d.key);
+  drawText(svg, d.label, 595, 83 + 30 * i);
+  i++;
+})
+
+//draw axes first: in SVG drawing order is coding order!
+
+//draw x axis
+//🚧 finish-me!
+drawLine(svg, 129, 388, 730, 388, 'black');
+
+//draw y axis
+drawLine(svg, 129, 67, 129, 388, 'black');  //stroke has not default for line!
+
+//draw USA bubble
+//🚧 finish-me!
+drawCircle(svg, 540, 250, 30, keys[0].key)
+drawTextCentered(svg, 'USA', 540, 250, 'white', 'white');
+
+//draw IRQ bubble
+drawCircle(svg, 132.5, 91, 10, keys[2].key);
+drawTextCentered(svg, 'IRQ', 132.5, 91, 'white', 'black');  //fill and stroke default to black
+
+//draw RUS bubble
+drawCircle(svg, 154, 292, 21.5, keys[0].key);
+drawTextCentered(svg, 'RUS', 154, 292, 'white', 'white');
+
+//draw EGY bubble
+drawCircle(svg, 323, 214, 15.5, keys[2].key);
+drawTextCentered(svg, 'EGY', 323, 214, 'white', 'white');
+
+//draw IRN bubble
+drawCircle(svg, 314.8, 280.7, 14.5, keys[2].key);
+drawTextCentered(svg, 'IRN', 314.8, 280.7, 'white', 'white');
+
+//draw GBR bubble
+drawCircle(svg, 626.5, 262, 13.2, keys[1].key);
+drawTextCentered(svg, 'GBR', 626.5, 262, 'white', 'black');
+
+//draw DEU bubble
+drawCircle(svg, 618, 302, 15.25, keys[1].key);
+drawTextCentered(svg, 'DEU', 618, 302, 'white', 'white');
+
+//draw CAN bubble
+drawCircle(svg, 652, 283, 10, keys[0].key);
+drawTextCentered(svg, 'CAN', 652, 283, 'white', 'black');
+    </script>
+  </div>  
+</body>
+</html>

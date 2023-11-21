@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>simple d3 bar chart</title>
+  <script src='./node_modules/d3/dist/d3.min.js'></script>
+  <script src='./node_modules/d3-format/dist/d3-format.min.js'></script>
+  <style>
+    path {
+      stroke: black;
+    }
+
+    .tick line {
+      stroke: black;
+    }
+
+    .tick {
+      stroke: black;
+    }
+
+    .tick text {
+      stroke: none;
+      fill: black;
+    }
+
+    text.title {
+      font-size: 0.5em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>simple d3 bar chart</h1>
+  <svg id="chart" style="display: inline-block; vertical-align: top;"></svg>
+  <script>
+    var data = [
+      ['Los Angeles', 267860],
+      ['Maricopa', 569899],
+      ['Cook', 559767],
+      ['Miami-Dade', 522734],
+      ['Harris', 408097]
+    ];
+
+    var margin = { top: 40, right: 20, bottom: 20, left: 40 };
+    var width = 620 - margin.left - margin.right,
+      height = 300 - margin.top - margin.bottom;
+
+    var x = d3.scaleBand()
+      .domain(data.map(d => d[0]))
+      .range([0, width])
+      .paddingInner(.25);
+
+    var max = d3.max(data, d => d[1]);
+    var y = d3.scaleLinear()
+      .domain([0, max])
+      .range([height, 0]);
+
+    var xAxis = d3.axisBottom()
+      .scale(x);
+
+    var yAxis = d3.axisLeft()
+      .scale(y)
+      .tickFormat(d3.format('.2s'))
+      .ticks(2);
+
+    var svg = d3.select('#chart')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    svg.selectAll('rect')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('x', d => x(d[0]))
+      .attr('y', d => y(d[1]))
+      .attr('width', x.bandwidth)
+      .attr('height', d => { return height - y(d[1]); })
+      .style('fill', 'skyblue');
+
+    svg.append('g')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(xAxis);
+
+    svg.append('g')
+      .call(yAxis);
+
+    svg.append('text')
+      .attr('x', 20)
+      .attr('y', -20)
+      .attr('class', 'title')
+      .text('Top 5 COVID-19 Confirmed cases by County as of Jul 21, 2021')
+  </script>
+  </div>
+
+</body>
+
+</html>

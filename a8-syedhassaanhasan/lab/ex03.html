@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex3</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX3: Leaflet</h1>
+
+	<h2>1 - Display a map</h2>
+	<hr>
+
+	<p>Implement the map shown in the <a target="_blank" href="https://leafletjs.com/index.html">Leaflet</a> website home
+		page.</p>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<!-- See https://leafletjs.com/examples/quick-start/ -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+			integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+			crossorigin="" />
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+			integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+			crossorigin="">
+			</script>
+
+		<!-- See https://leafletjs.com/index.html in Dev Tools -->
+		<style>
+			.map-home {
+				height: 300px;
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+		</style>
+
+		<!-- See https://leafletjs.com/index.html in with Dev Tools -->
+		<div id="map"
+			class="map map-home leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+			style="height: 300px; margin-top: 50px; position: relative;" tabindex="0">
+		</div>
+
+		<script>
+			// 🎒 add your code here
+			var map = L.map('map').setView([51.505, -0.09], 13);
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			L.marker([51.5, -0.09]).addTo(map)
+				.bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+				.openPopup();
+		</script>
+	</div>
+
+	<h2>2 - Customize</h2>
+	<hr>
+
+	<p>Implement the map of ex3.1 then:
+	<ul>
+		<li>Change to use mapbox tiles:
+			<pre><code class="js" data-trim data-noescape>L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  maxZoom: 18,
+  id: 'mapbox/streets-v11',
+  tileSize: 512,
+  zoomOffset: -1,
+  accessToken: 'your.mapbox.access.token'
+}).addTo(map);</code></pre>
+
+		</li>
+		<li>Set a dark style (see <a target="_blank" href="https://docs.mapbox.com/help/glossary/style-url/">style URL</a> and <a target="_blank" href="https://www.mapbox.com/maps/dark">Mapbox Dark</a>)</li>
+		<li>Center on USC (adjust <code>center</code> and <code>zoom</code> level</li>
+		<li>Add a pin for USC with a popup (see <a href="https://leafletjs.com/examples/quick-start/">Leaflet Quick Start Guide</a>)</li>
+	</ul>
+	</p>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<div id="map2"
+			class="map map-home leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+			style="height: 300px; margin-top: 50px; position: relative;" tabindex="0">
+		</div>
+
+		<script>
+			// 🎒  add your code here -->
+			var map = L.map('map2').setView([34.0224, -118.2851], 15);
+
+			// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			// 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			// }).addTo(map);
+			L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+				attribution: 'Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © Mapbox',
+				maxZoom: 18,
+				id: 'mapbox/dark-v10',
+				tileSize: 512,
+				zoomOffset: -1,
+				accessToken: 'pk.eyJ1Ijoic3llZGhhc3MiLCJhIjoiY2t2MDF0eHZyN2lpdzJvbW44a244ZHgzZSJ9.AgOQsQdIpT2YpnGDYI7bDA'
+				}).addTo(map);
+
+			L.marker([34.0224, -118.2851]).addTo(map)
+				.bindPopup('USC')
+				.openPopup();
+		</script>
+	</div>
+</body>
+
+</html>

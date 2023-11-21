@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex4</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX4: GeoJSON</h1>
+
+	<h2>0 - download a footprint</h2>
+	<hr>
+
+	<p>Follow the instructions below. Complete the Answer where marked with 🎒 in the page.</p>
+
+	<ol>
+		<li>Go to the <a target="_blank"
+				href="https://geohub.lacity.org/datasets/building-footprints/data?geometry=-118.299%2C34.018%2C-118.269%2C34.024&orderBy=BLD_ID&orderByAsc=false&where=BLD_ID">Los
+				Angeles GeoHub Building Footprints page</a></li>
+		<li>Zoom in the map and select a USC building footprint of your choice as shown in the picture. <mark>Add the BLD_ID
+				to the Answer.</mark>
+			<div>
+				<img width="650" src="picts/footprints1.png" />
+			</div>
+		</li>
+		<li>Click the <kbd>filter</kbd> icon and <mark>filter for your BLD_ID</mark> as shown in the figure.
+			<div>
+				<img width="650" src="picts/filter.png" />
+			</div>
+		</li>
+		<li>Click the <kbd>download</kbd> icon, <b>toggle filters</b>, and <mark>download and copy the GeoJSON in the
+				Answer</mark>.
+			<div>
+				<img width="650" src="picts/download-filtered.png" />
+			</div>
+		</li>
+		<li>Click the <kbd>Info</kbd> icon, click the <kbd>I want to use this</kbd> button, then <kbd>View API
+				Resources</kbd> and <kbd>Open API Explorer</kbd>. Add a filter for your the BLD_ID as shown in the picture
+			below. Copy the Query URL and paste in the Browser URL bar. <mark>Copy the Query URL and Query response in the Answer</mark>.
+			<div>
+				<img width="650" src="picts/footprint_api.png" />
+			</div>
+		</li>
+	</ol>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<pre><code class="json">
+<!-- 🎒 add the BLD_ID here -->
+475180830116
+<!-- 🎒 add geojson from download here -->
+{
+	"type": "FeatureCollection",
+	"name": "Building_Footprints",
+	"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+	"features": [
+	{ "type": "Feature", "id": 291502, "properties": { "OBJECTID": 291502, "CODE": "Building", "BLD_ID": "475180830116", "HEIGHT": 111.81, "ELEV": 298.49, "AREA": 36546, "LARIAC_SOURCE": "LARIAC2", "LARIAC_DATE": "2008", "AIN": "5039024016", "STATUS": "Unchanged", "CODE_NUM": 1 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -118.285588428273996, 34.021392061569998 ], [ -118.285463899231999, 34.0213387728 ], [ -118.285461873293002, 34.021334903718397 ], [ -118.285466862229001, 34.021326922400199 ], [ -118.285258645054995, 34.021235554150202 ], [ -118.285252638911004, 34.021244965886098 ], [ -118.285125790289996, 34.0211888793946 ], [ -118.285192819222999, 34.0210837244272 ], [ -118.285256705877998, 34.021111959038002 ], [ -118.285356461603001, 34.020955452152201 ], [ -118.285330582919997, 34.0209439998888 ], [ -118.285393312365997, 34.020845615542299 ], [ -118.285418496982999, 34.020856739473203 ], [ -118.285519105182999, 34.020698939448103 ], [ -118.285455615580005, 34.020670869018304 ], [ -118.285522315245998, 34.0205662366333 ], [ -118.285648403009006, 34.020621967499203 ], [ -118.285642756694998, 34.020630829371498 ], [ -118.285850247336995, 34.020722501587599 ], [ -118.285856615279997, 34.020712539032203 ], [ -118.285984586926006, 34.020769089085398 ], [ -118.285874427325993, 34.020941916275902 ], [ -118.285752602529996, 34.020888071469201 ], [ -118.285745939123004, 34.020898391724202 ], [ -118.285837688319006, 34.020939420390398 ], [ -118.285826658881007, 34.0209565386034 ], [ -118.285877193998004, 34.0209791158467 ], [ -118.285734397379002, 34.021200574770901 ], [ -118.285669153943999, 34.021171409638399 ], [ -118.285666791086001, 34.021175097076402 ], [ -118.285570810592006, 34.021132183273799 ], [ -118.285551441859994, 34.021162235598901 ], [ -118.285570016758001, 34.021170517284801 ], [ -118.285572839585001, 34.021166141795199 ], [ -118.285696848483994, 34.021221574618501 ], [ -118.285588428273996, 34.021392061569998 ] ] ] } }
+	]
+}
+	
+<!-- 🎒 add query URL here -->
+https://services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services/Building_Footprints/FeatureServer/0/query?where=BLD_ID%20%3D%20%27475180830116%27&outFields=*&outSR=4326&f=json
+<!-- 🎒 add query response here -->
+{"objectIdFieldName":"OBJECTID","uniqueIdField":{"name":"OBJECTID","isSystemMaintained":true},"globalIdFieldName":"","geometryType":"esriGeometryPolygon","spatialReference":{"wkid":4326,"latestWkid":4326},"fields":[{"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"CODE","type":"esriFieldTypeString","alias":"CODE","sqlType":"sqlTypeOther","length":50,"domain":null,"defaultValue":null},{"name":"BLD_ID","type":"esriFieldTypeString","alias":"BLD_ID","sqlType":"sqlTypeOther","length":20,"domain":null,"defaultValue":null},{"name":"HEIGHT","type":"esriFieldTypeDouble","alias":"HEIGHT","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"ELEV","type":"esriFieldTypeDouble","alias":"ELEV","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"AREA","type":"esriFieldTypeDouble","alias":"AREA","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"LARIAC_SOURCE","type":"esriFieldTypeString","alias":"LARIAC_SOURCE","sqlType":"sqlTypeOther","length":25,"domain":null,"defaultValue":null},{"name":"LARIAC_DATE","type":"esriFieldTypeString","alias":"LARIAC_DATE","sqlType":"sqlTypeOther","length":4,"domain":null,"defaultValue":null},{"name":"AIN","type":"esriFieldTypeString","alias":"AIN","sqlType":"sqlTypeOther","length":10,"domain":null,"defaultValue":null},{"name":"STATUS","type":"esriFieldTypeString","alias":"STATUS","sqlType":"sqlTypeOther","length":50,"domain":null,"defaultValue":null},{"name":"CODE_NUM","type":"esriFieldTypeSmallInteger","alias":"CODE_NUM","sqlType":"sqlTypeOther","domain":null,"defaultValue":null}],"features":[{"attributes":{"OBJECTID":291502,"CODE":"Building","BLD_ID":"475180830116","HEIGHT":111.81,"ELEV":298.49,"AREA":36546,"LARIAC_SOURCE":"LARIAC2","LARIAC_DATE":"2008","AIN":"5039024016","STATUS":"Unchanged","CODE_NUM":1},"geometry":{"rings":[[[-118.285588428274,34.02139206157],[-118.285463899232,34.0213387728],[-118.285461873293,34.0213349037184],[-118.285466862229,34.0213269224002],[-118.285258645055,34.0212355541502],[-118.285252638911,34.0212449658861],[-118.28512579029,34.0211888793946],[-118.285192819223,34.0210837244272],[-118.285256705878,34.021111959038],[-118.285356461603,34.0209554521522],[-118.28533058292,34.0209439998888],[-118.285393312366,34.0208456155423],[-118.285418496983,34.0208567394732],[-118.285519105183,34.0206989394481],[-118.28545561558,34.0206708690183],[-118.285522315246,34.0205662366333],[-118.285648403009,34.0206219674992],[-118.285642756695,34.0206308293715],[-118.285850247337,34.0207225015876],[-118.28585661528,34.0207125390322],[-118.285984586926,34.0207690890854],[-118.285874427326,34.0209419162759],[-118.28575260253,34.0208880714692],[-118.285745939123,34.0208983917242],[-118.285837688319,34.0209394203904],[-118.285826658881,34.0209565386034],[-118.285877193998,34.0209791158467],[-118.285734397379,34.0212005747709],[-118.285669153944,34.0211714096384],[-118.285666791086,34.0211750970764],[-118.285570810592,34.0211321832738],[-118.28555144186,34.0211622355989],[-118.285570016758,34.0211705172848],[-118.285572839585,34.0211661417952],[-118.285696848484,34.0212215746185],[-118.285588428274,34.02139206157]]]}}]}
+</code></pre>
+	</div>
+
+	<h2>1 - download multiple footprints</h2>
+	<hr>
+
+	Select a query for <b>3 buildings</b> similar to the last step of 4.1 and <mark>copy the Query URL and query response in the Answer</mark>.
+
+	<div class="answer">
+		<div class="title">Answer</div>
+			<pre><code class="json">
+<!-- 🎒 add query URL here -->
+https://services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services/Building_Footprints/FeatureServer/0/query?where=BLD_ID%20%3D%20'475180830116'%20OR%20BLD_ID%20%3D%20'474438830040'%20OR%20BLD_ID%20%3D%20'475180830117'&outFields=*&outSR=4326&f=json
+<!-- 🎒 add query response here -->
+{"objectIdFieldName":"OBJECTID","uniqueIdField":{"name":"OBJECTID","isSystemMaintained":true},"globalIdFieldName":"","geometryType":"esriGeometryPolygon","spatialReference":{"wkid":4326,"latestWkid":4326},"fields":[{"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"CODE","type":"esriFieldTypeString","alias":"CODE","sqlType":"sqlTypeOther","length":50,"domain":null,"defaultValue":null},{"name":"BLD_ID","type":"esriFieldTypeString","alias":"BLD_ID","sqlType":"sqlTypeOther","length":20,"domain":null,"defaultValue":null},{"name":"HEIGHT","type":"esriFieldTypeDouble","alias":"HEIGHT","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"ELEV","type":"esriFieldTypeDouble","alias":"ELEV","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"AREA","type":"esriFieldTypeDouble","alias":"AREA","sqlType":"sqlTypeOther","domain":null,"defaultValue":null},{"name":"LARIAC_SOURCE","type":"esriFieldTypeString","alias":"LARIAC_SOURCE","sqlType":"sqlTypeOther","length":25,"domain":null,"defaultValue":null},{"name":"LARIAC_DATE","type":"esriFieldTypeString","alias":"LARIAC_DATE","sqlType":"sqlTypeOther","length":4,"domain":null,"defaultValue":null},{"name":"AIN","type":"esriFieldTypeString","alias":"AIN","sqlType":"sqlTypeOther","length":10,"domain":null,"defaultValue":null},{"name":"STATUS","type":"esriFieldTypeString","alias":"STATUS","sqlType":"sqlTypeOther","length":50,"domain":null,"defaultValue":null},{"name":"CODE_NUM","type":"esriFieldTypeSmallInteger","alias":"CODE_NUM","sqlType":"sqlTypeOther","domain":null,"defaultValue":null}],"features":[{"attributes":{"OBJECTID":242863,"CODE":"Building","BLD_ID":"474438830040","HEIGHT":86.26,"ELEV":268.78,"AREA":10811,"LARIAC_SOURCE":"LARIAC2","LARIAC_DATE":"2008","AIN":"5039012027","STATUS":"Unchanged","CODE_NUM":1},"geometry":{"rings":[[[-118.287993995367,34.0209233039566],[-118.287989108571,34.0209319441541],[-118.287923888629,34.0209481749009],[-118.287915460839,34.0209443752209],[-118.287898414602,34.0209008620811],[-118.287716548236,34.0208147380192],[-118.287713626915,34.0208190867481],[-118.287661463321,34.0208318784528],[-118.287651780388,34.0208276697464],[-118.287632324954,34.0207745997865],[-118.28763711448,34.020766316841],[-118.28768950865,34.0207535245973],[-118.287695522379,34.0207555441161],[-118.287790523632,34.0206000625648],[-118.287786856568,34.0205988073626],[-118.28777083417,34.020555456745],[-118.287776550928,34.0205479414899],[-118.287841866749,34.0205310236283],[-118.2878513849,34.020535177719],[-118.287866846224,34.0205784476247],[-118.288051173115,34.0206607737536],[-118.288103067921,34.0206466906299],[-118.28811258572,34.0206507347142],[-118.288132803849,34.0207051217143],[-118.288128145328,34.0207130744071],[-118.288074862283,34.0207264738888],[-118.287972255851,34.0208776590879],[-118.287978598919,34.0208797318989],[-118.287993995367,34.0209233039566]]]}},{"attributes":{"OBJECTID":291502,"CODE":"Building","BLD_ID":"475180830116","HEIGHT":111.81,"ELEV":298.49,"AREA":36546,"LARIAC_SOURCE":"LARIAC2","LARIAC_DATE":"2008","AIN":"5039024016","STATUS":"Unchanged","CODE_NUM":1},"geometry":{"rings":[[[-118.285588428274,34.02139206157],[-118.285463899232,34.0213387728],[-118.285461873293,34.0213349037184],[-118.285466862229,34.0213269224002],[-118.285258645055,34.0212355541502],[-118.285252638911,34.0212449658861],[-118.28512579029,34.0211888793946],[-118.285192819223,34.0210837244272],[-118.285256705878,34.021111959038],[-118.285356461603,34.0209554521522],[-118.28533058292,34.0209439998888],[-118.285393312366,34.0208456155423],[-118.285418496983,34.0208567394732],[-118.285519105183,34.0206989394481],[-118.28545561558,34.0206708690183],[-118.285522315246,34.0205662366333],[-118.285648403009,34.0206219674992],[-118.285642756695,34.0206308293715],[-118.285850247337,34.0207225015876],[-118.28585661528,34.0207125390322],[-118.285984586926,34.0207690890854],[-118.285874427326,34.0209419162759],[-118.28575260253,34.0208880714692],[-118.285745939123,34.0208983917242],[-118.285837688319,34.0209394203904],[-118.285826658881,34.0209565386034],[-118.285877193998,34.0209791158467],[-118.285734397379,34.0212005747709],[-118.285669153944,34.0211714096384],[-118.285666791086,34.0211750970764],[-118.285570810592,34.0211321832738],[-118.28555144186,34.0211622355989],[-118.285570016758,34.0211705172848],[-118.285572839585,34.0211661417952],[-118.285696848484,34.0212215746185],[-118.285588428274,34.02139206157]]]}}]}
+</code></pre>
+		</div>
+	</div>
+
+<div class="alert info" >💡 You can use curl Instead of using the browser to use the Query API: <code class="sh">curl -o OUTPUT_FILE.geojson YOUR_QUERY_URL</code>
+</div>
+
+	<h2>2 - Edit and display GeoJSON Online</h2>
+	<hr>
+
+	<div class="alert info" >💡 You can use <a target="_blank" href="https://geojson.io/">https://geojson.io/</a> to create new footprints (GeoJSON)</div>
+
+	<br>
+
+	<div class="alert info" >💡 You can use <a target="_blank" href="http://geojson.tools/">http://geojson.tools/</a> to view the footprints (GeoJSON) on a map</div>
+
+	<p>Use <a target="_blank" href="https://geojson.io/">https://geojson.io/</a> online geoJSON editor to manually
+		extend <code>footprints.geojson</code> with a footprint feature you create for a building of your choice. You can
+		use <a target="_blank" href="http://geojson.tools/">http://geojson.tools/</a> to view
+		<code>footprints.geojson</code>.
+	</p>
+
+	<h2>3 - Display footprints in Mapbox</h2>
+	<hr>
+
+	<ol>
+		<li>Implement the code of ex2.2 in the Answer</li>
+		<li>Create <code>data/footprints.geojson</code> to include at least one footprint</li>
+		<li>Use the sample code to display <code>footprints.geojson</code></li>
+	</ol>
+
+	<div class="sample">
+		<cap>Sample code</cap>
+		<pre><code class="js">map.on('load', function () {
+	map.addSource('footprints_source', {
+		type: 'geojson',
+		data: 'data/footprints.geojson'
+	});
+
+	map.addLayer({
+		'id': 'footprints',
+		'type': 'fill',
+		'source': 'footprints_source',
+		'layout': {},
+		'paint': {
+			'fill-color': '#eeeeee',
+			'fill-opacity': 0.8
+		}
+	});
+});</code></pre>
+	</div>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+		<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+
+		<style>
+			.mapbox_container {
+				position: relative;
+				height: 300px !important;
+				width: 500px !important;
+				display: inline-block;
+			}
+
+			#map2 {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+		</style>
+
+		<section class="mapbox_container">
+			<div id='map2'></div>
+		</section>
+
+		<script>
+		// 🎒 add your code here
+		mapboxgl.accessToken = 'pk.eyJ1Ijoic3llZGhhc3MiLCJhIjoiY2t2MDF0eHZyN2lpdzJvbW44a244ZHgzZSJ9.AgOQsQdIpT2YpnGDYI7bDA';
+			const map2 = new mapboxgl.Map({
+			container: 'map2', // container ID
+			style: 'mapbox://styles/mapbox/dark-v10', // style URL
+			center: [-118.2851, 34.0224], // starting position [lng, lat]
+			zoom: 14 // starting zoom
+			});
+			
+		map2.on('load', function () {
+		map2.addSource('footprints_source', {
+			type: 'geojson',
+			data: 'data/footprints.geojson'
+		});
+
+		map2.addLayer({
+			'id': 'footprints',
+			'type': 'fill',
+			'source': 'footprints_source',
+			'layout': {},
+			'paint': {
+				'fill-color': '#eeeeee',
+				'fill-opacity': 0.8
+			}
+		});
+	});
+		</script>
+	</div>
+</body>
+
+</html>

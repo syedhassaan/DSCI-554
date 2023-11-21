@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 6 ex2</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ EX2: D3 SELECTION OPERATIONS</h1>
+
+  <h2>1 - d3 selection on HTML elements</h2>
+  <hr>
+
+  <p>Assuming the following code for the buttons is used in the page, execute the code shown in the Answer and copy the
+    result where marked with 🎒.
+  </p>
+
+  <pre><code class="html">&lt;style&gt;
+  .btn {
+    border-radius: 3px;
+    background-color: #eee;
+    padding: 5px;
+    margin: 5px;
+    font-size: 0.85em;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    color: #777;
+    text-align: left;
+    display: inline-block;
+  }
+
+  .grp {
+    display: inline-block;
+    margin-right: 20px;
+  }
+&lt;/style&gt;
+
+&lt;div class="grp"&gt;
+  &lt;span class="btn" id="filter1"&gt;Filter 1&lt;/span&gt;
+  &lt;span class="btn" id="filter2"&gt;Filter 2&lt;/span&gt;
+  &lt;span class="btn" id="filter3"&gt;Filter 3&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="grp"&gt;
+  &lt;span class="btn" id="sort1"&gt;Sort 1&lt;/span&gt;
+  &lt;span class="btn" id="sort2"&gt;Sort 2&lt;/span&gt;
+&lt;/div&gt;
+  </code></pre>
+
+  <style>
+    .btn {
+      border-radius: 3px;
+      background-color: #eee;
+      padding: 5px;
+      margin: 5px;
+      font-size: 0.85em;
+      font-weight: bold;
+      font-family: 'Times New Roman', Times, serif;
+      color: #777;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .grp {
+      display: inline-block;
+      margin-right: 20px;
+    }
+  </style>
+
+  <div class="grp">
+    <span class="btn" id="filter1">Filter 1</span>
+    <span class="btn" id="filter2">Filter 2</span>
+    <span class="btn" id="filter3">Filter 3</span>
+  </div>
+  <div class="grp">
+    <span class="btn" id="sort1">Sort 1</span>
+    <span class="btn" id="sort2">Sort 2</span>
+  </div>
+
+  <div class="answer">
+    <cap>Answer</cap>
+
+    <script src="../node_modules/d3/dist/d3.min.js"></script>
+
+    <ol>
+      <li>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('#filter1');
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+_groups: Array(1)
+0: NodeList(1)
+0: span#filter1.btn
+length: 1
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+      </li>
+
+      <li>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.btn');
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+_groups: Array(1)
+0: NodeList(5)
+0: span#filter1.btn
+1: span#filter2.btn
+2: span#filter3.btn
+3: span#sort1.btn
+4: span#sort2.btn
+length: 5
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+      </li>
+
+      <li>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.grp')
+  .selectAll('.btn');
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(2), _parents: Array(2)}
+_groups: Array(2)
+0: NodeList(3)
+0: span#filter1.btn
+1: span#filter2.btn
+2: span#filter3.btn
+length: 3
+[[Prototype]]: NodeList
+1: NodeList(2)
+0: span#sort1.btn
+1: span#sort2.btn
+length: 2
+[[Prototype]]: NodeList
+length: 2
+</code></pre>
+      </li>
+
+      <li>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.btn')
+  .style('color', 'red');
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(5)
+0: span#filter1.btn
+1: span#filter2.btn
+2: span#filter3.btn
+3: span#sort1.btn
+4: span#sort2.btn
+length: 5
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+      </li>
+      </ul>
+
+      <li>
+        <p>selection.call invokes a callback function on the selection itself</p>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.btn').call(function(d) {
+  d.style('color', 'steelblue');
+});
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(5)
+0: span#filter1.btn
+1: span#filter2.btn
+2: span#filter3.btn
+3: span#sort1.btn
+4: span#sort2.btn
+length: 5
+[[Prototype]]: NodeList
+length: 1		
+</code></pre>
+      </li>
+
+      <li>
+        <p>selection.each invokes a callback function on each element in the selection</p>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.btn').each(function (d) {
+  console.log('d', d);
+  console.log('this', this);
+  d3.select(this)
+    .style('color', 'orange');
+});
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="plain-text">// 🎒 result here
+d undefined
+this <span class=​"btn" id=​"filter1" style=​"color:​ orange;​">​Filter 1​</span>​
+d undefined
+this <span class=​"btn" id=​"filter2" style=​"color:​ orange;​">​Filter 2​</span>​
+d undefined
+this <span class=​"btn" id=​"filter3" style=​"color:​ orange;​">​Filter 3​</span>​
+d undefined
+this <span class=​"btn" id=​"sort1" style=​"color:​ orange;​">​Sort 1​</span>​
+d undefined
+this <span class=​"btn" id=​"sort2" style=​"color:​ orange;​">​Sort 2​</span>
+
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(5)
+0: span#filter1.btn
+1: span#filter2.btn
+2: span#filter3.btn
+3: span#sort1.btn
+4: span#sort2.btn
+length: 5
+[[Prototype]]: NodeList
+length: 1​
+
+</code></pre>
+      </li>
+
+      <li>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.button').each(() => {
+  d3.select(this).style('color', 'steelblue');
+});
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(0)
+length: 0
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+      </li>
+
+      <li>
+        <b>Code to execute: </b>
+        <pre><code class="js">
+d3.selectAll('.btn').call(d => {
+  d.style('color', 'steelblue');
+});
+</code></pre>
+
+        <b>Result: </b>
+        <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(5)
+0: span#filter1.btn
+1: span#filter2.btn
+2: span#filter3.btn
+3: span#sort1.btn
+4: span#sort2.btn
+length: 5
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+      </li>
+    </ol>
+
+    <h2>2 - d3 selection on svg elements</h2>
+    <hr>
+
+    <p>Assuming the following code for the buttons is used in the page, execute the code shown in the Answer and copy
+      the
+      result where marked with 🎒.
+    </p>
+
+    <pre><code class="html">&lt;svg width="410" height="90" style="background-color: gainsboro" id="svg"&gt;
+  &lt;g&gt;
+    &lt;rect id="00" x="10" y="10" rx="3" ry="3" width="100" height="20" fill="#1b9e77"&gt;&lt;/rect&gt;
+    &lt;rect id="10" x="10" y="35" rx="3" ry="3" width="100" height="20" fill="#1b9e77"&gt;&lt;/rect&gt;
+    &lt;rect id="20" x="10" y="60" rx="3" ry="3" width="100" height="20" fill="#1b9e77"&gt;&lt;/rect&gt;
+  &lt;/g&gt;
+  &lt;g&gt;
+    &lt;rect id="01" x="150" y="10" rx="3" ry="3" width="100" height="20" fill="#d95f02"&gt;&lt;/rect&gt;
+    &lt;rect id="11" x="150" y="35" rx="3" ry="3" width="100" height="20" fill="#d95f02"&gt;&lt;/rect&gt;
+    &lt;rect id="21" x="150" y="60" rx="3" ry="3" width="100" height="20" fill="#d95f02"&gt;&lt;/rect&gt;
+  &lt;/g&gt;
+  &lt;g&gt;
+    &lt;rect id="02" x="300" y="10" rx="3" ry="3" width="100" height="20" fill="#7570b3"&gt;&lt;/rect&gt;
+    &lt;rect id="22" x="300" y="35" rx="3" ry="3" width="100" height="20" fill="#7570b3"&gt;&lt;/rect&gt;
+    &lt;rect id="32" x="300" y="60" rx="3" ry="3" width="100" height="20" fill="#7570b3"&gt;&lt;/rect&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;      
+</code></pre>
+
+    <svg width="410" height="90" style="background-color: gainsboro" id="svg">
+      <g>
+        <rect id="00" x="10" y="10" rx="3" ry="3" width="100" height="20" fill="#1b9e77"></rect>
+        <rect id="10" x="10" y="35" rx="3" ry="3" width="100" height="20" fill="#1b9e77"></rect>
+        <rect id="20" x="10" y="60" rx="3" ry="3" width="100" height="20" fill="#1b9e77"></rect>
+      </g>
+      <g>
+        <rect id="01" x="150" y="10" rx="3" ry="3" width="100" height="20" fill="#d95f02"></rect>
+        <rect id="11" x="150" y="35" rx="3" ry="3" width="100" height="20" fill="#d95f02"></rect>
+        <rect id="21" x="150" y="60" rx="3" ry="3" width="100" height="20" fill="#d95f02"></rect>
+      </g>
+      <g>
+        <rect id="02" x="300" y="10" rx="3" ry="3" width="100" height="20" fill="#7570b3"></rect>
+        <rect id="22" x="300" y="35" rx="3" ry="3" width="100" height="20" fill="#7570b3"></rect>
+        <rect id="32" x="300" y="60" rx="3" ry="3" width="100" height="20" fill="#7570b3"></rect>
+      </g>
+    </svg>
+
+    <div class="answer">
+      <cap>Answer</cap>
+
+      <ol>
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('g');
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(3)
+0: g
+1: g
+2: g
+length: 3
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('rect');
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(9)
+0: rect#00
+1: rect#10
+2: rect#20
+3: rect#01
+4: rect#11
+5: rect#21
+6: rect#02
+7: rect#22
+8: rect#32
+length: 9
+[[Prototype]]: NodeList
+length: 1         
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('g')
+  .selectAll('rect');            
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+            Fn {_groups: Array(3), _parents: Array(3)}
+_groups: Array(3)
+0: NodeList(3)
+0: rect#00
+1: rect#10
+2: rect#20
+length: 3
+[[Prototype]]: NodeList
+1: NodeList(3)
+0: rect#01
+1: rect#11
+2: rect#21
+length: 3
+[[Prototype]]: NodeList
+2: NodeList(3)
+0: rect#02
+1: rect#22
+2: rect#32
+length: 3
+[[Prototype]]: NodeList
+length: 3
+[[Prototype]]: Array(0)
+_parents: (3) [g, g, g]
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('g')
+  .attr('fill','steelblue');            
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(3)
+0: g
+1: g
+2: g
+length: 3
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('rect')
+  .attr('fill','steelblue');            
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(9)
+0: rect#00
+1: rect#10
+2: rect#20
+3: rect#01
+4: rect#11
+5: rect#21
+6: rect#02
+7: rect#22
+8: rect#32
+length: 9
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('rect').each(function(d) {
+  d3.select(this).attr('fill', 'steelblue');
+});
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(9)
+0: rect#00
+1: rect#10
+2: rect#20
+3: rect#01
+4: rect#11
+5: rect#21
+6: rect#02
+7: rect#22
+8: rect#32
+length: 9
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('rect').call(d => {
+  d.style('color', 'steelblue');
+});
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: NodeList(9)
+0: rect#00
+1: rect#10
+2: rect#20
+3: rect#01
+4: rect#11
+5: rect#21
+6: rect#02
+7: rect#22
+8: rect#32
+length: 9
+[[Prototype]]: NodeList
+length: 1
+</code></pre>
+        </li>
+
+        <li>
+          <b>Code to execute: </b>
+          <pre><code class="js">
+d3.selectAll('rect')
+  .filter((d, i) => i & 1)
+  .attr('fill', '#fff');
+</code></pre>
+
+          <b>Result: </b>
+          <pre><code class="js">// 🎒 result here
+Fn {_groups: Array(1), _parents: Array(1)}
+_groups: Array(1)
+0: Array(4)
+0: rect#10
+1: rect#01
+2: rect#21
+3: rect#22
+length: 4
+[[Prototype]]: Array(0)
+length: 1
+</code></pre>
+        </li>
+      </ol>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex5</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex5: bar charts with d3 data join and div elements</h1>
+
+	<p>Use the starter code to create an horizontal bar chart with d3 for the data provided</p>
+
+	<p class="nb">NB: d3 data join requires the most set-up but scales with the data!</p>
+	
+	<div class="sample">
+		<cap>Data </cap>
+		<pre><code class="js">
+data = [200, 150];
+		</code></pre>
+
+		<cap>Starter code</cap>
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->		
+&lt;style&gt;
+div.bar {
+  background-color: orangered;
+  margin-bottom: 6px;
+  text-align: right;
+  padding-right: 5px;
+}
+&lt;/style&gt;
+
+&lt;!-- load d3 library! --&gt;
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="chart"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+data = [100];
+d3.select('#chart')
+  .selectAll('div')
+  .data(data)
+  .enter()
+  .append('div')
+  .attr('class', 'bar')
+  .style('width', d => d + 'px')  //arrow function notation
+  .text((d, i) => { return  d + 'px div'; });  //arrow function notation
+&lt;/script&gt;
+</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->	
+		<style>
+			div.bar {
+			  background-color: orangered;
+			  margin-bottom: 6px;
+			  text-align: right;
+			  padding-right: 5px;
+			}
+			</style>
+			
+			<!-- load d3 library! -->
+			<script src="../node_modules/d3/dist/d3.min.js"></script>
+			
+			<div id="chart"></div>
+			
+			<script>
+			data = [200, 150];
+			d3.select('#chart')
+			  .selectAll('div')
+			  .data(data)
+			  .enter()
+			  .append('div')
+			  .attr('class', 'bar')
+			  .style('width', d => d + 'px')  //arrow function notation
+			  .text((d, i) => { return  d + 'px div'; });  //arrow function notation
+			</script>
+	</div>
+</body>
+</html>

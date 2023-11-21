@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab X ex0</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<style>
+    .neon {
+      color: #333;
+      text-shadow:
+        0 0 5px #0f0,
+        0 0 10px #0f0,
+        0 0 20px #0f0,
+        0 0 40px #0f0,
+        0 0 80px #0f0,
+        0 0 90px #0f0,
+        0 0 100px #0f0,
+        0 0 150px #0f0;
+    }
+	</style>
+</head>
+
+<body>
+	<h1 class="neon">🏋🏽‍♂️ ex0: responsive bar chart with HTML</h1>
+
+	<p>Implement the bar chart using the sample code provided and resize the bars and the text to fit the screen width</p>
+
+	<div class="alert info">💡 Size text using coordinates relative to the viewport width: 1 vw corresponds to 1% of the viewport's width.</div>
+
+	<div class="alert info">💡 Size the bars using a percentage proportional to the value fixing the longest bar at 78% of the page: set Los Angeles to 78%, Miami-Dade to ((78 / 240749) * 156559)% and so on.
+		You can use the console as a calculator to compute the width of the bars:
+<pre><code class="js" data-trim data-noescape>> (78 / 240749) * 156559
+50.72337579803031</code></pre>
+	</div>
+<div>
+	<style>
+
+	</style>
+
+</section>	
+	<div class="sample">
+		<cap>Data</cap>
+		<pre style="font-size: 0.85em;"><code class="plaintext">
+Los Angeles 240749
+Miami-Dade 156559
+Maricopa 133641
+Cook 126003
+Harris 105757
+Broward 70950
+Dallas 70810
+Queens 69370
+Kings 63974
+Clark 59153
+		</code></pre>
+		<cap>Sample code</cap>
+		<pre style="font-size: 0.85em;"><code class="html">
+&lt;style&gt;
+.title {
+  margin-bottom: 10px;
+  font-size: 12px;  /* 🎒 set according to viewport width */
+}
+.item {  /* wrapper for label + bar */
+  text-align: left;  /* pull left of the page */
+  margin-bottom: 5px;  /* bars separation, can stay fixed */
+}
+.bar {
+  display: inline-block;  /* turn bar div inline so it shows on the same line with the label */
+  text-align: right;  /* pull value text to the end of the bar */
+  vertical-align: middle;  /* align value text with middle of the bar */
+  background-color:#7abcff;
+  height: 20px;  /* bar height, this can stay fixed */
+}
+.label {
+  display: inline-block;  /* turn label div inline so it shows on the same line with the bar */
+  text-align: right;  /* pull label where the bar starts */
+  vertical-align: middle; /* align text to the middle of the bar */
+  line-height: 20px;  /* trick to make sure the label height is the same as the bar height so it will align to the middle */
+  width: 20%;  /* relative size of label */
+  font-size: 12px;  /* 🎒 set according to viewport width */
+}
+.value {  /* the value label in the bar */
+  color:#eee;
+  font-family: 'Courier New', Courier, monospace;  /* use fixed font */
+  font-weight: bolder;
+  vertical-align: middle; /* align text to the middle of the bar */
+  line-height: 20px;  /* trick to make sure the label height is the same as the bar height so it will align to the middle */
+  margin-right: 5px;  /* move label 5px from the end of the bar */
+  font-size: 12px;  /* 🎒 set according to viewport width */
+}
+&lt;/style&gt;
+
+&lt;div class="title"&gt;Top 10 COVID-19 confirmed in US, Aug 31 2020 (source Johns Hopkins University)&lt;/div&gt;
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Los Angeles&lt;/div&gt;
+  &lt;div class="bar" style="width: 241px;"&gt;  &lt;!-- 🎒 set to 78% and recompute others --&gt;
+    &lt;span class="value"&gt;240,749&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Miami-Dade&lt;/div&gt;
+  &lt;div class="bar" style="width: 156px;"&gt;
+    &lt;span class="value"&gt;156,559&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Maricopa&lt;/div&gt;
+  &lt;div class="bar" style="width: 134px;"&gt;
+    &lt;span class="value"&gt;133,641&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Cook&lt;/div&gt;
+  &lt;div class="bar" style="width: 126px;"&gt;
+    &lt;span class="value"&gt;126,003&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Harris&lt;/div&gt;
+  &lt;div class="bar" style="width: 106px;"&gt;
+    &lt;span class="value"&gt;105,757&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Broward&lt;/div&gt;
+  &lt;div class="bar" style="width: 71px;"&gt;
+    &lt;span class="value"&gt;70,950&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Dallas&lt;/div&gt;
+  &lt;div class="bar" style="width: 71px;"&gt;
+    &lt;span class="value"&gt;70,810&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Queens&lt;/div&gt;
+  &lt;div class="bar" style="width: 69px;"&gt;
+    &lt;span class="value"&gt;69,370&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Kings&lt;/div&gt;
+  &lt;div class="bar" style="width: 64px;"&gt;
+    &lt;span class="value"&gt;63,974&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="item"&gt;
+  &lt;div class="label"&gt;Clark&lt;/div&gt;
+  &lt;div class="bar" style="width: 59px;"&gt;
+    &lt;span class="value"&gt;59,153&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+			</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+    <!-- Add your code here! -->
+    <style>
+      .title {
+        margin-bottom: 10px;
+        font-size: 12px;  /* 🎒 set according to viewport width */
+      }
+      .item {  /* wrapper for label + bar */
+        text-align: left;  /* pull left of the page */
+        margin-bottom: 5px;  /* bars separation, can stay fixed */
+      }
+      .bar {
+        display: inline-block;  /* turn bar div inline so it shows on the same line with the label */
+        text-align: right;  /* pull value text to the end of the bar */
+        vertical-align: middle;  /* align value text with middle of the bar */
+        background-color:#7abcff;
+        height: 20px;  /* bar height, this can stay fixed */
+      }
+      .label {
+        display: inline-block;  /* turn label div inline so it shows on the same line with the bar */
+        text-align: right;  /* pull label where the bar starts */
+        vertical-align: middle; /* align text to the middle of the bar */
+        line-height: 20px;  /* trick to make sure the label height is the same as the bar height so it will align to the middle */
+        width: 20%;  /* relative size of label */
+        font-size: 1vw;  /* 🎒 set according to viewport width */
+      }
+      .value {  /* the value label in the bar */
+        color:#eee;
+        font-family: 'Courier New', Courier, monospace;  /* use fixed font */
+        font-weight: bolder;
+        vertical-align: middle; /* align text to the middle of the bar */
+        line-height: 20px;  /* trick to make sure the label height is the same as the bar height so it will align to the middle */
+        margin-right: 5px;  /* move label 5px from the end of the bar */
+        font-size: 1vw;  /* 🎒 set according to viewport width */
+      }
+      </style>
+      
+      <div class="title">Top 10 COVID-19 confirmed in US, Aug 31 2020 (source Johns Hopkins University)</div>
+      <div class="item">
+        <div class="label">Los Angeles</div>
+        <div class="bar" style="width: 78%">  <!-- 🎒 set to 78% and recompute others -->
+          <span class="value">240,749</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Miami-Dade</div>
+        <div class="bar" style="width: 50.7%;">
+          <span class="value">156,559</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Maricopa</div>
+        <div class="bar" style="width: 43.3%;">
+          <span class="value">133,641</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Cook</div>
+        <div class="bar" style="width: 40.8%;">
+          <span class="value">126,003</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Harris</div>
+        <div class="bar" style="width: 34.3%;">
+          <span class="value">105,757</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Broward</div>
+        <div class="bar" style="width: 23.0%;">
+          <span class="value">70,950</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Dallas</div>
+        <div class="bar" style="width: 22.9%;">
+          <span class="value">70,810</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Queens</div>
+        <div class="bar" style="width: 22.5%;">
+          <span class="value">69,370</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Kings</div>
+        <div class="bar" style="width: 20.7%;">
+          <span class="value">63,974</span>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="label">Clark</div>
+        <div class="bar" style="width: 19.16%;">
+          <span class="value">59,153</span>
+        </div>
+      </div>
+	</div>
+
+</body>
+</html>

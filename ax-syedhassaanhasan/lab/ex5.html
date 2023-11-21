@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab X ex5</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<style>
+    .neon {
+      color: #333;
+      text-shadow:
+        0 0 5px #0f0,
+        0 0 10px #0f0,
+        0 0 20px #0f0,
+        0 0 40px #0f0,
+        0 0 80px #0f0,
+        0 0 90px #0f0,
+        0 0 100px #0f0,
+        0 0 150px #0f0;
+    }
+	</style>	
+</head>
+
+<body>
+	<h1 class="neon">🏋🏽‍♂️ ex5: bootstrap responsive grid layout</h1>
+
+	<p>
+    <ul>
+      <li>Download bootstrap 4.5 examples <a href="https://getbootstrap.com/docs/4.5/examples/">here</a>.</li>
+      <li>Find in the downloaded files the code for this <a target="_blank" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">bootstrap dashboard</a> example and open the page to verify it works.</li>
+      <li>Create a dashboard folder under lab to implement the same dashboard using the files from the example.</li>
+      <li>Add to the dashboard page this example of responsive <a href="https://getbootstrap.com/docs/4.0/layout/grid/">bootstrap grid</a>:
+        <pre><code class="html" data-trim data-noescape>
+&lt;style&gt;
+.col,.col-4,.col-8 {  &lt;!-- make the cells visible --&gt;
+  background-color: #ccc;
+  border: 0.5px solid black;
+}
+&lt;/style&gt;
+&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col"&gt;col&lt;/div&gt;
+    &lt;div class="col"&gt;col&lt;/div&gt;
+    &lt;div class="col"&gt;col&lt;/div&gt;
+    &lt;div class="col"&gt;col&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-8"&gt;col-8&lt;/div&gt;
+    &lt;div class="col-4"&gt;col-4&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+        </code></pre>
+      </li>
+    </ul>
+	<div class="alert info">
+		💡 To use bootstrap with npm, adjust the paths in the index file with <code>bootstrap.bundle.min.js</code> and <code>bootstrap.min.css</code> in <code>dashboard.html</code> after you install bootstrap:
+		 :
+		<pre><code class="sh" data-trim data-noescape>
+npm init
+npm install --save bootstrap  #installs bootstrap and saves the dependency in package.json
+</code></pre>
+	</div>
+
+</body>
+
+</html>

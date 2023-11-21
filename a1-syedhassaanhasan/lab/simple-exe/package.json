@@ -1,0 +1,15 @@
+{
+  "name": "simple-exe",
+  "version": "1.0.0",
+  "description": "simple node executable",
+  "main": "simple-exe",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^8.0.0",
+    "csv-parse": "^4.16.0"
+  }
+}

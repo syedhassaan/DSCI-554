@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex1</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex1: bar charts with div</h1>
+
+	<h2>1 - Bars with div and inline style attribute</h2>
+	<hr>
+
+	<p>Using the starter code and data create an horizontal bar chart with div elements and inline style attribute</p>	
+
+	<p class="nb">NB: In the starter code units should be specified for HTML elements dimensions as these can be absolute or relative and several options for units are available, e.g., px, in, mm. Also, <code>margin-bottom</code> is used to separate the bars vertically. You can use the inspector under Computed to see how margin, border and padding are defined.</p>
+
+	<p class="nb">NB: In general, when graphing in the browser you will use units in pixels!</p>	
+
+	<div class="sample">
+		<cap>Data</cap>
+		<pre><code class="js">
+data = [200, 150];
+		</code></pre>
+			
+		<cap>Starter code</cap>
+		<pre><code class="HTML">
+&lt;!-- starter showing how to create a div of 100px with 6px margin at the bottom <mark>and update this preview</mark> -->
+&lt;div style="margin-bottom: 6px; text-align: right; background-color: orangered; width: 200px;"&gt;200px div&lt;/div&gt;
+&lt;div style="margin-bottom: 6px; text-align: right; background-color: orangered; width: 150px;"&gt;150px div&lt;/div&gt;
+
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+		<div style="margin-bottom: 6px; text-align: right; background-color: orangered; width: 200px;">200px div</div>
+		<div style="margin-bottom: 6px; text-align: right; background-color: orangered; width: 150px;">150px div</div>
+		
+	</div>
+
+	<h2>2 - Bars with div and inline style attribute with CSS inheritance</h2>
+	<hr>
+
+	<p>Modify the code of the ex1.1 to use an outer div that is styled with CSS properties common to all the bars.</p>
+
+	<p class="nb">NB: By default a div will fill the space, setting the <code>background-color</code> on the outer div will color the whole space the outer div occupies!</p>
+
+	<p class="nb">NB: div does not inherit the border properties.</p>
+
+	<div class="sample">
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->	
+&lt;div style="text-align: right; color: #eee;"&gt;
+  &lt;div style="margin-bottom: 2px; color: white; background-color: orangered; padding-right: 5px; width: 200px"&gt;200px div&lt;/div&gt;
+  &lt;div style="margin-bottom: 2px; color: white; background-color: orangered; padding-right: 5px; width: 150px"&gt;150px div&lt;/div&gt;
+&lt;/div&gt;
+
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+		<div style="text-align: right; color: #eee;">
+			<div style="margin-bottom: 2px; color: white; background-color: orangered; padding-right: 5px; width: 200px">200px div</div>
+			<div style="margin-bottom: 2px; color: white; background-color: orangered; padding-right: 5px; width: 150px">150px div</div>	
+		</div>
+	</div>
+
+	<h2>3 - Bars with div and class attribute</h2>
+	<hr>
+
+	<p>Modify the code of ex1.2 to use the class attribute to style CSS properties common to all the bars.
+	</p>
+
+	<div class="sample">
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->
+&lt;style&gt;
+div.bar {
+  background-color: orangered;
+  margin-bottom: 6px;
+  text-align: right;	
+}
+&lt;/style&gt;
+
+&lt;div class="bar" style="width: 200px"&gt;200px div&lt;/div&gt;
+&lt;div class="bar" style="width: 150px"&gt;150px div&lt;/div&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+		<style>
+			div.bar {
+			  background-color: orangered;
+			  margin-bottom: 6px;
+			  text-align: right;	
+			}
+		</style>
+		<div class= "bar" style="width: 200px;">200px div</div>
+		<div class= "bar" style="width: 150px;">150px div</div>	
+
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab X ex3</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<style>
+    .neon {
+      color: #333;
+      text-shadow:
+        0 0 5px #0f0,
+        0 0 10px #0f0,
+        0 0 20px #0f0,
+        0 0 40px #0f0,
+        0 0 80px #0f0,
+        0 0 90px #0f0,
+        0 0 100px #0f0,
+        0 0 150px #0f0;
+    }
+	</style>	
+</head>
+
+<body>
+	<h1 class="neon">🏋🏽‍♂️ ex3: responsive bar/lollipop chart</h1>
+
+	<p>Use the sample code in <code>bar_lollipop.js</code> and <code>bar_lollipop.css</code>:
+		<ol>
+			<li>Implement the chart in the Answer</li>
+			<li>Verify that as you resize the <code>window</code> the chart changes</li>
+		</ol>
+	</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<script src="node_modules/d3/dist/d3.min.js"></script>
+		<script src="node_modules/d3-time-format/dist/d3-time-format.min.js"></script>		
+
+		<!-- Include bar_lollipop.css here! -->
+		<link rel="stylesheet" href="bar_lollipop.css">
+
+		<!-- Add svg for the chart here! -->
+		<svg id="chart" width="400" height="400"></svg>
+	
+		<!-- Include bar_lollipop.js here! -->
+		<script src="bar_lollipop.js"></script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex1</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<script src="node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX1: SVG MAPS</h1>
+
+	<h2>1 - example 1</h2>
+	<hr>
+
+	<p>Complete the Answer where marked with 🎒 in the page.</p>
+
+	<img src="data/H1N1_USA_confirmed_deaths.svg" width="959" height="593">
+
+	<div class="answer">
+		<div class="title">Answer</div>
+		<!-- 🎒 
+			Check all that applies. To set a checkbox to checked add checked property:
+		    <input type="checkbox" checked/>
+		-->
+		<div><b>Map type: </b> <input type="checkbox" /> slippy map <input type="checkbox" checked/> static map <input
+				type="checkbox" checked/> thematic map</div>
+		<div><b>Map format: </b> <input type="checkbox" /> Vector <input type="checkbox" checked/> Raster </div>
+		<div><b>Projection: </b> <input type="checkbox" /> Mercator <input type="checkbox" checked/> Albers conic <input
+				type="checkbox" /> Lambert conformal conic <input type="checkbox" /> UTM </div>
+		<div><b>Projection type: </b> <input type="checkbox" /> Cylindrical <input type="checkbox" checked/> Conic <input
+				type="checkbox" /> Azimuthal <input type="checkbox" /> </div>
+		<div><b>Projection properties preserved: </b> <input type="checkbox" /> Conformal <input type="checkbox" checked/>
+			Equal-area <input type="checkbox" /> Equidistant <input type="checkbox" /> Azimuthal</div>
+	</div>
+
+	<h2>2 - example 2</h2>
+	<hr>
+
+	<p>Complete the Answer where marked with 🎒 in the page.</p>
+
+	<svg id="map1" width="959" height="593"></svg>
+	<script>
+		d3.select("#map1")
+			.append("image")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", 959)
+			.attr("height", 593)
+			.attr("href", "data/H1N1_USA_confirmed_deaths.svg");
+	</script>
+
+
+	<div class="answer">
+		<div class="title">Answer</div>
+		<!-- 🎒 
+			Check all that applies. To set a checkbox to checked add checked property:
+		    <input type="checkbox" checked/>
+		-->
+		<div><b>Map type: </b> <input type="checkbox" /> slippy map <input type="checkbox" checked/> static map <input
+			type="checkbox" checked/> thematic map</div>
+	<div><b>Map format: </b> <input type="checkbox" checked /> Vector <input type="checkbox" /> Raster </div>
+	<div><b>Projection: </b> <input type="checkbox" /> Mercator <input type="checkbox" checked/> Albers conic <input
+			type="checkbox" /> Lambert conformal conic <input type="checkbox" /> UTM </div>
+	<div><b>Projection type: </b> <input type="checkbox" /> Cylindrical <input type="checkbox" checked/> Conic <input
+			type="checkbox" /> Azimuthal <input type="checkbox" /> </div>
+	<div><b>Projection properties preserved: </b> <input type="checkbox" /> Conformal <input type="checkbox" checked/>
+		Equal-area <input type="checkbox" /> Equidistant <input type="checkbox" /> Azimuthal</div>
+	</div>
+	</div>
+
+	<h2>3 - example 3</h2>
+	<hr>
+
+	See <a target="_blank" href="https://github.com/d3/d3-fetch/blob/v2.0.0/README.md#xml">d3.xml</a> and
+	<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/DOMString">DOMString</a>.
+
+	<p>Complete the Answer where marked with 🎒 in the page.</p>
+
+	<div id="map2"></div>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+		<!-- 🎒 
+			Check all that applies. To set a checkbox to checked add checked property:
+		    <input type="checkbox" checked/>
+		-->
+		<div><b>Map type: </b> <input type="checkbox" /> slippy map <input type="checkbox" checked/> static map <input
+			type="checkbox" checked/> thematic map</div>
+	<div><b>Map format: </b> <input type="checkbox" /> Vector <input type="checkbox" checked/> Raster </div>
+	<div><b>Projection: </b> <input type="checkbox" /> Mercator <input type="checkbox" checked/> Albers conic <input
+			type="checkbox" /> Lambert conformal conic <input type="checkbox" /> UTM </div>
+	<div><b>Projection type: </b> <input type="checkbox" /> Cylindrical <input type="checkbox" checked/> Conic <input
+			type="checkbox" /> Azimuthal <input type="checkbox" /> </div>
+	<div><b>Projection properties preserved: </b> <input type="checkbox" /> Conformal <input type="checkbox" checked/>
+		Equal-area <input type="checkbox" /> Equidistant <input type="checkbox" /> Azimuthal</div>
+	</div>
+
+	<script>
+		d3.xml("data/H1N1_USA_confirmed_deaths.svg")  //🎒 explain:
+			.then(data => {
+				console.log(data);  //🎒 debug in DevTools and explain:
+				console.log(data.documentElement);  //🎒 see https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement and explain:
+
+				///////////////////////////////////////////  🎒 explain:
+				//load SVG using document.body.append
+				//javascript ParentNode.append() inserts a set of Node objects or DOMString objects
+				//document.body.append(data.documentElement);
+
+				///////////////////////////////////////////  🎒 explain:
+				//load SVG using d3.append
+				var div = d3.select("#map2")
+					.node()  //returns the first (non-null) element in this selection.
+					.append(data.documentElement);
+
+				///////////////////////////////////////////  🎒 explain:
+				//load SVG using appendChild with scaling.
+				// var svg = document.getElementById("map2");
+				// svg.appendChild(data.getElementsByTagName("svg")[0]);
+
+				///////////////////////////////////////////  🎒 explain:
+				// d3.select("#California")
+				//     .style("fill", "red");
+
+			});
+	</script>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSCI 554 Lab 7 ex1</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+    <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    <h1>🏋🏽‍♂️ EX1: NEGATIVE AFTERIMAGE</h1>
+
+    <h2>1 - Afterimage experiment</h2>
+    <hr>
+
+    <p>Finish to implement <a href="afterimage.html" target="_blank"><code>afterimage.html</code></a> where marked with 🎒</p>
+
+    <h2>2 - Resolving afterimages</h2>
+    <hr>
+
+    <p>Explanations on how to find the colors that appear in an afterimage</p>
+
+    <div>
+        <img height="300px" style="margin-top: 10px" src="AdditiveColor.svg">
+        <p class="alert info" style="margin-top: 10px; vertical-align:top;">💡 <b>Negative afterimage</b><br><br>
+            <span style="margin-left: 20px">Fixating lessens the response of the associated photoreceptors. Micro-saccades prevent this in practice.</span><br><br>
+            <span style="margin-left: 20px">When a color is depleted <mark>the trichromatic theory predicts that the complementary color is seen</mark>.</span>
+        </p>
+
+    </div>
+
+    <p>For each color combination below use <a href="afterimage.html" target="_blank"><code>afterimage.html</code></a> to see the
+        afterimage colors. Verify your answer using the additive color model. Complete the Answer where marked with 🎒.</p>
+
+    <div class="answer">
+        <cap>Answer</cap>
+
+        <svg style="display: block; padding-bottom: 10px" width="300px" height="300px">
+            <rect x=0 y=0 width=300 height=300 fill="#ff0000"></rect>
+            <rect x=130 y=20 width=40 height=260 fill="#00ff00"></rect>
+            <rect x=20 y=130 width=260 height=40 fill="#00ff00"></rect>
+        </svg>
+        <div>Afterimage cross color: 🎒 color <svg width="20px" height="20px" style="background-color: #00ff00"></svg></div>
+        <div>Afterimage background color: 🎒 color <svg width="20px" height="20px" style="background-color: #ff0000"></svg></div>
+
+        <svg style="display: block; padding-bottom: 10px; padding-top: 20px" width="300px" height="300px">
+            <rect x=0 y=0 width=300 height=300 fill="#00ffff"></rect>
+            <rect x=130 y=20 width=40 height=260 fill="#ff00ff"></rect>
+            <rect x=20 y=130 width=260 height=40 fill="#ff00ff"></rect>
+        </svg>
+        <div>Afterimage cross color: 🎒 color <svg width="20px" height="20px" style="background-color: #ff00ff"></svg></div>
+        <div>Afterimage background color: 🎒 color <svg width="20px" height="20px" style="background-color: #00ffff"></svg></div>
+
+
+        <svg style="display: block; padding-bottom: 10px; padding-top: 20px" width="300px" height="300px">
+            <rect x=0 y=0 width=300 height=300 fill="#0000ff"></rect>
+            <rect x=130 y=20 width=40 height=260 fill="#ffff00"></rect>
+            <rect x=20 y=130 width=260 height=40 fill="#ffff00"></rect>
+        </svg>
+        <div>Afterimage cross color: 🎒 color <svg width="20px" height="20px" style="background-color: #ffff00"></svg></div>
+        <div>Afterimage background color: 🎒 color <svg width="20px" height="20px" style="background-color: #0000ff"></svg></div>
+
+        <svg style="display: block; padding-bottom: 10px; padding-top: 20px" width="300px" height="300px">
+            <rect x=0 y=0 width=300 height=300 fill="#ffff00"></rect>
+            <rect x=130 y=20 width=40 height=260 fill="#0000ff"></rect>
+            <rect x=20 y=130 width=260 height=40 fill="#0000ff"></rect>
+        </svg>
+        <div>Afterimage cross color: 🎒 color <svg width="20px" height="20px" style="background-color: #0000ff"></svg></div>
+        <div>Afterimage background color: 🎒 color <svg width="20px" height="20px" style="background-color: #ffff00"></svg></div>
+    </div>
+</body>
+
+</html>

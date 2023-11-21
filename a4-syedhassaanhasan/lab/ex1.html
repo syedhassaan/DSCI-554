@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 4 ex1</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex1: HTML table with D3</h1>
+
+	<h2>1 - HTML table</h2>
+	<hr>
+
+	<p>Implement the <a
+		href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics">HTML table</a> in the page using the code provided.</p>
+
+	<div class="sample">
+		<cap>Sample code</cap>
+		<pre style="font-size: 0.85em;"><code class="html">
+&lt;style&gt;
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+&lt;/style&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;th00&lt;/th&gt;
+    &lt;th&gt;th01&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;td10&lt;/td&gt;
+    &lt;td&gt;td11&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;td20&lt;/td&gt;
+    &lt;td&gt;td21&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+			</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<!-- Add your code here! -->
+		<style>
+			table {
+			  border-collapse: collapse;
+			}
+			
+			table, th, td {
+			  border: 1px solid black;
+			}
+			</style>
+			
+			<table>
+			  <tr>
+				<th>th00</th>
+				<th>th01</th>
+			  </tr>
+			  <tr>
+				<td>td10</td>
+				<td>td11</td>
+			  </tr>
+			  <tr>
+				<td>td20</td>
+				<td>td21</td>
+			  </tr>
+			</table>
+
+	</div>
+
+	<h2>2 - Table with D3 select and append</h2>
+	<hr>
+
+	<p>Implement an HTML table using the code provided.</p>
+
+	<div class="alert warning">⚠️ This implementation will not scale!</div>
+
+	<div class="sample">
+		<cap>Sample code</cap>
+		<pre style="font-size: 0.85em;"><code class="html">
+&lt;style&gt;
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+&lt;/style&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="ex1.2"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+var table = d3.select('#ex1.2')
+  .append('table');
+
+var tr = table.append('tr');
+tr.append('th')
+  .text('th00');
+tr.append('th')
+  .text('th01');
+
+tr = table.append('tr');
+tr.append('td')
+  .text('td10');
+tr.append('td')
+  .text('td11');
+
+tr = table.append('tr');
+tr.append('td')
+  .text('td20');
+tr.append('td')
+  .text('td21');
+&lt;/script&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<!-- Add your code here! -->
+		<style>
+			table {
+			  border-collapse: collapse;
+			}
+			
+			table, th, td {
+			  border: 1px solid black;
+			}
+			</style>
+			
+			<script src="../node_modules/d3/dist/d3.min.js"></script>
+			
+			<div id="ex1_2"></div>
+			
+			<script>
+			var table = d3.select('#ex1_2')
+			  .append('table');
+			
+			var tr = table.append('tr');
+			tr.append('th')
+			  .text('th00');
+			tr.append('th')
+			  .text('th01');
+			
+			tr = table.append('tr');
+			tr.append('td')
+			  .text('td10');
+			tr.append('td')
+			  .text('td11');
+			
+			tr = table.append('tr');
+			tr.append('td')
+			  .text('td20');
+			tr.append('td')
+			  .text('td21');
+			</script>
+
+	</div>
+
+	<h2>3 - Table with D3 data join</h2>
+	<hr>
+
+	<p>Create a table for the data provided using the sample code.</p>
+
+	<div class="sample">
+		<cap>Data</cap>
+		<pre style="font-size: 0.85em;"><code class="plaintext">
+Column descriptions:
+ - Label: d1-7 is a label for a diagnostic
+ - Description: diagnostic description
+ - Freq.: diagnostic frequency
+ - % Rel. Freq.: percent relative frequency of diagnostic
+
+Label, Description, Freq., % Rel. Freq.
+d1, Internal derangement (DDWR) / Internal derangement (eDDNR), 169, 37.47
+d3, Masticatory or Cervical Myalgia/ Myofascial Pain, 282, 62.53
+d4, Arthromyalgia Combo / Capsulitis, 198, 43.90
+d5, TMJ Osteoarthritis / Rheumatoid Arthritis, 83, 18.40
+d7, Chronic Trigeminal Neuropathy / Neuritis (not BMS), 63, 13.97
+</code></pre>
+
+		<cap>Sample code</cap>
+		<pre style="font-size: 0.85em;"><code class="HTML">
+&lt;style&gt;
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+&lt;/style&gt;
+
+&lt;table id="ex_1_3"&gt;&lt;/table&gt;
+
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+var matrix = [
+  ['th00', 'th01'],
+  ['td10', 'td11'],
+  ['td20', 'td21']];
+
+var tr = d3.select('#ex_1_3')
+  .append('table')
+  .selectAll('tr')
+  .data(matrix)
+  .enter()
+  .append('tr');
+
+tr.selectAll('td')
+  .data((d) => { return d; })
+  .enter()
+  .append('td')
+  .text((d) => { return d; });
+
+//same without intermediate variable and using bold text on the header
+var table = d3.select('#table1');
+  table.selectAll('tr')
+  .data(matrix)
+  .enter()
+  .append('tr')
+  .style('font-weight', (d, i) => {
+    return (i == 0) ? 'bold' : 'normal';
+  })
+  .selectAll('td')
+  .data((d) => { return d; })
+  .enter()
+  .append('td')
+  .text((d) => { return d; });
+&lt;/script&gt;
+</code></pre>
+
+		<div class="alert info">💡 Read the docs at <a target="_blank"
+			href="https://github.com/d3/d3-fetch/blob/master/README.md#json">selection.data()</a> that explains how <code>.data(d => { return d; })</code> works!
+		</div>
+
+		<div>
+			<div style="margin: 10px; padding: 10px; background-color:seashell;">
+				<a name="user-content-selection_data" target="_blank"
+					href="https://github.com/d3/d3-selection/blob/master/README.md#selection_data">#</a>
+				<i>selection</i>.
+				<b>data</b>([
+				<i>data</i>[,
+				<i>key</i>]])
+				<a target="_blank" href="https://github.com/d3/d3-selection/blob/master/src/selection/data.js"
+					title="Source">&lt;&gt;</a>
+				</p>
+
+				<p>Joins the specified array of
+					<em>data</em> with the selected elements, returning a new selection that represents the
+					<em>update</em> selection: the elements successfully bound to data. Also defines the
+					<a target="_blank" href="https://github.com/d3/d3-selection/blob/master/README.md#selection_enter">enter</a>
+					and
+					<a target="_blank" href="https://github.com/d3/d3-selection/blob/master/README.md#selection_exit">exit</a>
+					selections on the returned selection, which can be used to add or remove elements to correspond to the new
+					data.
+					<mark>The specified
+						<em>data</em> is an array of arbitrary values (
+						<em>e.g.</em>, numbers or objects), or a function that returns an array of values for each group.</mark>
+					When data
+					is assigned to an
+					element, it is stored in the property
+					<code>__data__</code>, thus making the data “sticky” and available on re-selection.
+				</p>
+
+				<p><mark>The
+						<em>data</em> is specified
+						<strong>for each group</strong> in the selection. If the selection has multiple groups (such as
+						<a target="_blank"
+							href="https://github.com/d3/d3-selection/blob/master/README.md#selectAll">d3.selectAll</a>
+						followed by
+						<a target="_blank" href="https://github.com/d3/d3-selection/blob/master/README.md#selection_selectAll">
+							<em>selection</em>.selectAll</a>), then
+						<em>data</em> should typically be specified as a function. This function will be evaluated for each group in
+						order, being passed
+						the group’s parent datum (<em>d</em>, which may be undefined), the group index (<em>i</em>), and the
+						selection’s
+						parent nodes (<em>nodes</em>), with
+						<em>this</em> as the group’s parent element.</mark></p>
+			</div>
+		</div>
+
+		<div class="answer">
+			<cap>Answer</cap>
+
+			<!-- Add your code here! -->
+			<style>
+				table {
+				  border-collapse: collapse;
+				}
+				
+				table, th, td {
+				  border: 1px solid black;
+				}
+				</style>
+				
+				<table id="ex_1_3"></table>
+				
+				<script src="../node_modules/d3/dist/d3.min.js"></script>
+				
+				<script>
+				var matrix = [
+				['Label', 'Description', 'Freq.', '% Rel. Freq.'],
+				['d1', 'Internal derangement (DDWR) / Internal derangement (eDDNR)', 169, 37.47],
+				['d3', 'Masticatory or Cervical Myalgia/ Myofascial Pain', 282, 62.53],
+				['d4', 'Arthromyalgia Combo / Capsulitis', 198, 43.90],
+				['d5', 'TMJ Osteoarthritis / Rheumatoid Arthritis', 83, 18.40],
+				['d7', 'Chronic Trigeminal Neuropathy / Neuritis (not BMS)', 63, 13.97]];
+				
+				var tr = d3.select('#ex_1_3')
+				  .append('table')
+				  .selectAll('tr')
+				  .data(matrix)
+				  .enter()
+				  .append('tr');
+				
+				tr.selectAll('td')
+				  .data((d) => { return d; })
+				  .enter()
+				  .append('td')
+				  .text((d) => { return d; });
+				
+				//same without intermediate variable and using bold text on the header
+				var table = d3.select('#table1');
+				  table.selectAll('tr')
+				  .data(matrix)
+				  .enter()
+				  .append('tr')
+				  .style('font-weight', (d, i) => {
+					return (i == 0) ? 'bold' : 'normal';
+				  })
+				  .selectAll('td')
+				  .data((d) => { return d; })
+				  .enter()
+				  .append('td')
+				  .text((d) => { return d; });
+				</script>
+
+		</div>
+
+</body>
+
+</html>

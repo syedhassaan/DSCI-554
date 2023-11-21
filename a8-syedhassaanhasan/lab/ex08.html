@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex8</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<script src="node_modules/d3/dist/d3.min.js"></script>
+
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX8: shapefiles and GeoJSON</h1>
+
+	<h2>1 - Using GeoJSON from arcgis service</h2>
+	<hr>
+
+	<p><code>LA_County_City_Boundaries.geojson</code> is downloaded from the <a target="_blank"
+			href="https://geohub.lacity.org/datasets/lacounty::la-county-city-boundaries?geometry=-120.614%2C33.678%2C-115.675%2C34.474">LA
+			County City Boundaries page</a>. As you can see in Result it does not seem to load correctly. In the following we are going to rebuild from the original shapefile.</p>
+
+	<div class="answer">
+		<div class="title">Result</div>
+
+		<p>😬 Oops looks like something in the GeoJSON is off!</p>
+
+		<svg id="svg1" width="300" height="300" style="background-color: #eee">
+		</svg>
+		<script>
+			d3.json("data/LA_County_City_Boundaries.geojson").then(json => {
+				var svg = d3.select("#svg1"),
+					width = +svg.attr("width"),
+					height = +svg.attr("height");
+
+				var projection = d3.geoMercator()
+					.fitSize([width, height], json);
+
+				path = d3.geoPath()
+					.projection(projection);
+
+				svg.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append("path")
+					.attr("fill", "white")
+					.attr("stroke", "black")
+					.attr("d", path);
+			});
+		</script>
+	</div>
+
+	<h2>2 - Using shapefile with Ogre</h2>
+	<hr>
+
+	Download the shapefile as <code>LA_County_City_Boundaries-shp.zip</code> using the Download menu from the <a target="_blank"
+			href="https://geohub.lacity.org/datasets/lacounty::la-county-city-boundaries?geometry=-120.614%2C33.678%2C-115.675%2C34.474">LA
+			County City Boundaries</a> page.</p>
+
+	<p>Use <a target="_blank" href="https://ogre.adc4gis.com/">Ogre</a> (upload the whole .zip) to convert to
+		GeoJSON. Save the converted file as
+		<code>data/LA_County_City_Boundaries_OGRE.geojson</code>.</p>
+
+	<p>The map below is already set-up to display <code>data/LA_County_City_Boundaries_OGRE.geojson</code>.</p>
+
+	<div class="alert danger">🚨 Do not add <code>LA_County_City_Boundaries-shp.zip</code> to the repository!</div>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<div><small>Click on the map to display features properties</small></div>
+		<div class="container">
+			<div class="col">
+				<svg id="svg2" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info2"></p>
+			</div>
+		</div>
+
+		<style>
+			.selected {
+				fill: red;
+			}
+
+			.cities {
+				fill: whitesmoke;
+				stroke: #666;
+				stroke-width: 0.5px;
+			}
+		</style>
+
+		<script type="text/javascript">
+			d3.json("data/LA_County_City_Boundaries_OGRE.geojson").then(json => {
+				var svg = d3.select("#svg2"),
+					width = +svg.attr("width"),
+					height = +svg.attr("height");
+
+				var projection = d3.geoMercator()
+					.fitSize([width, height], json);
+
+				path = d3.geoPath()
+					.projection(projection);
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info2')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+
+	<h2>3 - Using a shapefile with shp2json</h2>
+	<hr>
+
+	<p>Create a GeoJSON using shp2json:
+	<pre><code class="sh">node_modules/shapefile/bin/shp2json \
+-o data/LA_County_City_Boundaries_shp2json.geojson \
+LA_County_City_Boundaries-shp/LA_County_City_Boundaries.shp</code></pre>
+	</p>
+
+	<p class="info">💡 the shapefile package that includes shp2json is already installed locally. Normally command line tools are
+		installed system-wide using <code>npm install shapefile -g</code>
+	</p>
+
+	<p>The map below is already set-up to display <code>data/LA_County_City_Boundaries_shp2json.geojson</code>.</p>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<div><small>Click on the map to display features properties</small></div>
+
+		<div class="container">
+			<div class="col">
+				<svg id="svg3" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info3"></p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			d3.json("data/LA_County_City_Boundaries_shp2json.geojson").then(json => {
+				var svg = d3.select("#svg3"),
+					width = +svg.attr("width"),
+					height = +svg.attr("height");
+
+				var projection = d3.geoMercator()
+					.fitSize([width, height], json);
+
+				path = d3.geoPath()
+					.projection(projection);
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info3')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+
+	<h2>4 - Using a shapefile with QGIS</h2>
+	<hr>
+
+	<p>Open <code>LA_County_City_Boundaries-shp.shp</code> in QGIS, remove the islands and export to
+		GeoJSON as
+		<code>LA_County_City_Boundaries_QGIS.geojson</code>.</p>
+
+	<div class="alert info">
+		<h3>💡 QGIS tips</h3>
+		<ul>
+			<li>To edit a shapefile open the <code>.shp</code> file</li>
+			<li>Use <kbd>View > Identify Features</kbd> to print information on features</li>
+			<li>Use <kbd>Edit > Select > Select Feature(s)</kbd> to select features</li>
+			<li>Use <kbd>Layer > Toggle editing</kbd> to toggle editing and add/remove features</li>
+			<li>Use <kbd>Layer > Toggle editing</kbd> to toggle editing and add/remove features</li>
+			<li>To export to GeoJSON Right click on a layer then <kbd>Export > Save Features As...</kbd> </li>
+		</ul>
+	</div>
+
+	<p>The map below is already set-up to display <code>LA_County_City_Boundaries_QGIS.geojson</code>.</p>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<div><small>Click on the map to display features properties</small></div>
+
+		<div class="container">
+			<div class="col">
+				<svg id="svg4" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info4"></p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			d3.json("data/LA_County_City_Boundaries_QGIS.geojson").then(json => {
+				var svg = d3.select("#svg4"),
+					width = +svg.attr("width"),
+					height = +svg.attr("height");
+
+				var projection = d3.geoMercator()
+					.fitSize([width, height], json);
+
+				path = d3.geoPath()
+					.projection(projection);
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info4')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+</body>
+
+</html>

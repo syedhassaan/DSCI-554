@@ -1,0 +1,56 @@
+[
+    {
+      "name": "MERCURY",
+      "gravity": "3.7",
+      "temperature": "167",
+      "distance": "57.9"
+    },
+    {
+      "name": "VENUS",
+      "gravity": "8.9",
+      "temperature": "464",
+      "distance": "108.2"
+    },
+    {
+      "name": "EARTH",
+      "gravity": "9.8",
+      "temperature": "15",
+      "distance": "149.6"
+    },
+    {
+      "name": "MARS",
+      "gravity": "3.7",
+      "temperature": "-65",
+      "distance": "227.9"
+    },
+    {
+      "name": "JUPITER",
+      "gravity": "23.1",
+      "temperature": "-110",
+      "distance": "778.6"
+    },
+    {
+      "name": "SATURN",
+      "gravity": "9",
+      "temperature": "-140",
+      "distance": "1433.5"
+    },
+    {
+      "name": "URANUS",
+      "gravity": "8.7",
+      "temperature": "-195",
+      "distance": "2872.5"
+    },
+    {
+      "name": "NEPTUNE",
+      "gravity": "11",
+      "temperature": "-200",
+      "distance": "4495.1"
+    },
+    {
+      "name": "PLUTO",
+      "gravity": "0.6",
+      "temperature": "-225",
+      "distance": "5870"
+    }
+  ]

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSCI 554 Assignment 5</title>
+    <script src="../node_modules/d3/dist/d3.min.js"></script>
+    <script src="./chart.js"></script>
+    <script src="./table.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+
+<body>
+
+    <div>Syed Hasan <a href="mailto:syedhass@usc.edu">syedhass@usc.edu</a></div>
+
+    <p>
+        <!-- describe your data and cite the sources here -->
+        The data was retrieved from the World Bank website. <a href="https://data.worldbank.org">https://data.worldbank.org/</a>, under the gender statistics category.
+        <br>
+        The data has been compiled by UNESCO Institute for Statistics (http://uis.unesco.org/). Data as of February 2020.
+        <br>
+        The data is "Adjusted net enrollment rate, primary (% of primary school age children)"
+        <br>
+        The data of 20 countires that I have chosen to visualize are: 
+            <ol>
+                <li>Argentina</li>  
+                <li>Austria</li> 
+                <li>Azerbaijan</li> 
+                <li>Bahrain</li> 
+                <li>Belgium</li> 
+                <li>Brazil</li> 
+                <li>Canada</li> 
+                <li>Cameroon</li> 
+                <li>Cuba</li> 
+                <li>Denmark</li> 
+                <li>El Salvador</li> 
+                <li>Fiji</li> 
+                <li>Georgia</li> 
+                <li>Iceland</li> 
+                <li>Hungary</li> 
+                <li>Italy</li> 
+                <li>Jamaica</li> 
+                <li>Israel</li> 
+                <li>Ireland</li> 
+                <li>Iran, Islamic Rep.</li>
+            </ol>
+
+    </p>
+
+    <h3>1. HTML table</h3>
+    <!-- insert D3 table here -->
+    <script src="../node_modules/d3/dist/d3.min.js"></script>
+
+    <table id="chart-1">
+        <tr>
+            <th id="country">Country</th>
+            <th id="percentage">Percent</th>
+        </tr>
+    </table>
+
+    <br>
+    <h3>2. SVG bar chart</h3>
+    <!-- insert Inkscape SVG design here -->
+    <img style="width: 1000px; height: 700px;" src="chart-1.svg">
+    <!-- insert D3 bar chart here -->
+	<br>
+    <h4 id="chart_title"></h4>
+    <svg id="chart"></svg>
+    <br>
+    <h3>3. SVG lollipop chart</h3>
+    <!-- insert Inkscape SVG design here -->
+    <img style="width: 1000px; height: 700px;" src="chart-2.svg">
+    <!-- insert D3 lollipop chart here -->
+    <br>
+    <h4 id="chart_title_"></h4>
+    <svg id="chart_"></svg>
+    <br>
+    <h3>4. SVG bubble chart</h3>
+    <!-- insert Inkscape SVG design here -->
+    <img style="width: 1000px; height: 300px;" src="chart-3.svg">
+    <br>
+    <h4 id="chart_title_3"></h4>
+    <svg id="chart_3"></svg>
+    
+</body>
+</html>

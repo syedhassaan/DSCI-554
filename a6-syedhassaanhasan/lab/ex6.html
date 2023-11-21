@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 6 ex6</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="../node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ EX6: BAR CHART WITH SORTING, FILTERING AND TRANSITIONS</h1>
+
+  <p>The code in the page implements a bar chart with smooth transitions between data sorted and filtered in various
+    ways.</p>
+
+  <p>Finish to implement the code in the page where marked with 🎒.</p>
+
+  <div class="answer">
+
+    <style type="text/css">
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+      }
+
+      .axis text {
+        font-family: Courier;
+        font-size: 0.85em;
+      }
+
+      text {
+        font-family: Courier;
+        font-size: 0.65em;
+      }
+
+      div.commands {
+        font-family: Courier;
+        font-size: 0.85em;
+        font-weight: bold;
+        text-align: center;
+        cursor: default;
+        user-select: none;
+      }
+
+      svg {
+        display: block;
+        margin: auto;
+        background-color: #fafafa;
+      }
+
+      .bar {
+        fill: #add8e677;
+      }
+
+      text.xlabel {
+        text-anchor: middle;
+      }
+
+      text.ylabel {
+        text-anchor: middle;
+        alignment-baseline: central;
+      }
+
+      text.name {
+        font-weight: bold;
+        text-anchor: middle;
+        alignment-baseline: central;
+      }
+
+      .sort {
+        border-radius: 3px;
+        background-color: #eee;
+        display: inline-block;
+        cursor: default;
+      }
+
+      .sort,
+      label {
+        font-family: Courier;
+        color: #444;
+        padding: 5px;
+        margin: 5px;
+      }
+
+      label {
+        vertical-align: text-bottom;
+      }
+
+      .filter {
+        border-radius: 3px;
+        background-color: #eee;
+        padding: 5px;
+        margin: 5px;
+        color: #444;
+        text-align: left;
+        display: inline-block;
+        cursor: default;
+      }
+    </style>
+
+    <div class="commands">
+      <span class="filter" id="all">all</span>
+      <span class="filter" id="closer">4 closer to sun</span>
+      <span class="filter" id="farther">4 farther from sun</span>
+      <label><input style="margin: 0 5px 0 0" type="checkbox" checked>Earth</label>
+    </div>
+
+    <div class="commands">
+      <span class="sort" id="distance">distance to sun</span>
+      <span class="sort" id="temperature">temperature</span>
+      <span class="sort" id="gravity">gravity</span>
+    </div>
+
+    <div id="chart"></div>
+
+    <script type="text/javascript">
+      var margin = { top: 20, left: 75, bottom: 50, right: 50 },
+        width = 850 - margin.left - margin.right,
+        height = 350 - margin.top - margin.bottom;
+
+      var svg = d3.select('#chart').append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+      var x = d3.scaleBand();
+      var y = d3.scaleLinear();
+
+      var delay = function (d, i) {
+        return i * 50;
+      };
+
+      var all, closer, farther, earth;
+      var current, sortMode, filterMode;
+
+      d3.tsv('planets.tsv', d => {
+        return {
+          name: d.name,
+          gravity: +d.gravity,
+          temperature: +d.temperature,
+          distance: +d.distance,
+        };
+      }).then(data => {
+        all = data;
+        console.log(JSON.stringify(all));
+
+        //🎒 set earth using array.find here
+        earth = data.find(d => d.name == 'EARTH')
+
+        //🎒 set closer to the 4 planets closest to the sun using array.slice here
+        closer = all.slice(0,4)
+
+        //🎒 set farther to the 4 planets farthest from the sun using array.slice here
+        farther = all.slice(5,9)
+
+        filter('#all');
+        sort('#distance');
+
+        toggleFilter('#all');
+        toggleSort('#distance');
+
+        draw();
+      });
+
+      //sort event handlers
+      d3.select('#distance')
+        .on('click', () => {
+          sort('#distance');
+          transition();
+          toggleSort('#distance');
+        });
+
+      //🎒 implement click events to sort by temperature and gravity here (same as click event for distance)
+      d3.select('#temperature')
+        .on('click', () => {
+          sort('#temperature');
+          transition();
+          toggleSort('#temperature');
+        });
+
+        d3.select('#gravity')
+        .on('click', () => {
+          sort('#gravity');
+          transition();
+          toggleSort('#gravity');
+        });
+      ////
+
+      //filter event handlers
+      d3.select('#all')
+        .on('click', () => {
+          filter('#all');
+          includeEarth(d3.select('input').property('checked'));
+          sort(sortMode);
+
+          toggleSort(sortMode);
+          toggleFilter('#all');
+
+          redraw();
+        });
+
+      d3.select('#closer')
+        .on('click', () => {
+          filter('#closer');
+          includeEarth(d3.select('input').property('checked'));
+          sort(sortMode);
+
+          toggleSort(sortMode);
+          toggleFilter('#closer');
+
+          redraw();
+        });
+
+      d3.select('#farther')
+        .on('click', () => {
+          filter('#farther');
+          sort(sortMode);
+
+          toggleSort(sortMode);
+          toggleFilter('#farther');
+
+          redraw();
+        });
+
+      d3.select('input')
+        .on('change', () => {
+          includeEarth(d3.select('input').property('checked'));
+
+          sort(sortMode);
+          toggleSort(sortMode);
+
+          redraw();
+        });
+
+      function includeEarth(includeEarth) {
+        if (filterMode === '#all') {
+          var index = current
+            .map(d => d.name)
+            .indexOf('EARTH');
+
+          if (index == -1 && includeEarth) {  //not found
+            current.push(earth);
+          } else if (!includeEarth) {
+            current.splice(index, 1); //remove Earth
+          }
+        } else if (filterMode === '#closer') {
+          if (!includeEarth) {
+            current = JSON.parse(JSON.stringify(all));
+
+            var index = current
+              .map(d => d.name)
+              .indexOf('EARTH');
+            if (index != -1) {
+              current.splice(index, 1); //remove Earth
+            }
+
+            current = current.slice(0, 4);
+          } else {
+            current = JSON.parse(JSON.stringify(closer));
+          }
+        }
+      }
+
+      function filter(mode) {
+        if (mode === '#all') {
+          current = JSON.parse(JSON.stringify(all));
+        } else if (mode === '#closer') {
+          current = JSON.parse(JSON.stringify(closer));
+        } else if (mode === '#farther') {
+          current = JSON.parse(JSON.stringify(farther));
+        }
+        filterMode = mode;
+      }
+
+      function sort(mode) {
+        if (mode === '#distance') {
+          current.sort((a, b) => d3.ascending(a.distance, b.distance));
+        } else if (mode === '#gravity') {
+          current.sort((a, b) => d3.ascending(a.gravity, b.gravity));
+        } else if (mode === '#temperature') {
+          current.sort((a, b) => d3.ascending(a.temperature, b.temperature));
+        }
+        x.domain(current.map(d => d.name));
+        sortMode = mode;
+      }
+
+      function toggleSort(id) {
+        d3.selectAll('.sort')
+          .style('background-color', '#eee');
+        d3.select(id)
+          .style('background-color', 'lightblue');
+      }
+
+      //🎒 implement toggleFilter to highlight buttons with class .filter here (same as toggleSort with class .sort)
+      function toggleFilter(id) {
+        d3.selectAll('.filter')
+          .style('background-color', '#eee');
+        d3.select(id)
+          .style('background-color', 'lightblue');
+      }
+      ///
+
+      function redraw() {
+        //update scale
+        x.domain(current.map(d => d.name));
+
+        ////////////////////////////////
+        // DATA JOIN FOR BARS.
+        var bars = svg.selectAll('.bar')
+          .data(current, d => d.name);
+
+        // UPDATE.
+        bars.transition()
+          .duration(750)
+          .delay(delay)
+          .attr('x', d => x(d.name))
+          .attr('width', x.bandwidth());
+
+        // ENTER.
+        bars.enter()
+          .append('rect')
+          .attr('x', d => x(d.name))
+          .attr('y', d => y(0))
+          .attr('width', x.bandwidth())
+          .transition()
+          .duration(750)
+          .attr('class', 'bar')
+          .attr('x', d => x(d.name))
+          .attr('y', d => y(d.gravity))
+          .attr('width', x.bandwidth())
+          .attr('height', d => height - y(d.gravity));
+
+        // EXIT.
+        bars.exit()
+          .transition()
+          .duration(750)
+          .style('opacity', 0)
+          .remove();
+
+        ////////////////////////////////
+        // DATA JOIN FOR NAMES.
+        var name = svg.selectAll('.name')
+          .data(current, d => d.name);
+
+        // UPDATE.
+        name.transition()
+          .duration(750)
+          .delay(delay)
+          .attr('x', (d, i) => x(d.name) + x.bandwidth() / 2);
+
+        // ENTER.
+        name.enter()
+          .append('text')
+          .attr('x', d => x(d.name) + x.bandwidth() / 2)
+          .attr('y', d => y(d.gravity) + (height - y(d.gravity)) / 2)
+          .style('opacity', 0)
+          .transition()
+          .duration(1000)
+          .text(d => d.name)
+          .attr('class', 'name')
+          .attr('style', d => d.name === 'EARTH' ? 'fill: red' : '')
+          .attr('x', d => x(d.name) + x.bandwidth() / 2)
+          .attr('y', d => y(d.gravity) + (height - y(d.gravity)) / 2)
+          .style('opacity', 1);
+
+        // EXIT.
+        name.exit()
+          .transition()
+          .duration(750)
+          .style('opacity', 0)
+          .remove();
+      }
+
+      function transition() {
+        var transition = svg.transition()
+          .duration(750);
+
+        transition.selectAll('.bar')
+          .delay(delay)
+          .attr('x', d => x(d.name));
+
+        transition.selectAll('.name')
+          .delay(delay)
+          .attr('x', d => x(d.name) + x.bandwidth() / 2);
+      }
+
+      function draw() {
+        x.domain(current.map(d => d.name))
+          .range([0, width])
+          .paddingInner(0.2);
+
+        y.domain([0, d3.max(current, d => d.gravity)])
+          .range([height, 0]);
+
+        svg.selectAll('.bar')
+          .data(current, d => d.name)
+          .enter()
+          .append('rect')
+          .attr('class', 'bar')
+          .attr('x', d => x(d.name))
+          .attr('y', d => y(d.gravity))
+          .attr('width', x.bandwidth())
+          .attr('height', d => height - y(d.gravity));
+
+        svg.selectAll('.name')
+          .data(current, d => d.name)
+          .enter()
+          .append('text')
+          .text(d => d.name)
+          .attr('class', 'name')
+          .attr('style', d => d.name === 'EARTH' ? 'fill: red' : '')
+          .attr('x', d => x(d.name) + x.bandwidth() / 2)
+          .attr('y', d => y(d.gravity) + (height - y(d.gravity)) / 2);
+
+        var xAxis;
+        xAxis = d3.axisBottom()
+          .scale(x)
+          .ticks(0)
+          .tickSize(0)
+          .tickFormat('');
+
+        svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(0,' + height + ')')
+          .call(xAxis);
+
+        svg.append('text')
+          .attr('class', 'xlabel')
+          .text('smaller')
+          .attr('x', 30)
+          .attr('y', height + 20);
+
+        svg.append('text')
+          .attr('class', 'xlabel')
+          .text('larger')
+          .attr('x', width - 30)
+          .attr('y', height + 20);
+
+        var yAxis = d3.axisLeft()
+          .scale(y)
+          .ticks(5, 'd');
+
+        svg.append('g')
+          .attr('class', 'axis')
+          .call(yAxis);
+
+        svg.append('text')
+          .attr('x', - height / 2)
+          .attr('y', - margin.left * 0.7)
+          .attr('transform', 'rotate(-90)')
+          .attr('class', 'ylabel')
+          .append('tspan').text('Gravity ms')
+          .append('tspan').text('-2')
+          .style('baseline-shift', 'super')
+          .style('font-size', '0.7em');
+      }
+    </script>
+  </div>
+
+</body>

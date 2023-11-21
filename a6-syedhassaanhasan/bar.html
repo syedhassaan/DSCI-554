@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<link rel="stylesheet" href="lab/style.css">
+<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="../node_modules/d3/dist/d3.min.js"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<!-- Add 2 buttons -->
+<!-- <button onclick="update('education_percentage')">Education</button>
+<button onclick="update('crime_percentage')">Crime</button> -->
+
+<div class="form">
+<form>
+    <input type="radio" id="html" name="group1" value="Education" onclick="update('')" checked="checked">
+    <label for="html">Education</label>
+    <input type="radio" id="css" name="group1" value="Crime" onclick="update('')">
+    <label for="css">Crime</label><br>
+  
+  <input type="radio" id="html_" name="group2" value="Top 20" onclick="update('')" checked="checked">
+  <label for="html">Top 20</label>
+  <input type="radio" id="css_" name="group2" value="Bottom 20" onclick="update('')">
+  <label for="css">Bottom 20</label><br>
+  
+  <input type="radio" id="html_" name="group3" value="Male" onclick="update('')" checked="checked">
+  <label for="html">Male</label>
+  <input type="radio" id="css_" name="group3" value="Female" onclick="update('')">
+  <label for="css">Female</label><br>
+  
+  <input type="radio" id="html_" name="group4" value=2005 onclick="update('')" checked="checked">
+  <label for="html">2005</label>
+  <input type="radio" id="html_" name="group4" value=2010 onclick="update('')" >
+  <label for="html">2010</label>
+  <input type="radio" id="html_" name="group4" value=2017 onclick="update('')" >
+  <label for="html">2017</label>
+
+  
+</form>
+</div>
+
+<!-- Create a div where the graph will take place -->
+<h2 id="title" style="text-align: center;">Title</h2>
+<div id="my_dataviz"></div>
+
+<script>
+  // set the dimensions and margins of the graph
+  var margin = {top: 30, right: 30, bottom: 100, left: 60},
+      width = 1060 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
+  
+  // append the svg object to the body of the page
+  var svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+  
+  // Initialize the X axis
+  var x = d3.scaleBand()
+    .range([ 0, width ])
+    .padding(0.2);
+    // svg.append("g")
+    // .attr("transform", "translate(0," + height + ")")
+    // .call(d3.axisBottom(x))
+    // .selectAll("text")
+    //   .attr("transform", "translate(-10,0)rotate(-45)")
+    //   .style("text-anchor", "end");
+
+  var xAxis = svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    
+  // Initialize the Y axis
+  var y = d3.scaleLinear()
+    .range([ height, 0]);
+  var yAxis = svg.append("g")
+    .attr("class", "myYaxis")
+  
+  
+  // A function that create / update the plot for a given variable:
+  function update() {
+
+    var ele = document.getElementsByTagName('input');
+    filters = []
+    for(i = 0; i < ele.length; i++) {
+          
+        if(ele[i].type="radio") {
+          if(ele[i].checked){
+            filters.push(ele[i].value)
+          }
+        }
+    }
+    //console.log("filters: ", filters)
+
+    // Parse the Data
+    d3.csv("merged_dataset.csv", function(data) {
+      
+      //console.log(data)
+        data_csv = d3.filter(data,d=>d.Year == filters[3])
+        
+        //console.log(data_csv)
+        
+        var data = []
+        
+        if (filters[0] === "Crime"){
+          color = "red"
+          selectedVar = "crime_percentage"
+          if (filters[2] === "Male"){
+            for (i=0;i<data_csv.length; i ++){
+              i_d = data_csv[i]
+              if (i_d.Series_x ==  "Percentage of male and female intentional homicide victims, Male" & i_d.Value_x != 0){
+                data.push({year:i_d.Year,country:i_d.Region,crime_percentage:+i_d.Value_x})
+              }
+            }            
+          } else {
+            for (i=0;i<data_csv.length; i ++){
+              i_d = data_csv[i]
+              if (i_d.Series_x ==  "Percentage of male and female intentional homicide victims, Female" & i_d.Value_x != 0){
+                data.push({year:i_d.Year,country:i_d.Region,crime_percentage:+i_d.Value_x})
+              }
+            }            
+          }
+        
+        } else {
+          color = "blue"
+          selectedVar = "education_percentage"
+          if (filters[2] === "Male"){
+            gender = "Gross enrollment ratio - Tertiary (male)"
+            for (i=0;i<data_csv.length; i ++){
+              i_d = data_csv[i]
+              if (i_d.Series_y ==  "Gross enrollment ratio - Tertiary (male)" & i_d.Value_y != 0){
+                data.push({year:i_d.Year,country:i_d.Region,education_percentage:+i_d.Value_y} )
+              }
+            }
+            
+          } else {
+            for (i=0;i<data_csv.length; i ++){
+              i_d = data_csv[i]
+              if (i_d.Series_y ==  "Gross enrollment ratio - Tertiary (female)" & i_d.Value_y != 0){
+                data.push({year:i_d.Year,country:i_d.Region,education_percentage:+i_d.Value_y})
+              }
+            }
+            
+          }
+        }
+
+        data = Array.from(new Set(data.map(JSON.stringify)), JSON.parse)
+
+
+
+        //console.log("unfiltered_data: ", data)
+
+        var heading = document.getElementById('title');
+        year = filters[3]
+        if (filters[0] === "Crime"){
+        data = data.sort((a, b) => d3.descending(a.crime_percentage, b.crime_percentage));
+          if (filters[1] === "Top 20"){
+            title = "The 20 Most Dangerous Countries (" + year + ")"
+            heading.innerHTML = title
+            if (data.length > 20){
+              data = data.slice(0,20) 
+            }
+          } else {
+            title = "The 20 Most Safest Countries (" + year + ")"
+            heading.innerHTML = title
+            if (data.length > 20){
+              data = data.slice(Math.max(data.length - 20, 1))
+            }
+          }
+        } else {
+          data = data.sort((a, b) => d3.descending(a.education_percentage, b.education_percentage));
+          if (filters[1] === "Top 20"){
+            title = "The 20 Most Literate Countries (" + year + ")"
+            heading.innerHTML = title
+            if (data.length > 20){
+              data = data.slice(0,20)
+            }
+          } else {
+            title = "The 20 Most Iliterate Countries (" + year + ")"
+            heading.innerHTML = title
+            if (data.length > 20){
+              data = data.slice(Math.max(data.length - 20, 1))
+            }
+          }
+        }
+        
+        //console.log("filtered_data: ", data)
+        
+      // X axis
+      x.domain(data.map(function(d) { return d.country; }))
+      xAxis.transition().duration(1000)//.call(d3.axisBottom(x))
+      // svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
+
+      // Add Y axis
+      y.domain([0, d3.max(data, function(d) { return +d[selectedVar] }) ]);
+      yAxis.transition().duration(1000).call(d3.axisLeft(y));
+  
+      // variable u: map data to existing bars
+      var u = svg.selectAll("rect")
+        .data(data)
+  
+      // update bars
+      u
+        .enter()
+        .append("rect")
+        .merge(u)
+        .transition()
+        .duration(1000)
+          .attr("x", function(d) { return x(d.country); })
+          .attr("y", function(d) { return y(d[selectedVar]); })
+          .attr("width", x.bandwidth())
+          .attr("height", function(d) { return height - y(d[selectedVar]); })
+          .attr("fill", color)
+    })
+  
+  }
+  
+  // Initialize plot
+  update()
+  
+  </script>
+
+  

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab X ex4</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<style>
+    .neon {
+      color: #333;
+      text-shadow:
+        0 0 5px #0f0,
+        0 0 10px #0f0,
+        0 0 20px #0f0,
+        0 0 40px #0f0,
+        0 0 80px #0f0,
+        0 0 90px #0f0,
+        0 0 100px #0f0,
+        0 0 150px #0f0;
+    }
+	</style>	
+</head>
+
+<body>
+	<h1 class="neon">🏋🏽‍♂️ ex4: d3 re-usable area chart</h1>
+
+	<p>Use the sample code in <code>areaChart.js</code>:</p>	
+	<ol>
+		<li>Implement the chart in the Answer</li>
+		<li>Use code from <code>line_sparkline.js</code> and <code>areaChart.js</code> to load <code>amzn.csv</code> and display it as an area chart</li>
+	</ol>
+	</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<script src="node_modules/d3/dist/d3.min.js"></script>
+		<script src="node_modules/d3-time-format/dist/d3-time-format.min.js"></script>
+
+		<div id="sp500"></div> <!-- sp500.csv area chart -->
+		<div id="amzn"></div> <!-- amzn.csv area chart -->
+
+		<!-- areaChart.js contains the 'areaChart' method  that is used below -->
+		<script src="areaChart.js"></script>
+
+		<script>
+			d3.csv("sp500.csv").then(function (data) {
+				var formatDate = d3.timeParse("%b %Y");
+
+				var chart = areaChart()
+					.x(function (d) { return formatDate(d.date); })
+					.y(function (d) { return +d.price; })
+					.width(600)
+					.height(300)
+					.margin({ top: 20, right: 40, bottom: 20, left: 20 })
+					.background_color('#eee');
+
+				d3.select("#sp500")
+					.datum(data)
+					.call(chart);
+			});	
+			
+			d3.csv('amzn.csv', d => {
+				var format = d3.timeParse('%Y-%m-%d');
+				return {
+					date: format(d.date),
+					close: +d.close
+				};
+			}).then(data => {
+				var chart = areaChart()
+					.x(function (d) { return d.date; })
+					.y(function (d) { return +d.close; })
+					.width(600)
+					.height(300)
+					.margin({ top: 20, right: 40, bottom: 20, left: 20 })
+					.background_color('#eee');
+
+				d3.select("#amzn")
+					.datum(data)
+					.call(chart);
+			});			
+		</script>
+
+	</div>
+</body>
+
+</html>

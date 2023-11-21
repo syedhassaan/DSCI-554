@@ -1,0 +1,72 @@
+[
+ {
+   "country": "Afghanistan",
+   "B": "13.5",
+   "population": "100",
+   "lat": "33.93911",
+   "lon": "67.709953"
+ },
+ {
+   "country": "Bangladesh",
+   "B": "15",
+   "population": "50",
+   "lat": "23.684994",
+   "lon": "90.356331"
+ },
+ {
+   "country": "Canada",
+   "B": "91",
+   "population": "70",
+   "lat": "56.130366",
+   "lon": "-106.346771"
+ },
+ {
+   "country": "China",
+   "B": "54.3",
+   "population": "110",
+   "lat": "35.86166",
+   "lon": "104.195397"
+ },
+ {
+   "country": "Finland",
+   "B": "87.4689",
+   "population": "140",
+   "lat": "61.92411",
+   "lon": "25.748151"
+ },
+ {
+   "country": "India",
+   "B": "34.45",
+   "population": "200",
+   "lat": "20.593684",
+   "lon": "78.96288"
+ },
+ {
+   "country": "Iran",
+   "B": "64.044",
+   "population": "160",
+   "lat": "32.427908",
+   "lon": "53.688046"
+ },
+ {
+   "country": "Pakistan",
+   "B": "15.51",
+   "population": "40",
+   "lat": "30.375321",
+   "lon": "69.345116"
+ },
+ {
+   "country": "UK",
+   "B": "94.62",
+   "population": "12",
+   "lat": "55.378051",
+   "lon": "-3.435973"
+ },
+ {
+   "country": "USA",
+   "B": "87.2661",
+   "population": "55",
+   "lat": "37.09024",
+   "lon": "-95.712891"
+ }
+]

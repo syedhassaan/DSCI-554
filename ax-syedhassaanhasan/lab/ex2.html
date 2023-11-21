@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab X ex2</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<style>
+    .neon {
+      color: #333;
+      text-shadow:
+        0 0 5px #0f0,
+        0 0 10px #0f0,
+        0 0 20px #0f0,
+        0 0 40px #0f0,
+        0 0 80px #0f0,
+        0 0 90px #0f0,
+        0 0 100px #0f0,
+        0 0 150px #0f0;
+    }
+	</style>	
+</head>
+
+<body>
+	<h1 class="neon">🏋🏽‍♂️ ex2: responsive bar chart</h1>
+
+	<p>Use the sample code in <code>bar_chart.js</code> and <code>bar_chart.css</code>:
+		<ol>
+			<li>Implement the chart in the Answer</li>
+			<li>Verify that as you resize the <code>window</code> the chart changes</li>
+			<li>In <code>bar_chart.js</code> add a brief explanation of the code where marked with 🎒</li>
+		</ol>
+	</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<script src="node_modules/d3/dist/d3.min.js"></script>
+		<script src="node_modules/d3-time-format/dist/d3-time-format.min.js"></script>		
+
+		<!-- Include bar_chart.css here! -->
+		<link rel="stylesheet" href="bar_chart.css">
+
+		<!-- Add svg for the chart here! -->
+		<svg id="chart" width="100" height="50"></svg>
+	
+		<!-- Include bar_chart.js here! -->
+		<script src="bar_chart.js"></script>
+	</div>
+</body>
+</html>

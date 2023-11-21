@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex3</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex3: scatterplots with SVG</h1>
+
+	<h2>1 - Scatterplot with SVG circle</h2>
+	<hr>
+
+	<p>Implement a scatterplot for the data shown using the starter code</p>
+
+  <div class="sample">
+	<cap>Data</cap>
+
+	<pre><code class="js">
+data = [[200, 200],
+        [150, 150]];
+	</code></pre>
+		
+
+	<cap>Starter code</cap>
+
+	<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->		
+&lt;svg width="300px" height="300px"&gt;
+  &lt;circle cx="10" cy="10" r="2" fill="orangered"&gt;&lt;/circle&gt;  &lt;!-- circle center is (cx, cy) and not (x, y)! --&gt;
+&lt;/svg&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+		<svg width="300px" height="300px">
+			<circle cx="200" cy="200" r="20" fill="orangered"></circle>  <!-- circle center is (cx, cy) and not (x, y)! -->
+			<circle cx="150" cy="150" r="20" fill="orangered"></circle>  <!-- circle center is (cx, cy) and not (x, y)! -->
+		</svg>
+	</div>
+
+	<h2>2 - Scatterplot with SVG circle and class attribute</h2>
+	<hr>
+
+	<p>Modify the code of ex3.1 to use the class attribute for common CSS properties.
+	</p>
+
+	<div class="sample">
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->		
+&lt;style&gt;
+circle.dot {
+    fill: orangered;
+    r: 2px;
+}
+&lt;/style&gt;
+
+&lt;svg width="300px" height="300px"&gt;
+  &lt;circle class="dot" cx="10" cy="10"&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+		</code></pre>
+	</div>	
+
+	<div class="answer">
+		<cap>Answer</cap>
+    	<!-- Add your code here! -->
+		<style>
+			circle.dot {
+				fill: orangered;
+				r: 20px;
+			}
+			</style>
+			
+			<svg width="300px" height="300px">
+			  <circle class="dot" cx="200" cy="200"></circle>
+			  <circle class="dot" cx="150" cy="150"></circle>
+			</svg>
+  </div>
+
+</body>
+</html>

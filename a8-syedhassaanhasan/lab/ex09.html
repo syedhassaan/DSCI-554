@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex9</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<script src="node_modules/d3/dist/d3.min.js"></script>
+
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX9: D3 LA County City Boundaries map</h1>
+
+	<h2>1 - GeoJSON</h2>
+	<hr>
+
+	<p>Let's start with <code>LA_County_City_Boundaries_QGIS.geojson</code> from ex8.</p>
+	<div class="answer">
+
+		<div><small>Click on the map to display features properties</small></div>
+
+		<div class="container">
+			<div class="col">
+				<svg id="svg1" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info1"></p>
+			</div>
+		</div>
+
+		<style>
+			.selected {
+				fill: red;
+			}
+
+			.cities :hover {
+			  fill: #ff9999;
+			}
+
+			.cities {
+				fill: whitesmoke;
+				stroke: #666;
+				stroke-width: 0.5px;
+			}
+		</style>
+
+		<script type="text/javascript">
+			d3.json('data/LA_County_City_Boundaries_QGIS.geojson').then(json => {
+				var svg = d3.select('#svg1'),
+					width = +svg.attr('width'),
+					height = +svg.attr('height');
+
+				var projection = d3.geoMercator()
+					.fitSize([width, height], json);
+
+				path = d3.geoPath()
+					.projection(projection);
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info1')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+
+	<h2>2 - projected GeoJSON</h2>
+	<hr>
+
+	<p>Create a projected GeoJSON using <code>geoproject</code>:
+	<pre><code class="sh">node_modules/d3-geo-projection/bin/geoproject \
+'d3.geoMercator().fitSize([300, 300], d)' \
+&lt; LA_County_City_Boundaries_QGIS.geojson \
+&gt; LA_County_City_Boundaries_QGIS_projected.geojson</code></pre>
+	</p>
+	
+	<p class="nb">NB: d3-geo-projection that includes geoproject is already installed locally. Normally command line tools are installed system-wide using <code>npm install geoproject -g</code></p>
+	
+	<p>The map below is already set-up to display <code>data/LA_County_City_Boundaries_QGIS_projected.geojson</code>.</p>
+
+	<div class="answer">
+		<div><small>Click on the map to display features properties</small></div>
+
+		<div class="container">
+			<div class="col">
+				<svg id="svg2" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info2"></p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			d3.json('data/LA_County_City_Boundaries_QGIS_projected.geojson').then(json => {
+				var svg = d3.select('#svg2'),
+					width = +svg.attr('width'),
+					height = +svg.attr('height');
+
+				path = d3.geoPath();
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info2')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+
+	<h2>3 - TopoJSON</h2>
+	<hr>
+
+	<p>Create a TopoJSON using <code>geo2topo</code>:
+	<pre><code class="sh">node_modules/topojson-server/bin/geo2topo \
+LA_County_City_Boundaries_QGIS.geojson \
+-o LA_County_City_Boundaries_QGIS.topojson</code></pre></p>
+		
+	<p class="nb">NB: topojson-server that includes geo2topo is already installed locally. Normally command line tools are installed system-wide using <code>npm install topojson-server -g</code></p>
+
+	<p>The map below is already set-up to display <code>data/LA_County_City_Boundaries_QGIS.topojson</code>.</p>
+
+	<div class="answer">
+		<div><small>Mouse over the map to display features properties</small></div>
+
+		<div class="container">
+			<div class="col">
+				<svg id="svg3" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info3"></p>
+			</div>
+		</div>
+
+		<script src="node_modules/topojson/dist/topojson.min.js"></script>
+
+		<script>
+			d3.json('data/LA_County_City_Boundaries_QGIS.topojson').then(json => {
+				json = topojson.feature(json, json.objects.LA_County_City_Boundaries_QGIS);
+
+				var svg = d3.select('#svg3'),
+					width = +svg.attr('width'),
+					height = +svg.attr('height');
+
+				var projection = d3.geoMercator()
+					.fitSize([width, height], json);
+
+				path = d3.geoPath()
+					.projection(projection);
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info3')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+
+	<h2>4 - projected TopoJSON</h2>
+	<hr>
+
+	<p>Create a projected TopoJSON using <code>geo2topo</code>:
+	<pre><code class="sh">node_modules/topojson-server/bin/geo2topo \
+LA_County_City_Boundaries_QGIS_projected.geojson \
+-o LA_County_City_Boundaries_QGIS_projected.topojson</code></pre></p>
+		
+	<p class="nb">NB: topojson-server that includes geo2topo is already installed locally. Normally command line tools are installed system-wide using <code>npm install topojson-server -g</code></p>
+
+	<p>The map below is already set-up to display <code>LA_County_City_Boundaries_QGIS_projected.topojson</code>.</p>
+
+	<div class="answer">
+		<div><small>Mouse over the map to display features properties</small></div>
+
+		<div class="container">
+			<div class="col">
+				<svg id="svg4" width="300" height="300"></svg>
+			</div>
+			<div class="col">
+				<p class="alert" id="info4"></p>
+			</div>
+		</div>
+
+		<script src="node_modules/topojson/dist/topojson.min.js"></script>
+
+		<script>
+			d3.json('data/LA_County_City_Boundaries_QGIS_projected.topojson').then(json => {
+				json = topojson.feature(json, json.objects.LA_County_City_Boundaries_QGIS_projected);
+
+				var svg = d3.select('#svg4'),
+					width = +svg.attr('width'),
+					height = +svg.attr('height');
+
+				path = d3.geoPath();
+
+				svg.append('g')
+					.attr('class', 'cities')
+					.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.on('click', function (d) {
+						svg.select('.selected')
+							.classed('selected', false);
+						d3.select(this)
+							.classed('selected', true);
+						d3.select('#info4')
+							.text('properties = ' + JSON.stringify(this.__data__.properties, null, 2));
+					});
+			});
+		</script>
+	</div>
+
+	<h2>5 - file size comparison</h2>
+	<hr>
+
+	<p>Complete the Answer where marked with 🎒 in the page.</p>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+		Execute in the terminal to print the file sizes:
+		<pre><code class="sh">ls -lh data/LA_County_City_Boundaries_*.*json
+<!-- 🎒 add console output here -->
+</code></pre>
+	</div>
+
+</body>
+
+</html>

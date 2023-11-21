@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 7 ex4</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<script src="../node_modules/d3/dist/d3.min.js"></script>	
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX4: AREA CHART</h1>
+
+	<h2>0 - Area generator</h2>
+	<hr>
+
+	<p>Read the <a target="_blank" href="https://github.com/d3/d3/blob/master/API.md#areas">D3 Area API</a> then complete the code in the page where marked with 🎒.</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<svg id="area-test" width="200" height="200"></svg>
+
+		<script>
+			var region = [  //two consecutive points in an area chart
+				{x: 10, y: 100},
+				{x: 100, y: 40},
+			];
+			
+			var svg = d3.select('#area-test');
+			var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+				width = +svg.attr('width') - margin.left - margin.right,
+				height = +svg.attr('height') - margin.top - margin.bottom,
+				g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+			var x = d3.scaleLinear()
+				.domain([0, 100])
+				.range([0, width]);
+			
+			var y = d3.scaleLinear()
+				.domain([0, 100])
+				.range([height, 0]);
+
+			var area = d3.area()  //🎒 explain: create a new area generator.
+				.x(d => x(d.x))  //🎒 explain: set the x0 and x1 accessors.
+				.y1(d => y(d.y))  //🎒 explain:  set the topline y accessor.
+				.y0(y(0));  //🎒 explain: set the baseline y accessor.
+			
+			console.log(area(region));  //🎒 explain: calling the area function, with points in the region structure
+
+			g.append('path')  //🎒 explain: 
+				.attr('d', area(region))  //🎒 explain: calling the area function, with points in the region structure
+				.attr('fill', "red")
+				.attr('stroke', "black")
+		</script>
+
+	<h2>1 - Area chart example</h2>
+	<hr>
+
+	<p>Read the <a target="_blank" href="https://github.com/d3/d3/blob/master/API.md#areas">D3 Area API</a> then complete the Answer where indicated by 🎒</p>
+
+	<p class="alert info">💡 Adapted from <a target="_blank" href="https://bl.ocks.org/mbostock/3883195">Mike Bostock’s Block 3883195</a></p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<svg id="area-chart" style="display: block" width="960" height="500"></svg>
+
+		<script>
+			var parseTime = d3.timeParse('%d-%b-%y');
+	
+			d3.tsv('data.tsv', function (d) {
+				d.date = parseTime(d.date);
+				d.close = +d.close;
+				return d;
+			}).then(data => {
+				var svg = d3.select('#area-chart');
+				var margin = { top: 40, right: 20, bottom: 30, left: 50 },
+					width = +svg.attr('width') - margin.left - margin.right, //🎒 explain: setting the width
+					height = +svg.attr('height') - margin.top - margin.bottom,
+					g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+	
+				var x = d3.scaleTime()
+					.rangeRound([0, width]);
+	
+				var y = d3.scaleLinear()
+					.rangeRound([height, 0]);
+	
+				var area = d3.area()  //🎒  explain: create a new area generator.
+					.x(d => x(d.date))
+					.y1(d => y(d.close));  //🎒  explain: set the topline y accessor.
+	
+				x.domain(d3.extent(data, d => d.date));
+	
+				y.domain(d3.extent(data, d => d.close));
+	
+				area.y0(y(d3.min(data, d => d.close)));  //🎒  explain: set the baseline y accessor.
+	
+				//🎒 explain what the following two lines of code do: 
+				// y.domain([0, d3.max(data, d => d.close)]);
+				// area.y0(y(0));
+	
+				g.append('path')
+					.datum(data)
+					.attr('fill', 'steelblue')
+					.attr('d', area);
+	
+				g.append('g')
+					.attr('transform', 'translate(0,' + height + ')')
+					.call(d3.axisBottom(x));
+	
+				g.append('g')
+					.call(d3.axisLeft(y))
+					.append('text')
+					.attr('fill', '#000')
+					.attr('transform', 'rotate(-90)')
+					.attr('y', 6)
+					.attr('dy', '0.71em')
+					.attr('text-anchor', 'end')
+					.text('Price ($)');
+			});
+		</script>
+	</div>
+</body>
+</html>

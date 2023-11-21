@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex5</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex5: VEGA loading from csv and JSON</h1>
+
+	For this exercise we will build several Vega-Lite plots loading data in JSON and csv
+
+	<h2>0 - Data wrangling</h2>
+	<hr>
+
+	<ol>
+		<li>Download from <a target="_blank" href="https://github.com/CSSEGISandData/COVID-19">CCSE dataset</a> <a
+				target="_blank"
+				href="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">time_series_covid19_confirmed_global.csv</a>:
+			<pre><code class="sh">
+#with wget
+wget https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv
+
+#with curl
+curl https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv > time_series_covid19_confirmed_global.csv
+			</code></pre>
+		</li>
+		<li>Filter the data for 3 countries: see how to with <a
+				href="https://docs.google.com/spreadsheets/d/1xd8-XIgMGlBFit6vLJVmRrKTQEqVl9ooSdgwQlKH7us/edit#gid=450622405">Google
+				Sheets</a> and try in the page with the following code:<br>
+			<pre><code class="js">
+&lt;script src="../node_modules/d3/dist/d3.min.js">&lt;/script&gt;
+&lt;script&gt;
+	const MY_COUNTRIES = ['US', 'France', 'Italy'];
+
+	d3.csv('time_series_covid19_confirmed_global.csv').then(wideData => {
+		//filter out provinces and states
+		wideData = wideData.filter(d => d['Province/State'] == '');
+
+		//only consider 3 countries
+		wideData = wideData.filter(d => MY_COUNTRIES.includes(d['Country/Region']));
+
+		//transform from wide to long format
+		var longData = [];
+		wideData.forEach((row) => {
+			delete row['Province/State'];
+			delete row['Lat'];
+			delete row['Long'];
+			Object.keys(row).forEach((colname) => {
+				if (colname != 'Country/Region') {
+					longData.push({
+						country: row['Country/Region'],
+						date: colname,
+						count: +row[colname]
+					});
+				}
+			});
+		});
+
+		function toCsv(data) {
+			const headers = [Object.keys(data[0]).join()];
+			const content = data.map(r => Object.values(r).join());
+			return headers.concat(content).join('\n');
+		}
+
+		let data = toCsv(longData);
+
+		//show output in the page
+		d3.select('#out')
+			.html(data.replaceAll('\n', '&lt;br/&gt;'));  //text changes the contents of the "text" node while html sets the "inner HTML"
+
+		//copy to clipboard using the clipboard api
+		navigator.clipboard.writeText(data);
+	});
+&lt;/script&gt;
+&lt;div style="background-color: seashell;" id="out"&gt;&lt;/div&gt;
+      </code></pre>
+		</li>
+	</ol>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<!-- Add your code here! -->
+		<script src="../node_modules/d3/dist/d3.min.js"></script>
+		<script>
+			const MY_COUNTRIES = ['US', 'France', 'Italy'];
+
+			d3.csv('time_series_covid19_confirmed_global.csv').then(wideData => {
+				//filter out provinces and states
+				wideData = wideData.filter(d => d['Province/State'] == '');
+
+				//only consider 3 countries
+				wideData = wideData.filter(d => MY_COUNTRIES.includes(d['Country/Region']));
+
+				//transform from wide to long format
+				var longData = [];
+				wideData.forEach((row) => {
+					delete row['Province/State'];
+					delete row['Lat'];
+					delete row['Long'];
+					Object.keys(row).forEach((colname) => {
+						if (colname != 'Country/Region') {
+							longData.push({
+								country: row['Country/Region'],
+								date: colname,
+								count: +row[colname]
+							});
+						}
+					});
+				});
+
+				function toCsv(data) {
+					const headers = [Object.keys(data[0]).join()];
+					const content = data.map(r => Object.values(r).join());
+					return headers.concat(content).join('\n');
+				}
+
+				let data = toCsv(longData);
+
+				//show output in the page
+				d3.select('#out')
+					.html(data.replaceAll('\n', '<br/>'));  //text changes the contents of the "text" node while html sets the "inner HTML"
+
+				//copy to clipboard using the clipboard api
+				navigator.clipboard.writeText(data);
+			});
+		</script>
+		<div style="background-color: seashell;" id="out"></div>
+
+
+	</div>
+
+	<h2>1 - 1D strip plot</h2>
+	<hr>
+
+	<p>Adapt <a target="_blank" href="https://vega.github.io/vega-lite/examples/tick_dot.html">1D strip plot example</a>
+		to 1 country with values for the first day of the month</p>
+
+	<div class="sample">
+		<cap>Data</cap>
+		<pre style="font-size: 0.85em;"><code class="js">
+//vega-datasets is listed in <code>package.json</code> so you can refer to the data relative to <code>node_modules</code>
+//for example
+{"url": "data/seattle-weather.csv"}
+//is available as
+{"url": "../node_modules/vega-datasets/data/seattle-weather.csv"}
+		</code></pre>
+
+		<cap>Sample code</cap>
+		<pre><code class="HTML">
+&lt;script src="../node_modules/vega/build/vega.min.js"&gt;&lt;/script&gt;
+&lt;script src="../node_modules/vega-lite/build/vega-lite.min.js"&gt;&lt;/script&gt;
+&lt;script src="../node_modules/vega-embed/build/vega-embed.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="vis"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+	var vlSpec = {};  //plot specifications
+	vegaEmbed('#vis', vlSpec);
+&lt;/script&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<!-- Add your code here! -->
+		<script src="../node_modules/vega/build/vega.min.js"></script>
+		<script src="../node_modules/vega-lite/build/vega-lite.min.js"></script>
+		<script src="../node_modules/vega-embed/build/vega-embed.min.js"></script>
+
+		<div id="vis2"></div>
+
+		<script>
+			var vlSpec = {
+				"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+				"data": {"url": "file2.csv"},
+				"mark": "tick",
+				"encoding": {
+					"x": {"field": "count", "type": "quantitative"}
+				}
+			}  //plot specifications
+			vegaEmbed('#vis2', vlSpec);
+		</script>
+	</div>
+
+	<h2>2 - Slope graph</h2>
+	<hr>
+
+	<p>Adapt <a target="_blank" href="https://vega.github.io/vega-lite/examples/line_slope.html">Slope Graph example</a>
+		to 2 countries, values for the first day of the month and 2 months of you choice</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<!-- Add your code here! -->
+		<script src="../node_modules/vega/build/vega.min.js"></script>
+		<script src="../node_modules/vega-lite/build/vega-lite.min.js"></script>
+		<script src="../node_modules/vega-embed/build/vega-embed.min.js"></script>
+
+		<div id="vis3"></div>
+
+		<script>
+			var vlSpec = {
+				"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+				"data": {"url": "file.csv"},
+				"description": "Slope graph showing the change in yield for different barley sites. It shows the error in the year labels for the Morris site.",
+				"mark": "line",
+				"width": {"step": 50},
+				"encoding": {
+					"x": {
+					"field": "date",
+					"type": "temporal",
+					"scale": {"padding": 0.5}
+					},
+					"y": {
+					
+					"field": "count",
+					"type": "quantitative"
+					},
+					"color": {"field": "country", "type": "nominal"}
+				}
+			}
+
+			vegaEmbed('#vis3', vlSpec);
+		</script>
+		
+
+	</div>
+
+	<h2>3 - Multi Series Line Chart</h2>
+	<hr>
+
+	<p>Adapt <a target="_blank" href="https://vega.github.io/vega-lite/examples/line_color.html">Multi Series Line Chart
+			example</a> to 3 countries</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+		<!-- Add your code here! -->
+		<script src="../node_modules/vega/build/vega.min.js"></script>
+		<script src="../node_modules/vega-lite/build/vega-lite.min.js"></script>
+		<script src="../node_modules/vega-embed/build/vega-embed.min.js"></script>
+
+		<div id="vis4"></div>
+
+		<script>
+			var vlSpec = {
+				"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+				"description": "Stock prices of 5 Tech Companies over Time.",
+				"data": {"url": "file2.csv"},
+				"mark": "line",
+				"encoding": {
+					"x": {"field": "date", "type": "temporal"},
+					"y": {"field": "count", "type": "quantitative"},
+					"color": {"field": "country", "type": "nominal"}
+				}
+			}
+
+			vegaEmbed('#vis4', vlSpec);
+		</script>
+
+	</div>
+</body>
+
+</html>

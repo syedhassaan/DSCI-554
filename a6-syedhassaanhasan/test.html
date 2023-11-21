@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Bin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://mojoaxel.github.io/bootstrap-select-country/dist/css/bootstrap-select-country.min.css" type="text/css" />
+  <script src="https://d3js.org/d3.v4.js"></script>
+
+</head>
+<body>
+  <div>
+    Select Countries to compare: 
+    <select id="countries" class="selectpicker countrypicker" data-flag="true" multiple onclick="search()"></select>
+  </div>
+    
+  <script>
+        var countries = [];    
+        d3.select("#countries").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        countries.push(selectedOption)
+        console.log("selected countries: ", countries)
+    })
+  </script>
+  
+
+  <script>
+      function search(){
+          console.log("Called")
+      }
+  </script>
+
+  <script src="https://code.jquery.com/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-select-country@4.0.0/dist/js/bootstrap-select-country.min.js"></script>
+  
+  
+</body>
+</html>

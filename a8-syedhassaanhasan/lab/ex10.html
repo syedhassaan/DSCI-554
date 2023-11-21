@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex10</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX10: D3 proportional symbol map</h1>
+
+	<p>Complete the answers in the page where marked with 🎒.</p>
+
+	<div class="answer">
+
+		<svg id="chart" width="975" height="610"></svg>
+
+		<script src="node_modules/d3/dist/d3.min.js"></script>
+		<script src="node_modules/topojson/dist/topojson.min.js"></script>
+
+		<script>
+			var promises = [];
+			var files = ['data/counties-albers-10m.json', 'data/population.json'];
+			files.forEach(url => promises.push(d3.json(url)));  //🎒 explain: fetch the file
+			Promise.all(promises).then(function (values) {  //🎒 explain: wait until all the promises have been resolved
+				var us = values[0];
+				var data = values[1];
+
+				format = d3.format(',.0f')
+
+				//🎒 explain: creating a new Map
+				data = new Map(data.slice(1).map(([population, state, county]) => [state + county, +population]))
+
+				//🎒 explain: creating the radius values
+				radius = d3.scaleSqrt([0, d3.quantile([...data.values()].sort(d3.ascending), 0.985)], [0, 15]);
+
+				svg = d3.select('#chart')
+					.attr('viewBox', [0, 0, 975, 610]);
+
+				path = d3.geoPath()
+
+				//🎒 explain: making the outline for the USA boundary
+				svg.append('path')
+					.datum(topojson.feature(us, us.objects.nation))
+					.attr('fill', '#ccc')
+					.attr('d', path);
+
+				//🎒 explain: adding the boundary for the states
+				svg.append('path')
+					.datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
+					.attr('fill', 'none')
+					.attr('stroke', 'white')
+					.attr('stroke-linejoin', 'round')
+					.attr('d', path);
+
+				//🎒 explain:
+				const legend = svg.append('g')
+					.attr('fill', '#777')
+					.attr('transform', 'translate(925,608)')
+					.attr('text-anchor', 'middle')
+					.style('font', '10px sans-serif')
+					.selectAll('g')
+					.data([1e6, 5e6, 1e7])
+					.join('g');
+
+				legend.append('circle')
+					.attr('fill', 'none')
+					.attr('stroke', '#ccc')
+					.attr('cy', d => -radius(d))
+					.attr('r', radius);
+
+				legend.append('text')
+					.attr('y', d => -2 * radius(d))
+					.attr('dy', '1.3em')
+					.text(d3.format('.1s'));
+
+				//🎒 explain: adding the radius to denote proportion
+				svg.append('g')
+					.attr('fill', 'brown')
+					.attr('fill-opacity', 0.5)
+					.attr('stroke', '#fff')
+					.attr('stroke-width', 0.5)
+					.selectAll('circle')
+					.data(topojson.feature(us, us.objects.counties).features
+						.map(d => (d.value = data.get(d.id), d))  //🎒 explain: adding the value for each county wrt id
+						.sort((a, b) => b.value - a.value))
+					.join('circle')
+					.attr('transform', d => `translate(${path.centroid(d)})`)  //🎒 explain: making the circle at the center of the state
+					.attr('r', d => radius(d.value))
+					.append('title')
+					.text(d => `${d.properties.name} ${format(d.value)}`);
+			});
+		</script>
+	</div>
+</body>
+
+</html>

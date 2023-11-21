@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex6</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script src="../node_modules/vega/build/vega.min.js"></script>
+<script src="../node_modules/vega-lite/build/vega-lite.min.js"></script>
+<script src="../node_modules/vega-embed/build/vega-embed.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex6: bar charts and scatterplots with Vega</h1>
+
+	<h2>1 - Bar chart with Vega exported as SVG</h2>
+	<hr>
+
+  <script>
+    let a = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      description: "A simple bar chart with embedded data.",
+      data: {
+        "values": [
+          {"a": "A", "b": 28}, {"a": "B", "b": 55}, {"a": "C", "b": 43},
+          {"a": "D", "b": 91}, {"a": "E", "b": 81}, {"a": "F", "b": 53},
+          {"a": "G", "b": 19}, {"a": "H", "b": 87}, {"a": "I", "b": 52}
+        ]
+      },
+      "mark": "bar",
+      "encoding": {
+        "x": {"field": "a", "type": "nominal", "axis": {"labelAngle": 0}},
+        "y": {"field": "b", "type": "quantitative"}
+      }
+    }
+  </script>
+  
+
+  <p>Head out to this <a href="https://vega.github.io/vega-lite/examples/bar.html">Vega-lite bar chart</a>:
+    <ul>
+      <li>Click on <em>View this example in the online editor</em></li>
+      <li>Export to SVG image and show it as HTML <code>img</code> and SVG <code>image</code>.</li>
+    </ul>
+	</p>
+
+  <div class="sample">
+    <cap>Starter code</cap>  
+    <pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->		
+&lt;img src="filename.svg"/&gt;  &lt;!-- width and height are set from the picture --&gt;
+
+&lt;svg width="229" height="247"&gt;
+  &lt;image href="filename.svg"/&gt;  &lt;!-- x="0" y="0" are the defaults so we can omit, width and height are set from the picture --&gt;
+&lt;/svg&gt;
+    </code></pre>
+  </div>
+
+  <p class="nb">NB: Make sure the image is in the same folder as <code>ex6.html</code> and that you to add it to the repository! You cannot inspect the svg in the image because it is loaded as an image! To add as editable SVG open the file and cut and paste the contents in the page!</p>
+
+  <p class="nb">NB: The size of the svg element needs to be set to be same or larger than the included image otherwise part of the image will be clipped.</p>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+    <!-- Add your code here! -->
+    <img src="filename.svg"/>  <!-- width and height are set from the picture -->
+
+<svg width="229" height="247">
+  <image href="filename.svg"/>  <!-- x="0" y="0" are the defaults so we can omit, width and height are set from the picture -->
+</svg>
+	</div>
+
+	<h2>2 - Vega-lite bar chart</h2>
+	<hr>
+
+	<p>Use the starter code to implement this <a href="https://vega.github.io/vega-lite/examples/bar.html">Vega-lite bar chart</a>.</p>	
+
+	<div class="sample">
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML" data-trim data-noescape>
+&lt;!-- <mark>Update this preview</mark> -->		
+&lt;script src="../node_modules/vega/build/vega.min.js"&gt;&lt;/script&gt;
+&lt;script src="../node_modules/vega-lite/build/vega-lite.min.js"&gt;&lt;/script&gt;
+&lt;script src="../node_modules/vega-embed/build/vega-embed.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="vis"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  var vlSpec = {};  //plot specifications
+  vegaEmbed('#vis', vlSpec);
+&lt;/script&gt;
+		</code></pre>
+	</div>
+
+	<div class="answer">
+
+		<cap>Answer</cap>
+    	<!-- Add your code here! -->
+      <div id="vis"></div>
+      <script>
+        let vlSpec = {
+          "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+          description: "A simple bar chart with embedded data.",
+          data: {
+            "values": [
+              {"a": "A", "b": 28}, {"a": "B", "b": 55}, {"a": "C", "b": 43},
+              {"a": "D", "b": 91}, {"a": "E", "b": 81}, {"a": "F", "b": 53},
+              {"a": "G", "b": 19}, {"a": "H", "b": 87}, {"a": "I", "b": 52}
+            ]
+          },
+          "mark": "bar",
+          "encoding": {
+            "x": {"field": "a", "type": "nominal", "axis": {"labelAngle": 0}},
+            "y": {"field": "b", "type": "quantitative"}
+          }
+        }
+        vegaEmbed('#vis', vlSpec);
+      </script>
+  </div>
+
+  <h2>3 - Vega-lite scatterplot</h2>
+	<hr>
+
+	<p>Use the starter code of ex6.2 to implement this <a href="https://vega.github.io/vega-lite/examples/point_2d.html">Vega-lite scatterplot</a> using the specs provided below.</p>
+
+	<div class="sample">
+		<cap>Vega-Lite Spec</cap>
+		<pre><code class="HTML" data-trim data-noescape>
+&lt;!-- <mark>Update this preview</mark> -->		
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+  "data": {
+    "values": [ { "Name":"chevrolet chevelle malibu", "Miles_per_Gallon":18, "Horsepower":130 },
+                { "Name":"buick skylark 320", "Miles_per_Gallon":15, "Horsepower":165 },
+                { "Name":"plymouth satellite", "Miles_per_Gallon":18, "Horsepower":150 },
+                { "Name":"amc rebel sst", "Miles_per_Gallon":16, "Horsepower":150 },
+                { "Name":"ford torino", "Miles_per_Gallon":17, "Horsepower":140 },
+                { "Name":"ford galaxie 500", "Miles_per_Gallon":15, "Horsepower":198 },
+                { "Name":"chevrolet impala", "Miles_per_Gallon":14, "Horsepower":220 },
+                { "Name":"plymouth fury iii", "Miles_per_Gallon":14, "Horsepower":215 },
+                { "Name":"pontiac catalina", "Miles_per_Gallon":14, "Horsepower":225 },
+                { "Name":"amc ambassador dpl", "Miles_per_Gallon":15, "Horsepower":190 }]
+  },
+  "mark": "point",
+  "encoding": {
+    "x": {"field": "Horsepower", "type": "quantitative", "scale": {"domain": [100, 250]}},  //default scale sets origin at 0
+    "y": {"field": "Miles_per_Gallon", "type": "quantitative", "scale": {"domain": [12, 20]}}  //default scale sets origin at 0
+  }
+}
+		</code></pre>
+	</div>
+	
+	<div class="answer">
+		<cap>Answer</cap>
+		<!-- Add your code here! -->
+    
+    <div id="vis1"></div>
+      <script>
+        let vlSpec = 
+        {
+          "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+          "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+          "data": {
+            "values": [ { "Name":"chevrolet chevelle malibu", "Miles_per_Gallon":18, "Horsepower":130 },
+                        { "Name":"buick skylark 320", "Miles_per_Gallon":15, "Horsepower":165 },
+                        { "Name":"plymouth satellite", "Miles_per_Gallon":18, "Horsepower":150 },
+                        { "Name":"amc rebel sst", "Miles_per_Gallon":16, "Horsepower":150 },
+                        { "Name":"ford torino", "Miles_per_Gallon":17, "Horsepower":140 },
+                        { "Name":"ford galaxie 500", "Miles_per_Gallon":15, "Horsepower":198 },
+                        { "Name":"chevrolet impala", "Miles_per_Gallon":14, "Horsepower":220 },
+                        { "Name":"plymouth fury iii", "Miles_per_Gallon":14, "Horsepower":215 },
+                        { "Name":"pontiac catalina", "Miles_per_Gallon":14, "Horsepower":225 },
+                        { "Name":"amc ambassador dpl", "Miles_per_Gallon":15, "Horsepower":190 }]
+          },
+          "mark": "point",
+          "encoding": {
+            "x": {"field": "Horsepower", "type": "quantitative", "scale": {"domain": [100, 250]}},  //default scale sets origin at 0
+            "y": {"field": "Miles_per_Gallon", "type": "quantitative", "scale": {"domain": [12, 20]}}  //default scale sets origin at 0
+          }
+        }
+        vegaEmbed('#vis1', vlSpec);
+      </script>
+  </div>
+
+
+  </div>  
+
+</body>
+</html>

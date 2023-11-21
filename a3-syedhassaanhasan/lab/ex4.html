@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 3 ex4</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ ex4: bar charts with d3 select &amp; append and div</h1>
+
+	<p>Use the starter code to create an horizontal bar chart with d3 for the data provided</p>
+
+	<div class="sample">
+		<cap>Data </cap>
+		<pre><code class="js">
+data = [200, 150];
+		</code></pre>
+
+		<cap>Starter code</cap>
+
+		<pre><code class="HTML">
+&lt;!-- <mark>Update this preview</mark> -->		
+&lt;style&gt;
+div.bar {
+  background-color: orangered;
+  margin-bottom: 6px;
+  text-align: right;
+}
+&lt;/style&gt;
+
+&lt;!-- load d3 library (referenced in package.json)! --&gt;
+&lt;script src="../node_modules/d3/dist/d3.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="chart"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+var el = d3.select('#chart');
+el.append('div')
+  .text('100 pixels div')
+  .attr('class', 'bar')  //class is an attribute, so we use .attr()
+  .style('width', '100px');
+&lt;/script&gt;
+    </code></pre>
+	</div>
+
+	<div class="answer">
+		<cap>Answer</cap>
+    	<!-- Add your code here! -->
+		<style>
+			div.bar {
+			  background-color: orangered;
+			  margin-bottom: 6px;
+			  text-align: right;
+			}
+			</style>
+			
+			<!-- load d3 library (referenced in package.json)! -->
+			<script src="../node_modules/d3/dist/d3.min.js"></script>
+			
+			<div id="chart"></div>
+			
+			<script>
+			var el = d3.select('#chart');
+			el.append('div')
+			  .text('200 pixels div')
+			  .attr('class', 'bar')  //class is an attribute, so we use .attr()
+			  .style('width', '200px');
+
+			  el.append('div')
+			  .text('150 pixels div')
+			  .attr('class', 'bar')  //class is an attribute, so we use .attr()
+			  .style('width', '150px');
+			</script>
+  </div>
+
+</body>
+</html>

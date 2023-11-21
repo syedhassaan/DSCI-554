@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex2</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX2: MAPBOX</h1>
+
+	<h2>1 - Display a map</h2>
+	<hr>
+
+	<p>Go to <a target="_blank" href="https://docs.mapbox.com/mapbox-gl-js/example/simple-map/">Mapbox Display a map page</a> and implement the example in the Answer.
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<!-- set a parent div for the map to size mapbox component -->
+		<style>
+			.mapbox_container {
+				position: relative;
+				height: 300px !important;
+				width: 500px !important;
+				display: inline-block;
+			}
+
+			#map {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+		</style>
+
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+		<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+
+		<div class="mapbox_container">
+			<div id="map"></div>
+		</div>
+
+		<script>
+			// 🎒 add your code here
+			// 🎒 add your code here
+			mapboxgl.accessToken = 'pk.eyJ1Ijoic3llZGhhc3MiLCJhIjoiY2t2MDF0eHZyN2lpdzJvbW44a244ZHgzZSJ9.AgOQsQdIpT2YpnGDYI7bDA';
+			const map = new mapboxgl.Map({
+			container: 'map', // container ID
+			style: 'mapbox://styles/mapbox/streets-v11', // style URL
+			center: [-74.5, 40], // starting position [lng, lat]
+			zoom: 9 // starting zoom
+			});
+		</script>
+	</div>
+
+	<h2>2 - Customize</h2>
+	<hr>
+
+	<p>In the Answer implement the map of ex2.1 then:
+		<ul>
+			<li>Center on USC (adjust <code>center</code> and <code>zoom</code> level</li>
+			<li>Set a dark style (see <a target="_blank" href="https://docs.mapbox.com/help/glossary/style-url/">style URL</a> and <a target="_blank" href="https://www.mapbox.com/maps/dark">Mapbox Dark</a>)</li>
+			<li>Add a pin for USC (see <a target="_blank" href="https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/">Add a default marker</a>)</li>
+		</ul>
+	</p>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+		<style>
+			#map2 {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+		</style>
+
+		<section class="mapbox_container">
+			<div id='map2'></div>
+		</section>
+
+		<script>
+			// 🎒 add your code here
+			mapboxgl.accessToken = 'pk.eyJ1Ijoic3llZGhhc3MiLCJhIjoiY2t2MDF0eHZyN2lpdzJvbW44a244ZHgzZSJ9.AgOQsQdIpT2YpnGDYI7bDA';
+			const map2 = new mapboxgl.Map({
+			container: 'map2', // container ID
+			style: 'mapbox://styles/mapbox/dark-v10', // style URL
+			center: [-118.2851, 34.0224], // starting position [lng, lat]
+			zoom: 14 // starting zoom
+			});
+
+			const marker1 = new mapboxgl.Marker()
+				.setLngLat([-118.2851, 34.0224])
+				.addTo(map2);
+		</script>
+	</div>
+</body>
+
+</html>

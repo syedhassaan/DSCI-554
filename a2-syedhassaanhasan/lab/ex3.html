@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 2 ex3</title>
+
+	<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+  <h1>🏋🏽‍♂️ ex3: hoisting</h1>
+
+  <p>Rewrite the sample code hoisting the declarations (for variables and functions!), fix the errors, update the Answer with the source code.</p>
+	<div class="sample">
+
+  <cap>Sample code</cap>
+  <pre><code class="js">
+var b;  //var used on top of script (global scope) has no effect
+b = 5;  //b = 5; is equivalent to var b; b = 5;
+var d = 4;  //var d; hoisted to top of script (global scope)
+
+e(5);  //TypeError: e is not a function.
+
+var e = function (a) {  //function expression not hoisted
+  return a + 1;
+}; //use ;
+
+e(5);  //executes, as e is a function object now
+
+f(5);  //executes because f is a function declaration
+//b = 3 now as b is in global scope
+//what if f declares b?
+
+function f(a) {  //function declaration is hoisted
+  b = 3;  //initialization not hoisted
+  var c = 7;  //declaration hoisted to top of scope, i.e., f
+  return a + b + c;
+}  //no ;
+  </code></pre>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+    <script>
+      //Add your code here!
+      var b;  //var used on top of script (global scope) has no effect
+      var d;
+      var e;
+      b = 5;  //b = 5; is equivalent to var b; b = 5;
+      d = 4;  //var d; hoisted to top of script (global scope)
+
+      function f(a) {  //function declaration is hoisted
+        var c;
+        b = 3;  //initialization not hoisted
+        c = 7;  //declaration hoisted to top of scope, i.e., f
+        return a + b + c;
+      }  //no ;
+      
+      e = function (a) {  //function expression not hoisted
+        return a + 1;
+      }; //use ;
+
+      e(5);  //TypeError: e is not a function.
+
+      e(5);  //executes, as e is a function object now
+
+      f(5);  //executes because f is a function declaration
+      //b = 3 now as b is in global scope
+      //what if f declares b?
+
+      
+    </script>
+
+    <h3>Your code</h3>
+    <pre><code class="js">
+//copy your code here to show it in the page
+var b;  //var used on top of script (global scope) has no effect
+var d;
+var e;
+b = 5;  //b = 5; is equivalent to var b; b = 5;
+d = 4;  //var d; hoisted to top of script (global scope)
+
+function f(a) {  //function declaration is hoisted
+  var c;
+  b = 3;  //initialization not hoisted
+  c = 7;  //declaration hoisted to top of scope, i.e., f
+  return a + b + c;
+}  //no ;
+
+e = function (a) {  //function expression not hoisted
+  return a + 1;
+}; //use ;
+
+e(5);  //TypeError: e is not a function.
+
+e(5);  //executes, as e is a function object now
+
+f(5);  //executes because f is a function declaration
+//b = 3 now as b is in global scope
+//what if f declares b?
+    </code></pre>
+	</div>
+
+</body>
+</html>

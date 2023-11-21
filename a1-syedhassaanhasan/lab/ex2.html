@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSCI 554 Lab 1 ex2</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawCovidChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+        console.log("drawChart called")
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+
+      function drawCovidChart() {
+        console.log("drawCovidChart called")
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Cases');
+        data.addRows([
+        ['Afghanistan', 28614790],
+        ['Bangladesh', 262575700],
+        ['India', 6067167386],
+        ['Iran', 735399598],
+        ['Israel', 234124595],
+        ['Italy', 1034237008],
+        ['Pakistan', 258395494],
+        ['Iraq', 324919906],
+        ['Indonesia', 524264444],
+        ['Japan', 174258050]
+        ]);
+
+        // Set chart options
+        var options = {'title':'Covid-19 Global Confirmed Cases',
+                    'width':500,
+                    'height':500};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('covid_chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+
+<body>
+    <h1>🏋🏽‍♂️ ex2: Implement a Google Charts pie chart</h1>
+    
+    <ol>
+        <li>Read <a href="https://developers.google.com/chart/interactive/docs/quick_start">Google
+                Charts Quick Start page</a></li>
+        <li>Understand the data layout</li>
+        <li>Implement the pie chart from the Quick Start page in the answer below to make sure it works!</li>
+        <li>Adapt to create a pie chart for the same 10 countries of ex1 and add it to the answer below</li>
+    </ol>
+
+	<div class="answer">
+		<cap>Answer</cap>
+
+        <p>
+            These are the 10 countries I have picked:
+            <ol>
+                <li>Afghanistan</li>
+                <li>Bangladesh</li>
+                <li>India</li>
+                <li>Iran</li>
+                <li>Israel</li>
+                <li>Italy</li>
+                <li>Pakistan</li>
+                <li>Iraq</li>
+                <li>Indonesia</li>
+                <li>Japan</li>
+            </ol>
+        </p>
+
+        <p>Google Charts Quick Start page pie chart:</p>
+        <!-- Add your code here! -->
+        <div id="chart_div"></div>
+
+        <p>Pie chart for the 10 countries I have picked:</p>
+        <!-- Add your code here! -->
+        <div id="covid_chart_div"></div>
+	</div>
+
+</body>
+
+</html>

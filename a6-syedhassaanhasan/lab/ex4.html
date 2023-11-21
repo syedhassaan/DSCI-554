@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 6 ex4</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+	<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<script src="../node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX4: AXIS TRANSITIONS</h1>
+
+	<h2>1 - axis domain transition</h2>
+	<hr>
+
+	<p>The following is a D3 axis that implements a smooth transition to a different domain when clicked.</p>
+
+	<p>Complete the code in the page where indicated by 🎒</p>
+
+	<div class="answer">
+		<style>
+			.axis0 line,
+			.axis0 path {
+				fill: none;
+				stroke: #000;
+				shape-rendering: crispEdges;
+			}
+
+			.tick line {
+				stroke: black;
+			}
+
+			.tick {
+				stroke: black;
+			}
+
+			text {
+				stroke: none;
+				fill: black;
+			}
+		</style>
+
+		<svg id="svg0" width="960" height="50" style="background-color: mistyrose"></svg>
+		<script>
+			var input = [0, 20, 100, 500, 700, 1000]
+
+			var x0 = d3.scaleLinear()
+				.domain([0, 1000])
+				.range([0, 900]);
+
+			var axis0 = d3.axisBottom()
+				.scale(x0);
+
+			var redo = false;
+			var svg = d3.select("#svg0");
+
+			svg.append("g")
+				.attr("class", "axis0")
+				.attr("transform", "translate(30,20)")
+				.call(axis0);
+
+			svg.on("click", () => {
+				x0.domain([0, redo ? 1000 : 500]); 
+
+				redo = !redo;
+
+				d3.select(".axis0")
+					.transition()  //🎒 explain: transition to the new scale on the x-axis
+					.duration(1000)  //🎒 explain: time taken for transition
+					.call(axis0);  //🎒 explain: calls the axis0 function
+			});
+		</script>
+	</div>
+
+	<h2>2 - axis type transition</h2>
+	<hr>
+
+	<p>The following is a D3 axis that implements a smooth transition to a different axis type when clicked.</p>
+
+	<p>Complete the code in the page where indicated by 🎒</p>
+
+	<div class="answer">
+		<svg id="svg1" width="960" height="50" style="background-color: mistyrose"></svg>
+		<script>
+			var input = [10, 2200, 100000, 50000000, 70000000, 100000000]
+
+			var x1 = d3.scaleLinear()
+				.domain([10, 100000000])
+				.range([0, 900]);
+
+			var x2 = d3.scaleLog()  //🎒 update x2 to use a log scale
+				.domain([10, 100000000])
+				.range([0, 900]);
+
+			var axis = d3.axisBottom()
+				.scale(x1);
+
+			var redo = false;
+
+			var svg = d3.select("#svg1");
+
+			svg.append("g")
+				.attr("class", "axis1")
+				.attr("transform", "translate(30,20)")
+				.call(axis);
+
+			svg.on("click", function () {
+				d3.select(".axis1")
+					.transition()
+					.duration(1000)
+					.call(redo ? axis.scale(x1) : axis.scale(x2));  //🎒 explain: reverts the axis to the original one
+
+				redo = !redo;
+			});
+		</script>
+	</div>
+</body>
+
+</html>

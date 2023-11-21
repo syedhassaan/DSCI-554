@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DSCI 554 Lab 8 ex6</title>
+
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
+	<script src="node_modules/highlightjs/highlight.pack.min.js"></script>
+  	<script>hljs.initHighlightingOnLoad();</script>
+
+	<script src="node_modules/d3/dist/d3.min.js"></script>
+	
+</head>
+
+<body>
+	<h1>🏋🏽‍♂️ EX6: D3 proportional symbol map</h1>
+
+	<p>Get familiar with  <a target="_blank" href="https://github.com/topojson/topojson">TopoJSON</a>. Read the doc for <a target="_blank" href="https://github.com/topojson/topojson-client/blob/master/README.md#mesh">topojson.mesh</a>. Complete the Answer where indicated by 🎒.</p>
+
+	<div class="alert info">
+		<h3>💡 topojson files</h3>
+		Topojson files are created from geojson. See these repositories of projected geometries:
+		<ul>
+			<li><a target="_blank" href="https://github.com/topojson/us-atlas">us-atlas</a></li>
+			<li><a target="_blank" href="https://github.com/topojson/world-atlas">world-atlas</a></li>
+		</ul>
+	</div>
+
+	<div class="alert warning">🚨 Cartographic boundaries are commonly represented using latitude and longitude, but sometimes it’s convenient to use projected coordinates instead. This eliminates the need to project the geometry from the sphere to the plane while rendering, improving performance.</div>
+
+	<div class="alert warning">🚨 D3 does not know how to deal directly with TopoJSON. To render TopoJSON you have to convert back to GeoJSON.</div>
+
+	<div class="answer">
+		<div class="title">Answer</div>
+
+		<ul>
+			<li>How are the states highlighted? 🎒 answer: using css hover </li>
+			<li>Why topojson.min.js is needed? 🎒 answer: so we are able to run this line: ".data(topojson.feature(us, us.objects.states).features)"</li>
+			<li>Why a projection is not used? 🎒 answer: cause its not a geojson file, its not required in topojson</li></li>
+			<li>Can you tell if the data are projected by looking int the TopoJSON file? 🎒 answer: yes</li>
+		</ul>
+		
+		<p><small>Adapted from <a target="_blank" href="https://bl.ocks.org/mbostock/4090848">Block 4090848</a></small></p>
+
+		<style>
+			.states {
+			  fill: whitesmoke;
+			}
+		
+			.states :hover {
+			  fill: red;
+			}
+		
+			.state-borders {
+			  fill: none;
+			  stroke: black;
+			  stroke-width: 0.5px;
+			  stroke-linejoin: round;
+			  stroke-linecap: round;
+			  pointer-events: none;
+			}
+		  </style>
+
+		  <svg style="background-color:lightblue" width="960" height="600"></svg>
+		
+		  <!-- already installed with: npm install topojson -s -->
+		  <script src="node_modules/topojson/dist/topojson.min.js"></script>
+		
+		  <script>
+			d3.json('data/us-10m.v1.json').then(us => {
+				var svg = d3.select('svg');
+				var path = d3.geoPath();
+
+				svg.append('g')
+					.attr('class', 'states')
+					.selectAll('path')
+					.data(topojson.feature(us, us.objects.states).features)  //🎒 explain: convert TopoJSON to GeoJSON and then join the retrieved coordinates data
+					.enter()
+					.append('path')
+					.attr('d', path);
+			
+				svg.append('path')  //🎒 explain:
+					.attr('class', 'state-borders')
+					.attr('d', path(topojson.mesh(us, us.objects.states, (a, b) => a !== b)));   //🎒 explain: mesh the TopoJSON geometery and convert them to GeoJSON
+			});
+		  </script>	
+	</div>
+</body>
+</html>
